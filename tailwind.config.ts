@@ -1,20 +1,33 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
+import type { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  darkMode: ["class"],
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  prefix: "",
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        black: "1B1B1B",
+      },
+      fontFamily: {
+        Pretendard: ["Pretendard"],
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animate"),
+    plugin(function ({ addUtilities }: PluginAPI) {
+      addUtilities({
+        ".title": {
+          fontSize: "48px",
+          lineHeight: "auto",
+          fontWeight: "bold",
+        },
+      });
+    }),
+  ],
 };
+
 export default config;
