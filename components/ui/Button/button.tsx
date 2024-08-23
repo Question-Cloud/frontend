@@ -4,21 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center text-button whitespace-nowrap disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-navy text-white hover:bg-navy/90 rounded-[12px]",
+        gray: "bg-gray_01 text-gray_03 hover:bg-gray_02/60 rounded-[12px]",
+        grayLine: "bg-white text-black hover:bg-gray_01/60 border border-solid border-gray_02 rounded-[12px]",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        xl: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        default: "w-full h-[44px] px-[16px] py-[8px]",
+        xl: "w-full h-[48px] px-[16px] py-[12.5px]",
+        md: "w-full h-[48px] px-[16px] py-[8.5px]",
       },
     },
     defaultVariants: {
