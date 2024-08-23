@@ -24,6 +24,9 @@ const config = {
       fastRefresh: true,
     },
   },
+  features: {
+    interactionsDebugger: true,
+  },
   staticDirs: ["../public"],
 };
 export default config;
