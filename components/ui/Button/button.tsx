@@ -8,19 +8,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-navy text-white hover:bg-navy/90 rounded-[12px]",
-        gray: "bg-gray_01 text-gray_03 hover:bg-gray_02/60 rounded-[12px]",
-        grayLine: "bg-white text-black hover:bg-gray_01/60 border border-solid border-gray_02 rounded-[12px]",
+        navy: "bg-navy text-white hover:bg-navy/90 rounded-[8px]",
+        gray: "bg-gray_01 text-gray_03 hover:bg-gray_02/60 rounded-[8px]",
+        grayLine: "bg-white text-black hover:bg-gray_01/60 border border-solid border-gray_02 rounded-[8px]",
       },
       size: {
-        default: "w-full h-[44px] px-[16px] py-[8px]",
-        xl: "w-full h-[48px] px-[16px] py-[12.5px]",
-        md: "w-full h-[48px] px-[16px] py-[8.5px]",
+        large: "w-full h-[48px] px-[16px] py-[14.5px]",
+        medium: "w-full h-[44px] px-[16px] py-[12.5px]",
+        small: "w-full h-[36px] px-[16px] py-[8.5px]",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "navy",
+      size: "medium",
     },
   }
 );

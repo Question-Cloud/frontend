@@ -8,11 +8,11 @@ const meta: Meta<ButtonProps> = {
   argTypes: {
     variant: {
       control: { type: "select" },
-      options: ["default", "gray", "grayLine"],
+      options: ["navy", "gray", "grayLine"],
     },
     size: {
       control: { type: "select" },
-      options: ["default", "xl", "lg"],
+      options: ["large", "medium", "small"],
     },
     asChild: {
       control: { type: "boolean" },
@@ -28,8 +28,8 @@ type Story = StoryObj<ButtonProps>;
 
 export const Default: Story = {
   args: {
-    variant: "default",
-    size: "default",
+    variant: "navy",
+    size: "medium",
     children: "Default Button",
   },
 };
@@ -37,7 +37,7 @@ export const Default: Story = {
 export const Gray: Story = {
   args: {
     variant: "gray",
-    size: "default",
+    size: "medium",
     children: "Gray Button",
   },
 };
@@ -45,7 +45,7 @@ export const Gray: Story = {
 export const GrayLine: Story = {
   args: {
     variant: "grayLine",
-    size: "default",
+    size: "medium",
     children: "GrayLine Button",
   },
 };
@@ -54,7 +54,7 @@ export const AsChild: Story = {
   args: {
     asChild: true,
     children: <span>❌ Button as a Child</span>,
-    variant: "default",
-    size: "default",
+    variant: "navy",
+    size: "medium",
   },
 };
