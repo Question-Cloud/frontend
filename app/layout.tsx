@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./styles/globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import "../styles/globals.css";
+import { QueryClientWrapper } from "@/utils";
 
 export const metadata: Metadata = {
   title: "문제저장소",
@@ -16,9 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
-        <div>헤더</div>
-        {children}
+      <body>
+        <QueryClientWrapper>
+          <div>헤더</div>
+          {children}
+        </QueryClientWrapper>
       </body>
     </html>
   );
