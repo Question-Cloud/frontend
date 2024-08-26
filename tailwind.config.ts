@@ -49,7 +49,7 @@ const config: Config = {
         ".body1": {
           fontSize: "16px",
           lineHeight: "24px",
-          fontWeight: "semibold",
+          fontWeight: "600",
         },
         ".body2": {
           fontSize: "16px",
@@ -64,7 +64,7 @@ const config: Config = {
         ".button": {
           fontSize: "16px",
           lineHeight: "19px",
-          fontWeight: "semibold",
+          fontWeight: "600",
         },
         ".popup": {
           fontSize: "18px",
