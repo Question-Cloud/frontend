@@ -58,3 +58,12 @@ export const AsChild: Story = {
     size: "medium",
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    variant: "navy",
+    size: "medium",
+    children: "Disabled Button",
+    disabled: true,
+  },
+};
