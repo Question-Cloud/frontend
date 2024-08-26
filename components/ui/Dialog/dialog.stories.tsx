@@ -1,51 +1,51 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import {
-  Modal,
-  ModalTrigger,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalTitle,
-  ModalDescription,
-  ModalClose,
-} from "./modal";
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "./dialog";
 import { Box, Button, Input } from "..";
 
-interface ModalStoryProps {
+interface DialogStoryProps {
   title: string;
   content: string | React.ReactNode;
 }
 
-const meta: Meta<typeof Modal> = {
-  title: "Components/Modal",
-  component: Modal,
+const meta: Meta<typeof Dialog> = {
+  title: "Components/Dialog",
+  component: Dialog,
   tags: ["autodocs"],
 };
 
 export default meta;
 
-type Story = StoryObj<ModalStoryProps>;
+type Story = StoryObj<DialogStoryProps>;
 
 export const Default: Story = {
   render: ({ title, content, ...args }) => (
-    <Modal {...args}>
-      <ModalTrigger>
-        <Button>Open Default Modal</Button>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{title}</ModalTitle>
-          <ModalDescription>{content}</ModalDescription>
-        </ModalHeader>
-        <ModalFooter>
-          <ModalClose asChild>
+    <Dialog {...args}>
+      <DialogTrigger>
+        <Button>Open Default Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{content}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
             <Button variant={"gray"}>취소하기</Button>
-          </ModalClose>
+          </DialogClose>
           <Button>확인</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   ),
   args: {
     title: "제목을 입력해주세요",
@@ -55,23 +55,23 @@ export const Default: Story = {
 
 export const Complex: Story = {
   render: ({ title, content, ...args }) => (
-    <Modal {...args}>
-      <ModalTrigger>
-        <Button>Open Complex modal</Button>
-      </ModalTrigger>
-      <ModalContent className="w-[830px]">
-        <ModalHeader>
-          <ModalTitle className="text-left">{title}</ModalTitle>
-          <ModalDescription>{content}</ModalDescription>
-        </ModalHeader>
-        <ModalFooter className="w-[276px]">
-          <ModalClose asChild>
+    <Dialog {...args}>
+      <DialogTrigger>
+        <Button>Open Complex Dialog</Button>
+      </DialogTrigger>
+      <DialogContent className="w-[830px]">
+        <DialogHeader>
+          <DialogTitle className="text-left">{title}</DialogTitle>
+          <DialogDescription>{content}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="w-[276px]">
+          <DialogClose asChild>
             <Button variant={"gray"}>취소하기</Button>
-          </ModalClose>
+          </DialogClose>
           <Button>확인</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   ),
   args: {
     title: "쿠폰 선택",

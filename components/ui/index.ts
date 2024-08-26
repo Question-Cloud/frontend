@@ -4,15 +4,15 @@ export { Textarea } from "./TextArea";
 export { Badge } from "./Badge";
 export { Checkbox } from "./Checkbox";
 export {
-  Modal,
-  ModalPortal,
-  ModalOverlay,
-  ModalClose,
-  ModalTrigger,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalTitle,
-  ModalDescription,
-} from "./Modal";
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "./Dialog";
 export { Box } from "./Box";
