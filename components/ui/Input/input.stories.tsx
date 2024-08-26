@@ -56,20 +56,9 @@ export const Required: Story = {
 };
 
 export const Focus: StoryObj<InputProps> = {
-  render: (args) => {
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    }, []);
-
-    return <Input {...args} ref={inputRef} />;
-  },
   args: {
     type: "text",
-    className: "focus:border-gray_04",
+    className: "border-gray_04",
     placeholder: "Focus State",
   },
 };
