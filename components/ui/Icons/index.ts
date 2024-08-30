@@ -18,3 +18,6 @@ export { NaverIcon } from "./naverIcon";
 export { KakaoIcon } from "./kakaoIcon";
 export { GoogleIcon } from "./googleIcon";
 export { StarIcon } from "./starIcon";
+export { BookIcon } from "./bookIcon";
+export { BookmarkIcon } from "./bookmarkIcon";
+export { InfoIcon } from "./infoIcon";
