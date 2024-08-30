@@ -4,6 +4,8 @@ export { Textarea } from "./TextArea";
 export { Badge } from "./Badge";
 export { Checkbox } from "./Checkbox";
 export { Box } from "./Box";
+
+export { DefaultCombobox } from "./Combobox";
 export {
   Dialog,
   DialogPortal,
@@ -39,3 +41,6 @@ export {
   GoogleIcon,
   StarIcon,
 } from "./Icons";
+
+/** types */
+export type { Option } from "./Combobox";
