@@ -9,12 +9,15 @@ const meta: Meta<InputProps> = {
     type: {
       control: { type: "select" },
       options: ["text", "password"],
+      description: "Input의 타입입니다.",
     },
     placeholder: {
       control: { type: "text" },
+      description: "Input에 값이 입력되지 않았을때 기본 노출 텍스트입니다.",
     },
     disabled: {
       control: "boolean",
+      description: "Input을 비활성화하는 옵션입니다.",
     },
   },
   tags: ["autodocs"],

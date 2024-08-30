@@ -8,6 +8,11 @@ const meta: Meta<BadgeProps> = {
     variant: {
       control: { type: "select" },
       options: ["red", "navy"],
+      description: "Badge의 색상입니다.",
+    },
+    children: {
+      control: { type: "text" },
+      description: "Badge의 내부 콘텐츠입니다.",
     },
   },
   tags: ["autodocs"],

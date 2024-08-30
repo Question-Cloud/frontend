@@ -8,9 +8,11 @@ const meta: Meta<TextareaProps> = {
   argTypes: {
     placeholder: {
       control: { type: "text" },
+      description: "Textarea에 값이 입력되지 않았을때 기본 노출 텍스트입니다.",
     },
     disabled: {
       control: "boolean",
+      description: "Textarea를 비활성화하는 옵션입니다.",
     },
   },
   tags: ["autodocs"],

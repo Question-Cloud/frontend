@@ -9,6 +9,7 @@ const meta: Meta = {
   argTypes: {
     children: {
       control: { type: "text" },
+      description: "Box 내부에 들어갈 콘텐츠입니다.",
     },
   },
   tags: ["autodocs"],

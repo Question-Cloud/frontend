@@ -9,13 +9,24 @@ const meta: Meta<ButtonProps> = {
     variant: {
       control: { type: "select" },
       options: ["navy", "gray", "grayLine"],
+      description: "Button의 색상입니다.",
     },
     size: {
       control: { type: "select" },
       options: ["large", "medium", "small"],
+      description: "Button의 크기입니다.",
+    },
+    children: {
+      control: { type: "text" },
+      description: "Button 내부 콘텐츠입니다.",
     },
     asChild: {
       control: { type: "boolean" },
+      description: "Button을 다른 컴포넌트의 자식으로 넣을때 사용합니다.",
+    },
+    disabled: {
+      control: "boolean",
+      description: "checkbox를 비활성화하는 옵션입니다.",
     },
   },
   tags: ["autodocs"],
