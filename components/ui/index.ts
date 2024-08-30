@@ -2,9 +2,9 @@ export { Button } from "./Button";
 export { Input } from "./Input";
 export { Textarea } from "./TextArea";
 export { Badge } from "./Badge";
-export { Checkbox } from "./Checkbox";
 export { Box } from "./Box";
 
+export { Checkbox, CheckboxInput, CheckboxLabel } from "./Checkbox";
 export { DefaultCombobox } from "./Combobox";
 export {
   Dialog,
