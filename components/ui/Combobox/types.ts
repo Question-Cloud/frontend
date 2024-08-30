@@ -9,4 +9,6 @@ export interface ComboboxProps {
   options: Option[];
   value?: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  label?: string;
+  isRequired?: boolean;
 }
