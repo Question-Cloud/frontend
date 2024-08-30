@@ -331,7 +331,7 @@ export const Default: Story = {
     return (
       <Box className="flex flex-col gap-[40px] w-[450px]">
         <div>
-          <div className="flex elems-center mb-[8px]">
+          <div className="flex gap-[4px] items-center mb-[8px]">
             <BookIcon />
             <div className="body1 gap-[4px] ">과목</div>
           </div>
@@ -344,7 +344,7 @@ export const Default: Story = {
           />
         </div>
         <div>
-          <div className="flex gap-[4px] elems-center mb-[8px]">
+          <div className="flex gap-[4px] items-center mb-[8px]">
             <BookIcon />
             <div className="body1 ">단원</div>
           </div>
@@ -397,7 +397,7 @@ export const Default: Story = {
           </div>
         </div>
         <div>
-          <div className="flex gap-[4px] elems-center mb-[12px]">
+          <div className="flex gap-[4px] items-center mb-[12px]">
             <BookmarkIcon />
             <div className="body1">난이도</div>
             <div className="cursor-pointer">

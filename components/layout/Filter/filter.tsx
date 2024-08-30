@@ -42,9 +42,9 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
   return (
     <Box className="flex flex-col gap-[40px] w-[450px]">
       <div>
-        <div className="flex elems-center mb-[8px]">
+        <div className="flex gap-[4px] items-center mb-[8px]">
           <BookIcon />
-          <div className="body1 gap-[4px] ">과목</div>
+          <div className="body1">과목</div>
         </div>
         <Combobox
           placeholder="선택하세요"
@@ -55,9 +55,9 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
         />
       </div>
       <div>
-        <div className="flex gap-[4px] elems-center mb-[8px]">
+        <div className="flex gap-[4px] items-center mb-[8px]">
           <BookIcon />
-          <div className="body1 ">단원</div>
+          <div className="body1">단원</div>
         </div>
         <div className="flex flex-col gap-[8px]">
           {categoryData.list.map((category) => {
@@ -108,7 +108,7 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
         </div>
       </div>
       <div>
-        <div className="flex gap-[4px] elems-center mb-[12px]">
+        <div className="flex gap-[4px] items-center mb-[12px]">
           <BookmarkIcon />
           <div className="body1">난이도</div>
           <div className="cursor-pointer">
