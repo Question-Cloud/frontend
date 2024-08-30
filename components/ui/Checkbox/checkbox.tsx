@@ -2,20 +2,23 @@ import React, { createContext, useContext, forwardRef, ReactNode } from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
 import { cn } from "@/utils/index";
+import { CheckboxProps } from "./types";
 
-const CheckboxContext = createContext<{ id: string; disabled?: boolean } | undefined>(undefined);
+const CheckboxContext = createContext<
+  { id: string; disabled?: boolean; checked?: boolean; onChange?: (checked: boolean) => void } | undefined
+>(undefined);
 
 const useCheckboxContext = () => {
   const context = useContext(CheckboxContext);
   if (!context) {
-    throw new Error("Checkbox components must be used within a Checkbox");
+    throw new Error("Error: 체크박스 구성요소는 체크박스 내에서 사용해야합니다.");
   }
   return context;
 };
 
-const Checkbox = ({ children, id, disabled }: { children: ReactNode; id: string; disabled?: boolean }) => {
+const Checkbox = ({ children, id, disabled, checked, onChange }: CheckboxProps) => {
   return (
-    <CheckboxContext.Provider value={{ id, disabled }}>
+    <CheckboxContext.Provider value={{ id, disabled, checked, onChange }}>
       <div className="flex items-center">{children}</div>
     </CheckboxContext.Provider>
   );
@@ -23,8 +26,11 @@ const Checkbox = ({ children, id, disabled }: { children: ReactNode; id: string;
 
 const CheckboxInput = forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> & {
+    checked?: boolean;
+    onChange?: (checked: boolean) => void;
+  }
+>(({ className, checked, onChange, ...props }, ref) => {
   const { id, disabled } = useCheckboxContext();
 
   return (
@@ -38,6 +44,8 @@ const CheckboxInput = forwardRef<
       )}
       {...props}
       disabled={disabled}
+      checked={checked}
+      onChange={onChange}
     >
       <CheckboxPrimitive.Indicator className={cn("flex items-center justify-center")}>
         <Check className="h-[18px] w-[18px] text-current" />

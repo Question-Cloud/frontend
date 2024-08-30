@@ -17,6 +17,14 @@ const meta: Meta<typeof Checkbox> = {
       control: "boolean",
       description: "checkbox를 비활성화하는 옵션입니다.",
     },
+    checked: {
+      control: { type: "boolean" },
+      description: "체크 여부입니다.",
+    },
+    onChange: {
+      action: "setValue",
+      description: "체크 상태를 변경합니다.",
+    },
   },
   tags: ["autodocs"],
 };
