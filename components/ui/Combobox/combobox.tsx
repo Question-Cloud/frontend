@@ -7,16 +7,7 @@ import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandS
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ComboboxProps } from "./types";
 
-/** 일반형 */
-export function DefaultCombobox({
-  placeholder,
-  className,
-  options,
-  value,
-  setValue,
-  label,
-  isRequired,
-}: ComboboxProps) {
+export function Combobox({ placeholder, className, options, value, setValue, label, isRequired }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
   return (

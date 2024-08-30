@@ -5,7 +5,7 @@ export { Badge } from "./Badge";
 export { Box } from "./Box";
 
 export { Checkbox, CheckboxInput, CheckboxLabel } from "./Checkbox";
-export { DefaultCombobox } from "./Combobox";
+export { Combobox } from "./Combobox";
 export {
   Dialog,
   DialogPortal,
@@ -18,6 +18,7 @@ export {
   DialogTitle,
   DialogDescription,
 } from "./Dialog";
+export { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./Collapsible";
 
 export {
   FileCheckIcon,

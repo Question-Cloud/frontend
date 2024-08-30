@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import { DefaultCombobox } from "./combobox";
+import { Combobox } from "./combobox";
 import { ComboboxProps } from "./types";
 
-const meta: Meta<typeof DefaultCombobox> = {
+const meta: Meta<typeof Combobox> = {
   title: "Components/Combobox/Default",
-  component: DefaultCombobox,
+  component: Combobox,
   argTypes: {
     placeholder: {
       control: { type: "text" },
@@ -53,7 +53,7 @@ export const Default: Story = {
   render: (args) => {
     const [value, setValue] = useState("");
 
-    return <DefaultCombobox {...args} value={value} setValue={setValue} />;
+    return <Combobox {...args} value={value} setValue={setValue} />;
   },
   args: {
     placeholder: "옵션을 선택하세요",
@@ -66,7 +66,7 @@ export const WithLabel: Story = {
   render: (args) => {
     const [value, setValue] = useState("");
 
-    return <DefaultCombobox {...args} value={value} setValue={setValue} />;
+    return <Combobox {...args} value={value} setValue={setValue} />;
   },
   args: {
     placeholder: "옵션을 선택하세요",
@@ -80,7 +80,7 @@ export const Required: Story = {
   render: (args) => {
     const [value, setValue] = useState("");
 
-    return <DefaultCombobox {...args} value={value} setValue={setValue} />;
+    return <Combobox {...args} value={value} setValue={setValue} />;
   },
   args: {
     placeholder: "옵션을 선택하세요",
@@ -95,7 +95,7 @@ export const WithSelectedValue: Story = {
   render: (args) => {
     const [value, setValue] = useState("옵션 1");
 
-    return <DefaultCombobox {...args} value={value} setValue={setValue} />;
+    return <Combobox {...args} value={value} setValue={setValue} />;
   },
   args: {
     placeholder: "Select an option",
@@ -108,7 +108,7 @@ export const NoOptions: Story = {
   render: (args) => {
     const [value, setValue] = useState("");
 
-    return <DefaultCombobox {...args} value={value} setValue={setValue} />;
+    return <Combobox {...args} value={value} setValue={setValue} />;
   },
   args: {
     placeholder: "옵션을 선택하세요",
@@ -121,7 +121,7 @@ export const Disabled: Story = {
   render: (args) => {
     const [value, setValue] = useState("");
 
-    return <DefaultCombobox {...args} value={value} setValue={setValue} />;
+    return <Combobox {...args} value={value} setValue={setValue} />;
   },
   args: {
     placeholder: "비활성화된 Combobox",

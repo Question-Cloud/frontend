@@ -1,4 +1,4 @@
-export { DefaultCombobox } from "./combobox";
+export { Combobox } from "./combobox";
 
 /** types */
 export type { Option } from "./types";
