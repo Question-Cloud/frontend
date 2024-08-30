@@ -5,7 +5,13 @@ import { cn } from "@/utils/index";
 import { CheckboxProps } from "./types";
 
 const CheckboxContext = createContext<
-  { id: string | number; disabled?: boolean; checked?: boolean; onChange?: (checked: boolean) => void } | undefined
+  | {
+      id: string | number;
+      disabled?: boolean;
+      checked?: boolean;
+      onChange?: React.FormEventHandler<HTMLButtonElement> | undefined;
+    }
+  | undefined
 >(undefined);
 
 const useCheckboxContext = () => {
@@ -16,10 +22,10 @@ const useCheckboxContext = () => {
   return context;
 };
 
-const Checkbox = ({ children, id, disabled, checked, onChange, onClick }: CheckboxProps) => {
+const Checkbox = ({ children, id, disabled, checked, onChange }: CheckboxProps) => {
   return (
     <CheckboxContext.Provider value={{ id, disabled, checked, onChange }}>
-      <div className="flex items-center" onClick={onClick}>
+      <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </CheckboxContext.Provider>
@@ -28,12 +34,9 @@ const Checkbox = ({ children, id, disabled, checked, onChange, onClick }: Checkb
 
 const CheckboxInput = forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> & {
-    checked?: boolean;
-    onChange?: (checked: boolean) => void;
-  }
->(({ className, checked, onChange, ...props }, ref) => {
-  const { id, disabled } = useCheckboxContext();
+  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
+>(({ className, ...props }, ref) => {
+  const { id, disabled, checked, onChange } = useCheckboxContext();
 
   return (
     <CheckboxPrimitive.Root

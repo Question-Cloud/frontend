@@ -3,6 +3,5 @@ export interface CheckboxProps {
   id: string | number;
   disabled?: boolean;
   checked?: boolean;
-  onChange?: (checked: boolean) => void;
-  onClick?: (e: React.MouseEvent) => void;
+  onChange?: React.FormEventHandler<HTMLButtonElement> | undefined;
 }
