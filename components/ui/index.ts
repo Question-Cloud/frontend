@@ -19,6 +19,7 @@ export {
   DialogDescription,
 } from "./Dialog";
 export { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./Collapsible";
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./Tooltip";
 
 export {
   FileCheckIcon,
@@ -41,6 +42,9 @@ export {
   KakaoIcon,
   GoogleIcon,
   StarIcon,
+  BookIcon,
+  BookmarkIcon,
+  InfoIcon,
 } from "./Icons";
 
 /** types */
