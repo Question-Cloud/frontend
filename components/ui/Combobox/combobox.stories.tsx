@@ -4,7 +4,7 @@ import { Combobox } from "./combobox";
 import { ComboboxProps } from "./types";
 
 const meta: Meta<typeof Combobox> = {
-  title: "Components/Combobox/Default",
+  title: "Components/Combobox",
   component: Combobox,
   argTypes: {
     placeholder: {
