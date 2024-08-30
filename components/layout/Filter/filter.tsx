@@ -76,6 +76,7 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
                       <CheckboxInput
                         onClick={(e) => {
                           handleMainUnitChange(category);
+                          setIsOpen(true);
                           e.stopPropagation();
                         }}
                       />
