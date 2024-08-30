@@ -5,7 +5,7 @@ import { cn } from "@/utils/index";
 import { CheckboxProps } from "./types";
 
 const CheckboxContext = createContext<
-  { id: string; disabled?: boolean; checked?: boolean; onChange?: (checked: boolean) => void } | undefined
+  { id: string | number; disabled?: boolean; checked?: boolean; onChange?: (checked: boolean) => void } | undefined
 >(undefined);
 
 const useCheckboxContext = () => {
@@ -16,10 +16,12 @@ const useCheckboxContext = () => {
   return context;
 };
 
-const Checkbox = ({ children, id, disabled, checked, onChange }: CheckboxProps) => {
+const Checkbox = ({ children, id, disabled, checked, onChange, onClick }: CheckboxProps) => {
   return (
     <CheckboxContext.Provider value={{ id, disabled, checked, onChange }}>
-      <div className="flex items-center">{children}</div>
+      <div className="flex items-center" onClick={onClick}>
+        {children}
+      </div>
     </CheckboxContext.Provider>
   );
 };
@@ -36,7 +38,7 @@ const CheckboxInput = forwardRef<
   return (
     <CheckboxPrimitive.Root
       ref={ref}
-      id={id}
+      id={id.toString()}
       className={cn(
         "peer h-[24px] w-[24px] shrink-0 rounded-[4px] border border-black focus-visible:outline-none data-[state=checked]",
         disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100",
@@ -61,7 +63,7 @@ const CheckboxLabel = ({ children, className }: { children: ReactNode; className
 
   return (
     <label
-      htmlFor={id}
+      htmlFor={id.toString()}
       className={cn(
         "body2 text-black pt-[2px] mx-[8px]",
         disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100",
