@@ -51,7 +51,7 @@ export function Combobox({ placeholder, className, options, value, setValue, lab
                           setValue(currentValue === value ? "" : currentValue);
                           setOpen(false);
                         }}
-                        className={cn(value === option.value ? "bg-gray_01 " : "bg-white")}
+                        className={cn(value === option.value ? "bg-gray_01/70 " : "bg-white")}
                       >
                         <div className={cn(value === option.value ? "text-navy body1 " : "text-black body2")}>
                           {option.label}
