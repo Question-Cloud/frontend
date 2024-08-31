@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, forwardRef, ReactNode } from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
