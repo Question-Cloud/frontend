@@ -9,8 +9,6 @@ jobs:
   chromatic:
     name: Run Chromatic
     runs-on: ubuntu-latest
-    outputs:
-      status: ${{job.status}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,8 +28,3 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           buildScriptName: storybook:build
           onlyChanged: true
-
-      - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: "✅ storybook: ${{steps.chromatic.outputs.storybookUrl}}"
