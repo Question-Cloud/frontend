@@ -1,4 +1,4 @@
-export { Button } from "./Button";
+export { Button, buttonVariants } from "./Button";
 export { Input } from "./Input";
 export { Textarea } from "./TextArea";
 export { Badge } from "./Badge";
@@ -29,6 +29,16 @@ export {
   DropdownMenuGroup,
   DropdownMenuPortal,
 } from "./DropdownMenu";
+export {
+  PaginationContainer,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  Pagination,
+} from "./Pagination";
+export type { PaginationProps } from "./Pagination";
 
 export {
   FileCheckIcon,
@@ -59,3 +69,4 @@ export {
 
 /** types */
 export type { Option } from "./Combobox";
+export type { ButtonProps } from "./Button";
