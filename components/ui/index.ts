@@ -41,6 +41,7 @@ export {
 export { Avatar, AvatarImage, AvatarFallback } from "./Avatar";
 export { Rating } from "./Rating";
 export { Comment, CommentHeader, CommentBody, CommentFooter } from "./Comment";
+export { Workbook } from "./Workbook";
 
 export {
   FileCheckIcon,
@@ -67,6 +68,12 @@ export {
   BookmarkIcon,
   InfoIcon,
   ProfileIcon,
+  Level1Icon,
+  Level2Icon,
+  Level3Icon,
+  Level4Icon,
+  Level5Icon,
+  Level6Icon,
 } from "./Icons";
 
 /** types */
