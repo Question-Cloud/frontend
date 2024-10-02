@@ -21,6 +21,6 @@ export { StarIcon } from "./starIcon";
 export { BookIcon } from "./bookIcon";
 export { BookmarkIcon } from "./bookmarkIcon";
 export { InfoIcon } from "./infoIcon";
-export { ProfileIcon } from "./ProfileIcon";
+export { ProfileIcon } from "./profileIcon";
 export { ArrowRightIcon } from "./arrowRightIcon";
 export { ArrowLeftIcon } from "./arrowLeftIcon";
