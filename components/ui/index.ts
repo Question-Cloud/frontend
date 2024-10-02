@@ -38,7 +38,8 @@ export {
   PaginationPrevious,
   Pagination,
 } from "./Pagination";
-export type { PaginationProps } from "./Pagination";
+export { Avatar, AvatarImage, AvatarFallback } from "./Avatar";
+export { Rating } from "./Rating";
 
 export {
   FileCheckIcon,
@@ -70,3 +71,4 @@ export {
 /** types */
 export type { Option } from "./Combobox";
 export type { ButtonProps } from "./Button";
+export type { PaginationProps } from "./Pagination";
