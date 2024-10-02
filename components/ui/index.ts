@@ -40,6 +40,7 @@ export {
 } from "./Pagination";
 export { Avatar, AvatarImage, AvatarFallback } from "./Avatar";
 export { Rating } from "./Rating";
+export { Comment, CommentHeader, CommentBody, CommentFooter } from "./Comment";
 
 export {
   FileCheckIcon,
