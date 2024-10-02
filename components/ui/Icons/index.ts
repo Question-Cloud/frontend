@@ -24,3 +24,4 @@ export { InfoIcon } from "./infoIcon";
 export { ProfileIcon } from "./profileIcon";
 export { ArrowRightIcon } from "./arrowRightIcon";
 export { ArrowLeftIcon } from "./arrowLeftIcon";
+export { Level1Icon, Level2Icon, Level3Icon, Level4Icon, Level5Icon, Level6Icon } from "./difficultyLevelIcons";
