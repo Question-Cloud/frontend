@@ -10,7 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "ci-storybook": "concurrently -k -s first -n \"SB, TEST\" -c \"magenta, blue\" \"pnpm run build-storybook --quiet && pnpm dlx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && pnpm run test-storybook --naxWorkers=2\""
+    "ci-storybook": "concurrently -k -s first -n \"SB, TEST\" -c \"magenta, blue\" \"pnpm run storybook:build --quiet && pnpm dlx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && pnpm run storybook:test --naxWorkers=2\""
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
