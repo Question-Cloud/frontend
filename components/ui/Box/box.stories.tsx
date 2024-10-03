@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { Box } from "./box";
 import { Button } from "../Button";
 
-const meta: Meta = {
+const meta: Meta<typeof Box> = {
   title: "Components/Box",
   component: Box,
   argTypes: {
@@ -17,7 +17,7 @@ const meta: Meta = {
 
 export default meta;
 
-type Story = StoryObj;
+type Story = StoryObj<typeof Box>;
 
 export const WithString: Story = {
   args: {
