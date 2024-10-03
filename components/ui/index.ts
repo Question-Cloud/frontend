@@ -43,6 +43,8 @@ export { Rating } from "./Rating";
 export { Comment, CommentHeader, CommentBody, CommentFooter } from "./Comment";
 export { Workbook } from "./Workbook";
 export { Picture } from "./Picture";
+export { Separator } from "./Separator";
+export { Question, QuestionContent, QuestionTitle, QuestionInfo, QuestionOptions, QuestionFooter } from "./Question";
 
 export {
   FileCheckIcon,
@@ -69,12 +71,8 @@ export {
   BookmarkIcon,
   InfoIcon,
   ProfileIcon,
-  Level1Icon,
-  Level2Icon,
-  Level3Icon,
-  Level4Icon,
-  Level5Icon,
-  Level6Icon,
+  SearchIcon,
+  NoteIcon,
 } from "./Icons";
 
 /** types */
