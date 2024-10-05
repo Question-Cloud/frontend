@@ -18,12 +18,21 @@ const config: Config = {
         gray_05: "#696969",
         gray_06: "#454545",
         navy: "#1A3260",
+        sky: "#CFE5FF",
         red: "#E12B55",
         green: "#4DA764",
         yellow: "#FFDE75",
       },
       fontFamily: {
         Pretendard: ["Pretendard"],
+      },
+      keyframes: {
+        blink: {
+          "50%": { opacity: "0" },
+        },
+      },
+      animation: {
+        blink: "blink 1s step-end infinite",
       },
     },
   },

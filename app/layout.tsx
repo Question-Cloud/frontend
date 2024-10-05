@@ -20,10 +20,7 @@ export default function RootLayout({
           <UserProvider>
             <div className="w-screen">
               <Header isLogin={false} isAlreadyCreator={false} />
-              <div className="w-full max-w-[1300px] m-auto">
-                <div className="pb-[100px]" />
-                {children}
-              </div>
+              {children}
             </div>
           </UserProvider>
         </QueryClientProvider>
