@@ -20,7 +20,7 @@ export const Default: Story = {
   ),
 };
 
-export const isImageExist: Story = {
+export const IsImageExist: Story = {
   render: () => (
     <Avatar>
       <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
