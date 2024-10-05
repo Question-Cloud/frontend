@@ -1,4 +1,4 @@
-import { Option } from "@/components/ui";
+import { Option } from "@/components/_shared/ui";
 
 interface Unit {
   title: string;

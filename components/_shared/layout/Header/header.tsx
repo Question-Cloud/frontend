@@ -12,7 +12,7 @@ import {
   PointIcon,
   CouponIcon,
   LogoutIcon,
-} from "@/components/ui";
+} from "@/components/_shared/ui";
 
 export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlreadyCreator: boolean }) => {
   return (

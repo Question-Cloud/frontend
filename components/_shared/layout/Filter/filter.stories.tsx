@@ -23,7 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
   Option,
-} from "@/components/ui";
+} from "@/components/_shared/ui";
 import Image from "next/image";
 import { cn } from "@/utils";
 

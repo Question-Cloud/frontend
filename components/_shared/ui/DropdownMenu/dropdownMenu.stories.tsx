@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "./dropdown-menu";
-import { Button, UserIcon, PointIcon, CouponIcon, LogoutIcon, ProfileIcon } from "@/components/ui";
+import { Button, UserIcon, PointIcon, CouponIcon, LogoutIcon, ProfileIcon } from "@/components/_shared/ui";
 import Link from "next/link";
 
 const meta: Meta<typeof DropdownMenu> = {

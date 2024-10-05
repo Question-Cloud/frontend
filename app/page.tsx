@@ -1,6 +1,6 @@
 "use client";
 
-import { Pagination } from "@/components/ui";
+import { Pagination } from "@/components/_shared/ui";
 import { useState } from "react";
 
 export default function MainPage() {

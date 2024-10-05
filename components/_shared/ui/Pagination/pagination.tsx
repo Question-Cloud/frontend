@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/utils/index";
-import { ButtonProps, buttonVariants } from "@/components/ui/Button";
+import { ButtonProps, buttonVariants } from "@/components/_shared/ui";
 import { ArrowLeftIcon, ArrowRightIcon } from "../Icons";
 
 const PaginationContainer = ({ className, ...props }: React.ComponentProps<"nav">) => (

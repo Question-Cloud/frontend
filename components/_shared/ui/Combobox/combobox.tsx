@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@//utils";
-import { ArrowDownIcon, ArrowUpIcon, Button } from "@/components/ui";
+import { ArrowDownIcon, ArrowUpIcon, Button } from "@/components/_shared/ui";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator } from "./command";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ComboboxProps } from "./types";
