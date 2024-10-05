@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { QueryClientWrapper } from "@/utils";
+import { QueryClientProvider } from "@/providers";
 import { Header } from "@/components/layout";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <QueryClientWrapper>
+        <QueryClientProvider>
           <div className="w-screen">
             <Header isLogin={false} isAlreadyCreator={false} />
             <div className="w-full max-w-[1300px] m-auto">
@@ -24,7 +24,7 @@ export default function RootLayout({
               {children}
             </div>
           </div>
-        </QueryClientWrapper>
+        </QueryClientProvider>
       </body>
     </html>
   );

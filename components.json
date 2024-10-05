@@ -12,6 +12,7 @@
   },
   "aliases": {
     "components": "@/components",
-    "utils": "@/utils/index"
+    "utils": "@/utils/index",
+    "providers": "@/providers/index"
   }
 }
