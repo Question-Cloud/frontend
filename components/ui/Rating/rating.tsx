@@ -7,9 +7,9 @@ const Rating = ({ className, rate }: { className?: string; rate: number }) => {
     <div className={cn("flex", className)}>
       {[...Array(5)].map((_, index) => {
         if (index < rate) {
-          return <StarIcon color="yellow" />;
+          return <StarIcon color="yellow" key={index} />;
         } else if (index >= rate) {
-          return <StarIcon color="gray_02" />;
+          return <StarIcon color="gray_02" key={index} />;
         }
       })}
       <div className="body1 pl-[8px] pt-[3px]">{rate}</div>
