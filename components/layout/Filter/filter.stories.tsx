@@ -328,6 +328,12 @@ export const Default: Story = {
       search,
     } = useFilterMock();
 
+    const [openStates, setOpenStates] = useState(() => categoryData.list.map(() => false));
+
+    const toggleOpen = (index: number) => {
+      setOpenStates((prev) => prev.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
+    };
+
     return (
       <Box className="flex flex-col gap-[40px] w-[450px]">
         <div>
@@ -349,7 +355,52 @@ export const Default: Story = {
             <div className="body1 ">단원</div>
           </div>
           <div className="flex flex-col gap-[8px]">
-            {argsType.categoryData.list.map((category) => {
+            {argsType.categoryData.list.map((category, index) => {
+              const isOpen = openStates[index];
+
+              return (
+                <Collapsible
+                  open={isOpen}
+                  onOpenChange={() => toggleOpen(index)}
+                  className="w-full border border-gray_02 rounded-[8px]"
+                  key={category.title}
+                >
+                  <CollapsibleTrigger asChild>
+                    <Button variant="grayLine" size="large" className="border-none justify-between">
+                      <Checkbox id={category.title} checked={selectedMainUnits.includes(category.title)}>
+                        <CheckboxInput
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleMainUnitChange(category);
+                          }}
+                        />
+                        <CheckboxLabel>{category.title}</CheckboxLabel>
+                      </Checkbox>
+                      {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="px-[40px] pb-[12px] mt-[4px]">
+                    <div className="flex flex-col gap-[8px]">
+                      {category.sub.map((sub) => (
+                        <div key={sub.id}>
+                          <Checkbox id={sub.id} checked={selectedSubUnits.includes(sub.id)}>
+                            <CheckboxInput
+                              onClick={(e) => {
+                                handleSubUnitChange(sub.id);
+                                e.stopPropagation();
+                              }}
+                            />
+                            <CheckboxLabel>{sub.title}</CheckboxLabel>
+                          </Checkbox>
+                        </div>
+                      ))}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              );
+            })}
+
+            {/* {argsType.categoryData.list.map((category) => {
               const [isOpen, setIsOpen] = useState(false);
 
               return (
@@ -393,7 +444,7 @@ export const Default: Story = {
                   </CollapsibleContent>
                 </Collapsible>
               );
-            })}
+            })} */}
           </div>
         </div>
         <div>
@@ -423,6 +474,7 @@ export const Default: Story = {
           <div className="flex flex-wrap gap-[8px]">
             {levels.map((level) => (
               <Button
+                key={level}
                 variant="grayLine"
                 size="large"
                 className={cn("w-[calc(33.9%-8px)]", selectedLevels.includes(level) ? "bg-gray_01" : "bg-white")}

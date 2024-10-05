@@ -41,6 +41,12 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
     search,
   } = useFilter({ subjectData, categoryData, levels });
 
+  const [openStates, setOpenStates] = useState(() => categoryData.list.map(() => false));
+
+  const toggleOpen = (index: number) => {
+    setOpenStates((prev) => prev.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
+  };
+
   return (
     <Box className="flex flex-col gap-[40px] w-[450px]">
       <div>
@@ -62,13 +68,13 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
           <div className="body1">단원</div>
         </div>
         <div className="flex flex-col gap-[8px]">
-          {categoryData.list.map((category) => {
-            const [isOpen, setIsOpen] = useState(false);
+          {categoryData.list.map((category, index) => {
+            const isOpen = openStates[index];
 
             return (
               <Collapsible
                 open={isOpen}
-                onOpenChange={setIsOpen}
+                onOpenChange={() => toggleOpen(index)}
                 className="w-full border border-gray_02 rounded-[8px]"
                 key={category.title}
               >
@@ -78,7 +84,7 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
                       <CheckboxInput
                         onClick={(e) => {
                           handleMainUnitChange(category);
-                          setIsOpen(true);
+
                           e.stopPropagation();
                         }}
                       />
@@ -136,6 +142,7 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
         <div className="flex flex-wrap gap-[8px]">
           {levels.map((level) => (
             <Button
+              key={level}
               variant="grayLine"
               size="large"
               className={cn("w-[calc(33.9%-8px)]", selectedLevels.includes(level) ? "bg-gray_01" : "bg-white")}
