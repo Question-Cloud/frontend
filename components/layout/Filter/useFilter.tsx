@@ -38,7 +38,7 @@ export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) =>
     if (levelsParam) {
       setSelectedLevels(levelsParam.split(","));
     }
-  }, []);
+  }, [subjectData]);
 
   // 난이도 선택
   const handleSelectLevels = (level: string) => {
@@ -96,7 +96,7 @@ export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) =>
         }
       }
     }
-  }, [selectedSubUnitsId, selectedSubUnits]);
+  }, [selectedSubUnitsId, selectedSubUnits, categoryData]);
 
   // 초기화
   const refreshFilter = () => {
