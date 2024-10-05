@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { QueryClientProvider } from "@/providers";
+import { QueryClientProvider, UserProvider } from "@/providers";
 import { Header } from "@/components/layout";
 
 export const metadata: Metadata = {
@@ -17,13 +17,15 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <QueryClientProvider>
-          <div className="w-screen">
-            <Header isLogin={false} isAlreadyCreator={false} />
-            <div className="w-full max-w-[1300px] m-auto">
-              <div className="pb-[100px]" />
-              {children}
+          <UserProvider>
+            <div className="w-screen">
+              <Header isLogin={false} isAlreadyCreator={false} />
+              <div className="w-full max-w-[1300px] m-auto">
+                <div className="pb-[100px]" />
+                {children}
+              </div>
             </div>
-          </div>
+          </UserProvider>
         </QueryClientProvider>
       </body>
     </html>
