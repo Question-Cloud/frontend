@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { usePathname } from "next/navigation";
 import {
   ProfileIcon,
   DropdownMenu,
@@ -15,10 +18,18 @@ import {
 } from "@/components/_shared/ui";
 
 export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlreadyCreator: boolean }) => {
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/register") || pathname.startsWith("/email-verification") || pathname.startsWith("/login")) {
+    return null;
+  }
+
   return (
     <div className="sticky top-0 z-3 w-full bg-white drop-shadow-md">
       <div className="w-full max-w-[1300px] flex items-center h-[80px] m-auto">
-        <Image src="/logo.svg" alt="logo" width="40" height="40" className="mr-[40px]" />
+        <Link href="/">
+          <Image src="/logo.svg" alt="logo" width="40" height="40" className="mr-[40px]" />
+        </Link>
         <div className="w-full flex justify-between">
           <div className="flex gap-[20px]">
             <Link href="#" className="heading2">
@@ -81,7 +92,7 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
               <Link href="#" className="heading2">
                 로그인
               </Link>
-              <Link href="#" className="heading2">
+              <Link href="/register" className="heading2">
                 회원가입
               </Link>
             </div>
