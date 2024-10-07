@@ -73,6 +73,7 @@ export {
   ProfileIcon,
   SearchIcon,
   NoteIcon,
+  CheckIcon,
 } from "./Icons";
 
 /** types */
