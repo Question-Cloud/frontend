@@ -1,0 +1,1 @@
+export { registerSchema } from "./registerSchema";
