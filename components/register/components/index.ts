@@ -1,0 +1,1 @@
+export { RegisterAlarmDialog } from "./registerAlarmDialog";
