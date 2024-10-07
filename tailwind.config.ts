@@ -22,6 +22,11 @@ const config: Config = {
         red: "#E12B55",
         green: "#4DA764",
         yellow: "#FFDE75",
+
+        kakaoLogo: "#381E1F",
+        kakaoBg: "#FCE84D",
+        naverBg: "#63C33D",
+        googleBg: "#D0533F",
       },
       fontFamily: {
         Pretendard: ["Pretendard"],

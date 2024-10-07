@@ -24,7 +24,15 @@ export const convertStringColorToHex = (stringColor: string) => {
       return "#4DA764";
     case "yellow":
       return "#FFDE75";
+    case "kakaoLogo":
+      return "#381E1F";
+    case "kakaoBg":
+      return "#FCE84D";
+    case "naverBg":
+      return "#63C33D";
+    case "googleBg":
+      return "#D0533F";
+    default:
+      return stringColor;
   }
-
-  return "";
 };
