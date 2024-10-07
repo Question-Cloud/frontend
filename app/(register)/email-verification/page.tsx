@@ -1,5 +1,5 @@
 import { AlignCenter, SidePadding } from "@/components/_shared/layout";
-import { RegisterResult } from "@/components/register";
+import { RegisterResult } from "@/pages/register";
 import React from "react";
 
 const RegisterResultPage = () => {
