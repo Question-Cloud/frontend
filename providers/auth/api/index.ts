@@ -1,1 +1,1 @@
-export { useRefreshUser } from "./authApi";
+export { useRefreshUserApi } from "./authApi";

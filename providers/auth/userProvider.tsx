@@ -7,12 +7,12 @@
 
 import { useEffect } from "react";
 import { getCookie, hasCookie } from "cookies-next";
-import { useRefreshUser } from "./api";
+import { useRefreshUserApi } from "./api";
 import { refreshTokenCookieName, useUserData } from "./useUserData";
 
 function UserProvider({ children }: { children: React.ReactNode }) {
   const { userLogin, userLogout } = useUserData();
-  const { mutate: refresh, data: refreshData, error: refreshError } = useRefreshUser();
+  const { mutate: refresh, data: refreshData, error: refreshError } = useRefreshUserApi();
 
   const initializeUserSession = () => {
     if (hasCookie(refreshTokenCookieName)) {

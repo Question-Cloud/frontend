@@ -2,7 +2,7 @@ import { httpClient } from "@/providers";
 import { useMutation } from "@tanstack/react-query";
 import { RefreshUserResponse } from "./types";
 
-function useRefreshUser() {
+function useRefreshUserApi() {
   return useMutation({
     mutationFn: ({ refreshToken }: { refreshToken: string }) =>
       httpClient<RefreshUserResponse>({
@@ -13,4 +13,4 @@ function useRefreshUser() {
   });
 }
 
-export { useRefreshUser };
+export { useRefreshUserApi };
