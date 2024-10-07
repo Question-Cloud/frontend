@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { QueryClientProvider, UserProvider } from "@/providers";
+import { DialogProvider, QueryClientProvider, UserProvider } from "@/providers";
 import { Header } from "@/components/_shared/layout";
 
 export const metadata: Metadata = {
@@ -18,10 +18,12 @@ export default function RootLayout({
       <body>
         <QueryClientProvider>
           <UserProvider>
-            <div className="w-screen">
-              <Header isLogin={false} isAlreadyCreator={false} />
-              {children}
-            </div>
+            <DialogProvider>
+              <div className="w-screen">
+                <Header isLogin={false} isAlreadyCreator={false} />
+                {children}
+              </div>
+            </DialogProvider>
           </UserProvider>
         </QueryClientProvider>
       </body>
