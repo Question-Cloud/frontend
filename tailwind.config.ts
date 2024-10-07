@@ -70,6 +70,11 @@ const config: Config = {
           lineHeight: "14px",
           fontWeight: "regular",
         },
+        ".placeholder": {
+          fontSize: "14px",
+          lineHeight: "22px",
+          fontWeight: "regular",
+        },
         ".button": {
           fontSize: "16px",
           lineHeight: "19px",
