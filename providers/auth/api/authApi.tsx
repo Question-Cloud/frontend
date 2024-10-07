@@ -1,12 +1,6 @@
 import { httpClient } from "@/providers";
 import { useMutation } from "@tanstack/react-query";
-
-export interface RefreshUserResponse {
-  authenticationToken: {
-    accessToken: string;
-    refreshToken: string;
-  };
-}
+import { RefreshUserResponse } from "./types";
 
 function useRefreshUser() {
   return useMutation({
