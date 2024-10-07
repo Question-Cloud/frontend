@@ -13,10 +13,10 @@ async function httpClient<T>(...args: Parameters<typeof client.request>) {
     return res.data;
   } catch (e) {
     if (axios.isAxiosError(e) && e.response) {
-      const errorMessage = e.response.data ? e.response.data : createApiErrorMessage(e.response.status);
+      const errorMessage = e.response.data.message ? e.response.data.message : createApiErrorMessage(e.response.status);
       throw new Error(errorMessage);
     } else {
-      throw new Error("알 수 없는 오류가 발생했습니다");
+      throw new Error("알 수 없는 오류가 발생했어요");
     }
   }
 }
