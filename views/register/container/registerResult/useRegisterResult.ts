@@ -5,7 +5,6 @@ import { useEmailVerifyApi } from "../../api";
 import { useSearchParams, useRouter } from "next/navigation";
 
 const useRegisterResult = () => {
-  const { push } = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -19,11 +18,7 @@ const useRegisterResult = () => {
     handleVerifyEmail();
   }, [handleVerifyEmail]);
 
-  const handleGoLoginPage = () => {
-    push("/login");
-  };
-
-  return { handleGoLoginPage };
+  return {};
 };
 
 export { useRegisterResult };

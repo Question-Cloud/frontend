@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { RegisterApiRequest, RegisterFormValues, useRegisterApi } from "../../api";
 import { useDialogContext } from "@/providers";
+import { useNavigator } from "@/hooks";
 
 const useRegister = () => {
-  const { push } = useRouter();
+  const { handleNavigate } = useNavigator();
   const { provider } = useParams();
   const { dialogOpen } = useDialogContext();
   const [email, setEmail] = useState("");
@@ -28,9 +29,9 @@ const useRegister = () => {
 
   useEffect(() => {
     if (registerData && email) {
-      push(`/register/${provider}/verify?resendToken=${registerData.resendToken}&email=${email}`);
+      handleNavigate(`/register/${provider}/verify?resendToken=${registerData.resendToken}&email=${email}`);
     }
-  }, [registerData, email, push, provider]);
+  }, [registerData, email, provider, handleNavigate]);
 
   useEffect(() => {
     if (registerError) {
