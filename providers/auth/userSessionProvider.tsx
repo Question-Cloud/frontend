@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "@/shared";
 import { createContext, useContext, useState } from "react";
 
 interface UserSessionContextProps {
@@ -20,7 +21,12 @@ const useUserSessionContext = () => {
 function UserSessionProvider({ children }: { children: React.ReactNode }) {
   const [accessToken, setAccessToken] = useState("");
 
-  return <UserSessionContext.Provider value={{ accessToken, setAccessToken }}>{children}</UserSessionContext.Provider>;
+  return (
+    <UserSessionContext.Provider value={{ accessToken, setAccessToken }}>
+      <Header isLogin={accessToken ? true : false} isAlreadyCreator={false} />
+      {children}
+    </UserSessionContext.Provider>
+  );
 }
 
 export { UserSessionProvider, useUserSessionContext };

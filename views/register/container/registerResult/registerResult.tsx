@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, CheckIcon } from "@/components/_shared/ui";
+import { Button, CheckIcon } from "@/shared";
 import React from "react";
 import { useNavigator } from "@/hooks";
 import { useRegisterResult } from "./useRegisterResult";

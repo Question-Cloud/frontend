@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { Button } from "@/components/_shared/ui";
+import { Button, SimpleAlarmDialog } from "@/shared";
 import { useRegisterVerify } from "./useRegisterVerify";
-import { SimpleAlarmDialog } from "@/common/components";
 import { useDialogContext } from "@/providers";
 
 const RegisterVerify = () => {

@@ -1,4 +1,4 @@
-import { UserAuthTokenResponse } from "@/common";
+import { UserAuthTokenResponse } from "@/shared";
 
 interface RefreshUserResponse extends UserAuthTokenResponse {}
 

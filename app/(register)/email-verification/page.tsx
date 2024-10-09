@@ -1,4 +1,4 @@
-import { AlignCenter, SidePadding } from "@/components/_shared/layout";
+import { AlignCenter, SidePadding } from "@/shared";
 import { RegisterResult } from "@/views/register";
 import React from "react";
 

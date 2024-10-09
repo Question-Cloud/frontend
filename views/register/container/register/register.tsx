@@ -4,11 +4,10 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input } from "@/components/_shared/ui";
+import { Button, Input, SimpleAlarmDialog } from "@/shared";
 import { registerSchema } from "../../schemas";
 import { RegisterFormValues } from "../../api";
 import { useRegister } from "./useRegister";
-import { SimpleAlarmDialog } from "@/common/components";
 import { useDialogContext } from "@/providers";
 
 const Register = () => {
