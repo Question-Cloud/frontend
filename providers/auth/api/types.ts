@@ -1,8 +1,5 @@
-interface RefreshUserResponse {
-  authenticationToken: {
-    accessToken: string;
-    refreshToken: string;
-  };
-}
+import { UserAuthTokenResponse } from "@/common";
+
+interface RefreshUserResponse extends UserAuthTokenResponse {}
 
 export type { RefreshUserResponse };
