@@ -8,10 +8,12 @@ import { Button, Input } from "@/components/_shared/ui";
 import { registerSchema } from "../../schemas";
 import { RegisterFormValues } from "../../api";
 import { useRegister } from "./useRegister";
-import { RegisterAlarmDialog } from "../../components";
+import { SimpleAlarmDialog } from "@/common/components";
+import { useDialogContext } from "@/providers";
 
 const Register = () => {
   const { provider } = useParams();
+  const { dialogClose } = useDialogContext();
 
   const {
     register,
@@ -86,7 +88,7 @@ const Register = () => {
           </Button>
         </form>
       </div>
-      <RegisterAlarmDialog message={registerError?.message} />
+      <SimpleAlarmDialog message={registerError?.message} onClose={dialogClose} />
     </>
   );
 };

@@ -3,9 +3,11 @@
 import React from "react";
 import { Button } from "@/components/_shared/ui";
 import { useRegisterVerify } from "./useRegisterVerify";
-import { RegisterAlarmDialog } from "../../components";
+import { SimpleAlarmDialog } from "@/common/components";
+import { useDialogContext } from "@/providers";
 
 const RegisterVerify = () => {
+  const { dialogClose } = useDialogContext();
   const { handleResendEmail, email, resendEmailData, resendEmailError, isResendEmailPending } = useRegisterVerify();
 
   return (
@@ -23,8 +25,8 @@ const RegisterVerify = () => {
           {isResendEmailPending ? "이메일 전송중" : "이메일 재전송"}
         </Button>
       </div>
-      {resendEmailData && <RegisterAlarmDialog message={"이메일이 재전송 되었습니다"} />}
-      {resendEmailError && <RegisterAlarmDialog message={resendEmailError?.message} />}
+      {resendEmailData && <SimpleAlarmDialog message={"이메일이 재전송 되었습니다"} onClose={dialogClose} />}
+      {resendEmailError && <SimpleAlarmDialog message={resendEmailError?.message} onClose={dialogClose} />}
     </div>
   );
 };
