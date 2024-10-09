@@ -1,12 +1,14 @@
 import { AlignCenter, SidePadding } from "@/shared";
 import { RegisterResult } from "@/views/register";
-import React from "react";
+import React, { Suspense } from "react";
 
 const RegisterResultPage = () => {
   return (
     <SidePadding>
       <AlignCenter>
-        <RegisterResult />
+        <Suspense>
+          <RegisterResult />
+        </Suspense>
       </AlignCenter>
     </SidePadding>
   );
