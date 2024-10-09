@@ -37,4 +37,6 @@ const RegisterAlarmDialog = React.memo(({ message }: RegisterAlarmDialogProps) =
   );
 });
 
+RegisterAlarmDialog.displayName = "RegisterAlarmDialog";
+
 export { RegisterAlarmDialog };
