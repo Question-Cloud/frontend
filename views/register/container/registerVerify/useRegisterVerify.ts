@@ -25,13 +25,13 @@ const useRegisterVerify = () => {
     if (resendEmailData) {
       dialogOpen();
     }
-  }, [resendEmailData]);
+  }, [dialogOpen, resendEmailData]);
 
   useEffect(() => {
     if (resendEmailError) {
       dialogOpen();
     }
-  }, [resendEmailError]);
+  }, [dialogOpen, resendEmailError]);
 
   return {
     handleResendEmail,

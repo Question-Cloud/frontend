@@ -19,7 +19,7 @@ const useRegister = () => {
       email: data.email,
       password: data.password,
       phone: data.phone,
-      accountType: provider as string,
+      accountType: (provider as string).toUpperCase(),
     };
 
     setEmail(data.email);
@@ -30,13 +30,13 @@ const useRegister = () => {
     if (registerData && email) {
       push(`/register/${provider}/verify?resendToken=${registerData.resendToken}&email=${email}`);
     }
-  }, [registerData, email, push]);
+  }, [registerData, email, push, provider]);
 
   useEffect(() => {
     if (registerError) {
       dialogOpen();
     }
-  }, [registerError]);
+  }, [dialogOpen, registerError]);
 
   return {
     handleRegister,

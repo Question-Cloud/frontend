@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+"use client";
+
+import { useCallback, useEffect } from "react";
 import { useEmailVerifyApi } from "../../api";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -9,13 +11,13 @@ const useRegisterResult = () => {
 
   const { mutate: verifyEmail } = useEmailVerifyApi();
 
-  const handleVerifyEmail = () => {
+  const handleVerifyEmail = useCallback(() => {
     if (token) verifyEmail(token);
-  };
+  }, [token, verifyEmail]);
 
   useEffect(() => {
     handleVerifyEmail();
-  }, []);
+  }, [handleVerifyEmail]);
 
   const handleGoLoginPage = () => {
     push("/login");
