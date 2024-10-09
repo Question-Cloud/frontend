@@ -3,8 +3,10 @@
 import { Button, CheckIcon } from "@/components/_shared/ui";
 import React from "react";
 import { useNavigator } from "@/hooks";
+import { useRegisterResult } from "./useRegisterResult";
 
 const RegisterResult = () => {
+  const {} = useRegisterResult();
   const { handleNavigate } = useNavigator();
 
   return (
