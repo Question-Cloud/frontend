@@ -13,7 +13,7 @@ const DialogContext = createContext<DialogContextProps | undefined>(undefined);
 const useDialogContext = () => {
   const context = useContext(DialogContext);
   if (!context) {
-    throw new Error("useDialogContext must be used within a DialogProvider");
+    throw new Error("useDialogContext는 DialogProvider 내부에서 사용되어야 합니다.");
   }
   return context;
 };

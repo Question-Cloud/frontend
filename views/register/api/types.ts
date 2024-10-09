@@ -6,13 +6,9 @@ interface RegisterFormValues {
   passwordConfirm?: string;
 }
 
-interface RegisterApiRequest {
-  email: string;
-  password: string;
+interface RegisterApiRequest extends RegisterFormValues {
   socialRegisterToken?: string;
-  accountType: string | string[];
-  phone: string;
-  name: string;
+  accountType: string;
 }
 
 interface RegisterApiResponse {

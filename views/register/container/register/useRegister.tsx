@@ -14,14 +14,12 @@ const useRegister = () => {
   const { mutate: register, data: registerData, error: registerError, isPending: isRegisterPending } = useRegisterApi();
 
   const handleRegister = (data: RegisterFormValues) => {
-    const accountType = Array.isArray(provider) ? provider.map((p) => p.toUpperCase()) : provider.toUpperCase();
-
     const dataToSend: RegisterApiRequest = {
       name: data.name,
       email: data.email,
       password: data.password,
       phone: data.phone,
-      accountType: accountType,
+      accountType: provider as string,
     };
 
     setEmail(data.email);
