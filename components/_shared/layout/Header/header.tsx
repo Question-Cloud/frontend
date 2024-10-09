@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { usePathname } from "next/navigation";
 import {
   ProfileIcon,
   DropdownMenu,
@@ -16,13 +15,20 @@ import {
   CouponIcon,
   LogoutIcon,
 } from "@/components/_shared/ui";
+import { usePathname } from "next/navigation";
 
-export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlreadyCreator: boolean }) => {
+export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlreadyCreator:boolean}) => {
   const pathname = usePathname();
 
-  if (pathname.startsWith("/register") || pathname.startsWith("/email-verification") || pathname.startsWith("/login")) {
+  if (
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/email-verification") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/user")
+  ) {
     return null;
   }
+
 
   return (
     <div className="sticky top-0 z-3 w-full bg-white drop-shadow-md">
