@@ -1,11 +1,13 @@
 "use client";
 
-import { Button, GoogleIcon, KakaoIcon, NaverIcon } from "@/components/_shared/ui";
+import { Button, GoogleIcon, KakaoIcon, NaverIcon } from "@/shared";
 import React from "react";
 import { useNavigator } from "@/hooks";
+import useRegisterOption from "./useRegisterOption";
 
 const RegisterOption = () => {
   const { handleNavigate } = useNavigator();
+  const { handleKakaoLogin } = useRegisterOption();
 
   return (
     <>
@@ -20,11 +22,7 @@ const RegisterOption = () => {
             <NaverIcon color="white" />
             <div>네이버 간편 가입하기</div>
           </Button>
-          <Button
-            size="large"
-            className="bg-kakaoBg hover:bg-kakaoBg space-x-[8px]"
-            onClick={() => handleNavigate("/register/kakao")}
-          >
+          <Button size="large" className="bg-kakaoBg hover:bg-kakaoBg space-x-[8px]" onClick={handleKakaoLogin}>
             <KakaoIcon color="kakaoLogo" />
             <div className="text-kakaoLogo">카카오톡 간편 가입하기</div>
           </Button>
