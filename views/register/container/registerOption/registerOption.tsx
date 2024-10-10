@@ -3,11 +3,11 @@
 import { Button, GoogleIcon, KakaoIcon, NaverIcon } from "@/shared";
 import React from "react";
 import { useNavigator } from "@/hooks";
-import useRegisterOption from "./useRegisterOption";
+import { useSelectOAuth } from "@/views/oAuthRedirect";
 
 const RegisterOption = () => {
   const { handleNavigate } = useNavigator();
-  const { handleKakaoLogin } = useRegisterOption();
+  const { handleKakaoLogin } = useSelectOAuth();
 
   return (
     <>
