@@ -1,1 +1,1 @@
-export { registerSchema } from "./registerSchema";
+export { registerSchema, socialRegisterSchema } from "./registerSchema";

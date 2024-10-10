@@ -30,4 +30,12 @@ const registerSchema = z
     message: "비밀번호가 일치하지 않습니다.",
   });
 
-export { registerSchema };
+const socialRegisterSchema = z.object({
+  name: z.string().min(1, "닉네임을 입력해주세요."),
+  email: z.string().refine((email) => isEmail(email), {
+    message: "이메일 형식이 유효하지 않습니다.",
+  }),
+  phone: phoneSchema,
+});
+
+export { registerSchema, socialRegisterSchema };

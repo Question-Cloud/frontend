@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, SimpleAlarmDialog } from "@/shared";
-import { registerSchema } from "../../schemas";
+import { registerSchema, socialRegisterSchema } from "../../schemas";
 import { RegisterFormValues } from "../../api";
 import { useRegister } from "./useRegister";
 import { useDialogContext } from "@/providers";
@@ -19,7 +19,7 @@ const Register = () => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
+    resolver: provider === "email" ? zodResolver(registerSchema) : zodResolver(socialRegisterSchema),
     mode: "onChange",
     reValidateMode: "onChange",
   });

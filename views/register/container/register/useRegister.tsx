@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { RegisterApiRequest, RegisterFormValues, useRegisterApi } from "../../api";
 import { useDialogContext } from "@/providers";
 import { useNavigator } from "@/hooks";
@@ -9,6 +9,9 @@ import { useNavigator } from "@/hooks";
 const useRegister = () => {
   const { handleNavigate } = useNavigator();
   const { provider } = useParams();
+  const searchParams = useSearchParams();
+  const socialRegisterToken = searchParams.get("registerToken");
+
   const { dialogOpen } = useDialogContext();
   const [email, setEmail] = useState("");
 
@@ -21,6 +24,7 @@ const useRegister = () => {
       password: data.password,
       phone: data.phone,
       accountType: (provider as string).toUpperCase(),
+      socialRegisterToken: socialRegisterToken ? socialRegisterToken : "",
     };
 
     setEmail(data.email);

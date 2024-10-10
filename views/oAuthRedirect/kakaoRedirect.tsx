@@ -21,25 +21,19 @@ const KakaoRedirect = () => {
     if (code) {
       kakaoCallback({ accountType, code });
     }
-  }, [code]);
+  }, [code, kakaoCallback]);
 
   useEffect(() => {
-    console.log("useEffect 진입");
-    console.log(kakaoCallbackData);
     if (kakaoCallbackData) {
-      console.log("요청성공");
       if (kakaoCallbackData.isRegistered === true) {
-        console.log("가입함");
         const accessToken = kakaoCallbackData.authenticationToken.accessToken;
         const refreshToken = kakaoCallbackData.authenticationToken.refreshToken;
-
         userLogin({ accessToken, refreshToken });
       } else if (kakaoCallbackData.isRegistered === false) {
-        console.log("가입안함");
         dialogOpen();
       }
     }
-  }, [kakaoCallbackData, dialogOpen]);
+  }, [kakaoCallbackData, dialogOpen, userLogin]);
 
   useEffect(() => {
     if (kakaoCallbackError) {
