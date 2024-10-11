@@ -20,7 +20,7 @@ const SimpleAlarmDialog = React.memo(({ message, onClose }: SimpleAlarmDialogPro
   const { isDialogOpen, dialogClose } = useDialogContext();
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={onClose}>
+    <Dialog open={isDialogOpen} onOpenChange={dialogClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>알림</DialogTitle>
