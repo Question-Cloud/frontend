@@ -14,13 +14,9 @@ export function useUserSession() {
   const userLogin = useCallback(({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) => {
     localStorage.setItem(accessTokenName, accessToken);
     setAccessToken(accessToken);
-
-    setCookie(refreshTokenName, refreshToken, {
-      maxAge: 60 * 60 * 24 * 30,
-      sameSite: "lax",
-    });
-
+    setRefreshTokenAtCookie(refreshToken);
     setBearerAuthorizationAtHttpClient(accessToken);
+
     handleNavigate("/");
     refreshPage();
   }, []);
@@ -42,7 +38,7 @@ export function useUserSession() {
 
     if (!refreshToken) {
       userLogout();
-      throw new Error("Refresh token이 없습니다.");
+      throw new Error("유효하지 않은 Refresh Token 입니다.");
     }
 
     try {
@@ -50,8 +46,11 @@ export function useUserSession() {
 
       if (refreshData) {
         const newAccessToken = refreshData.authenticationToken.accessToken;
+        const newRefreshToken = refreshData.authenticationToken.refreshToken;
+
         localStorage.setItem(accessTokenName, newAccessToken);
         setBearerAuthorizationAtHttpClient(newAccessToken);
+        setRefreshTokenAtCookie(newRefreshToken);
 
         return newAccessToken;
       }
@@ -65,6 +64,13 @@ export function useUserSession() {
     setTimeout(() => {
       window.location.reload();
     }, 100);
+  };
+
+  const setRefreshTokenAtCookie = (refreshToken: string) => {
+    setCookie(refreshTokenName, refreshToken, {
+      maxAge: 60 * 60 * 24 * 30,
+      sameSite: "lax",
+    });
   };
 
   return {
