@@ -6,7 +6,7 @@ import { useRegisterVerify } from "./useRegisterVerify";
 import { useDialogContext } from "@/providers";
 
 const RegisterVerify = () => {
-  const { dialogClose } = useDialogContext();
+  const { dialogClose, isDialogOpen } = useDialogContext();
   const { handleResendEmail, email, resendEmailData, resendEmailError, isResendEmailPending } = useRegisterVerify();
 
   return (
@@ -24,8 +24,20 @@ const RegisterVerify = () => {
           {isResendEmailPending ? "이메일 전송중" : "이메일 재전송"}
         </Button>
       </div>
-      {resendEmailData && <SimpleAlarmDialog message={"이메일이 재전송 되었습니다"} onClose={dialogClose} />}
-      {resendEmailError && <SimpleAlarmDialog message={resendEmailError?.message} onClose={dialogClose} />}
+      {resendEmailData && isDialogOpen("resendEmail") && (
+        <SimpleAlarmDialog
+          id="resendEmail"
+          message={"이메일이 재전송 되었습니다"}
+          onClose={() => dialogClose("resendEmail")}
+        />
+      )}
+      {resendEmailError && isDialogOpen("resendEmailError") && (
+        <SimpleAlarmDialog
+          id="resendEmailError"
+          message={resendEmailError?.message}
+          onClose={() => dialogClose("resendEmailError")}
+        />
+      )}
     </div>
   );
 };

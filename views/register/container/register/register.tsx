@@ -12,7 +12,7 @@ import { useDialogContext } from "@/providers";
 
 const Register = () => {
   const { provider } = useParams();
-  const { dialogClose } = useDialogContext();
+  const { isDialogOpen, dialogClose } = useDialogContext();
 
   const {
     register,
@@ -87,7 +87,13 @@ const Register = () => {
           </Button>
         </form>
       </div>
-      <SimpleAlarmDialog message={registerError?.message} onClose={dialogClose} />
+      {isDialogOpen("registerFailed") && (
+        <SimpleAlarmDialog
+          id="registerFailed"
+          message={registerError?.message}
+          onClose={() => dialogClose("registerFailed")}
+        />
+      )}
     </>
   );
 };

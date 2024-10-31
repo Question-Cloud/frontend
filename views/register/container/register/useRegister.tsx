@@ -39,7 +39,7 @@ const useRegister = () => {
 
   useEffect(() => {
     if (registerError) {
-      dialogOpen();
+      dialogOpen("registerFailed");
     }
   }, [dialogOpen, registerError]);
 
