@@ -29,11 +29,12 @@ const KakaoRedirect = () => {
         const accessToken = kakaoCallbackData.authenticationToken.accessToken;
         const refreshToken = kakaoCallbackData.authenticationToken.refreshToken;
         userLogin({ accessToken, refreshToken });
+        handleNavigate("/");
       } else if (kakaoCallbackData.isRegistered === false) {
         dialogOpen("processRegister");
       }
     }
-  }, [kakaoCallbackData, dialogOpen, userLogin]);
+  }, [kakaoCallbackData, dialogOpen, userLogin, handleNavigate]);
 
   useEffect(() => {
     if (kakaoCallbackError) {
