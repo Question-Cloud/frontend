@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { QueryClientWrapper } from "@/utils";
-import { Header } from "@/components/layout";
+import { DialogProvider, QueryClientProvider, UserSessionProvider } from "@/providers";
 
 export const metadata: Metadata = {
   title: "문제저장소",
@@ -16,15 +15,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <QueryClientWrapper>
-          <div className="w-screen">
-            <Header isLogin={false} isAlreadyCreator={false} />
-            <div className="w-full max-w-[1300px] m-auto">
-              <div className="pb-[100px]" />
-              {children}
-            </div>
-          </div>
-        </QueryClientWrapper>
+        <QueryClientProvider>
+          <UserSessionProvider>
+            <DialogProvider>
+              <div className="w-screen">{children}</div>
+            </DialogProvider>
+          </UserSessionProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

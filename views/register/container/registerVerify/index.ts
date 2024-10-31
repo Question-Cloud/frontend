@@ -1,0 +1,1 @@
+export { RegisterVerify } from "./registerVerify";

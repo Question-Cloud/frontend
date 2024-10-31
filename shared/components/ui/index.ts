@@ -1,0 +1,1 @@
+export { SimpleAlarmDialog } from "./simpleAlarmDialog";
