@@ -1,38 +1,44 @@
-/**
- * 로그인, 로그아웃 시 accessToken, refreshToken을 관리합니다.
- * 로그인 후 쿠키에 refreshToken을 저장하고, Authorization 헤더를 추가합니다.
- */
-
 import { useCallback } from "react";
 import { setBearerAuthorizationAtHttpClient, removeBearerAuthorizationAtHttpClient } from "@/providers/http-client";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
-import { useUserSessionContext, useRefreshUserApi } from "@/providers/auth";
-
-export const refreshTokenCookieName = "qc__refresh-token";
+import { useRefreshUserApi, useUserSessionContext } from "@/providers/auth";
+import { useNavigator } from "./useNavigator";
+import { accessTokenName, refreshTokenName } from "@/shared/constant";
 
 export function useUserSession() {
+  const { handleNavigate } = useNavigator();
   const { setAccessToken } = useUserSessionContext();
+
   const { mutate: refresh, data: refreshData } = useRefreshUserApi();
 
   const userLogin = useCallback(({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) => {
-    localStorage.setItem("qc__access_token", accessToken);
+    localStorage.setItem(accessTokenName, accessToken);
+    setAccessToken(accessToken);
 
-    setCookie(refreshTokenCookieName, refreshToken, {
+    setCookie(refreshTokenName, refreshToken, {
       maxAge: 60 * 60 * 24 * 30,
       sameSite: "lax",
     });
 
     setBearerAuthorizationAtHttpClient(accessToken);
+    handleNavigate("/");
+    refreshPage();
   }, []);
 
-  const userLogout = useCallback(() => {
+  const userLogout = useCallback((redirectUrl?: string) => {
+    localStorage.removeItem(accessTokenName);
     setAccessToken("");
-    deleteCookie(refreshTokenCookieName);
+    deleteCookie(refreshTokenName);
     removeBearerAuthorizationAtHttpClient();
-  }, [setAccessToken]);
+    handleNavigate(redirectUrl ? redirectUrl : "/");
+
+    if (!redirectUrl || redirectUrl === "/") {
+      refreshPage();
+    }
+  }, []);
 
   const userRefresh = useCallback(async () => {
-    const refreshToken = getCookie(refreshTokenCookieName) as string | undefined;
+    const refreshToken = getCookie(refreshTokenName) as string | undefined;
 
     if (!refreshToken) {
       userLogout();
@@ -44,7 +50,7 @@ export function useUserSession() {
 
       if (refreshData) {
         const newAccessToken = refreshData.authenticationToken.accessToken;
-        localStorage.setItem("qc__access_token", newAccessToken);
+        localStorage.setItem(accessTokenName, newAccessToken);
         setBearerAuthorizationAtHttpClient(newAccessToken);
 
         return newAccessToken;
@@ -55,8 +61,13 @@ export function useUserSession() {
     }
   }, [userLogout, refresh, refreshData]);
 
+  const refreshPage = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
+
   return {
-    refreshTokenCookieName,
     userLogin,
     userLogout,
     userRefresh,
