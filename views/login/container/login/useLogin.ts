@@ -27,7 +27,6 @@ const useLogin = () => {
       const accessToken = "";
       const refreshToken = "";
       userLogin({ accessToken, refreshToken });
-      handleNavigate("/");
     }
   }, [handleNavigate, loginData, userLogin]);
 
