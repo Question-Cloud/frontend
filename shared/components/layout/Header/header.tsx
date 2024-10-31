@@ -59,7 +59,7 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-[4px] outline-none">
                   <ProfileIcon />
-                  <div className="heading2">이지현</div>
+                  <div className="heading2">MY 메뉴</div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>
@@ -94,7 +94,7 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
             </div>
           ) : (
             <div className="flex gap-[20px]">
-              <Link href="#" className="heading2">
+              <Link href="/login" className="heading2">
                 로그인
               </Link>
               <Link href="/register" className="heading2">
