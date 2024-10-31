@@ -3,9 +3,9 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 
 interface DialogContextProps {
-  isDialogOpen: boolean;
-  dialogOpen: () => void;
-  dialogClose: () => void;
+  isDialogOpen: (id: string) => boolean;
+  dialogOpen: (id: string) => void;
+  dialogClose: (id: string) => void;
 }
 
 const DialogContext = createContext<DialogContextProps | undefined>(undefined);
@@ -19,10 +19,12 @@ const useDialogContext = () => {
 };
 
 const DialogProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [openDialogs, setOpenDialogs] = useState<{ [key: string]: boolean }>({});
 
-  const dialogOpen = useCallback(() => setIsDialogOpen(true), []);
-  const dialogClose = useCallback(() => setIsDialogOpen(false), []);
+  const dialogOpen = useCallback((id: string) => setOpenDialogs((prev) => ({ ...prev, [id]: true })), []);
+  const dialogClose = useCallback((id: string) => setOpenDialogs((prev) => ({ ...prev, [id]: false })), []);
+
+  const isDialogOpen = (id: string) => !!openDialogs[id];
 
   return <DialogContext.Provider value={{ isDialogOpen, dialogOpen, dialogClose }}>{children}</DialogContext.Provider>;
 };
