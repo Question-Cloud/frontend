@@ -2,4 +2,14 @@ import { UserAuthTokenResponse } from "@/shared";
 
 interface RefreshUserResponse extends UserAuthTokenResponse {}
 
-export type { RefreshUserResponse };
+interface UserInfo {
+  myInformation: {
+    profileImage: string;
+    name: string;
+    email: string;
+    phone: string;
+    userType: "NormalUser" | "CreatorUser";
+  };
+}
+
+export type { RefreshUserResponse, UserInfo };
