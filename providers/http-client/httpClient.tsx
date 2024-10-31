@@ -1,6 +1,7 @@
 import { createApiErrorMessage } from "./httpError";
 import axios, { AxiosResponse } from "axios";
 import { useUserSession } from "@/hooks";
+import { accessTokenName } from "@/shared/constant";
 
 const developmentApiUrl = process.env["NEXT_PUBLIC_DEVELOPMENT_API"];
 
@@ -29,6 +30,16 @@ const setBearerAuthorizationAtHttpClient = (token: string) => {
 const removeBearerAuthorizationAtHttpClient = () => {
   delete client.defaults.headers.common.Authorization;
 };
+
+client.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem(accessTokenName);
+
+  if (accessToken && config.headers) {
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
+  }
+
+  return config;
+});
 
 client.interceptors.response.use(
   (response) => response,
