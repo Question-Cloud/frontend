@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📖 Question Cloud
 
-## Getting Started
+### 설명
 
-First, run the development server:
+수능 기출, 자작 문제 E-Commerce 플랫폼으로 원하는 문제를 구매하고, 나만의 커스텀 문제집을 만들어 출력할 수 있는 서비스입니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 작업물
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[Figma 디자인](https://www.figma.com/design/H2r9qtza1UHPTnFdrzbyzG/%EC%9D%B4%EB%B2%88%EC%97%94-%EC%A7%84%EC%A7%9C-team-library?node-id=2322-24&t=mV0IvqKqqTB2U7J7-1)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+[Storybook 디자인 문서](https://66d67775c0992d1453a0cffc-ibohkiaiwr.chromatic.com/)
 
-## Learn More
+<br>
 
-To learn more about Next.js, take a look at the following resources:
+### 사용 기술
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- React 18
+- Typescript
+- Tanstack-Query v5
+- Shadcn UI
+- Tailwind
+- Storybook
+- Jest
