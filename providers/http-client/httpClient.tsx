@@ -45,7 +45,6 @@ const checkTokenExpiring = (token: string): boolean => {
 client.interceptors.request.use(
   async (config) => {
     const accessToken = localStorage.getItem(accessTokenName);
-    console.log(checkTokenExpiring(accessToken!));
 
     if (accessToken && checkTokenExpiring(accessToken)) {
       try {
