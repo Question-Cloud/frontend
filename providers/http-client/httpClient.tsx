@@ -2,6 +2,7 @@ import { createApiErrorMessage } from "./httpError";
 import axios, { AxiosResponse } from "axios";
 import { useUserSession } from "@/hooks";
 import { accessTokenName } from "@/shared/constant";
+import { jwtDecode } from "jwt-decode";
 
 const developmentApiUrl = process.env["NEXT_PUBLIC_DEVELOPMENT_API"];
 
@@ -31,30 +32,36 @@ const removeBearerAuthorizationAtHttpClient = () => {
   delete client.defaults.headers.common.Authorization;
 };
 
-client.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem(accessTokenName);
-
-  if (accessToken && config.headers) {
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
+const checkTokenExpiring = (token: string): boolean => {
+  try {
+    const decoded: { exp: number } = jwtDecode(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp - currentTime <= 60;
+  } catch (error) {
+    return true;
   }
+};
 
-  return config;
-});
+client.interceptors.request.use(
+  async (config) => {
+    const accessToken = localStorage.getItem(accessTokenName);
+    console.log(checkTokenExpiring(accessToken!));
 
-client.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      const newAccessToken = await useUserSession().userRefresh();
-      originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
-      return client(originalRequest);
+    if (accessToken && checkTokenExpiring(accessToken)) {
+      try {
+        const newAccessToken = await useUserSession().userRefresh();
+        config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+      } catch (error) {
+        console.error("토큰 재발급에 실패했습니다.", error);
+        window.location.href = "/login";
+      }
+    } else if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
 
+    return config;
+  },
+  (error) => {
     return Promise.reject(error);
   }
 );
