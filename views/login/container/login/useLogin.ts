@@ -7,13 +7,12 @@ import { LoginFormValues, LoginApiRequest, useLoginApi } from "../../api";
 
 const useLogin = () => {
   const { handleNavigate } = useNavigator();
-
   const { userLogin } = useUserSession();
   const { dialogOpen } = useDialogContext();
 
   const { mutate: login, data: loginData, error: loginError, isPending: isLoginPending } = useLoginApi();
 
-  const handleRegister = (data: LoginFormValues) => {
+  const handleLogin = (data: LoginFormValues) => {
     const dataToSend: LoginApiRequest = {
       email: data.email,
       password: data.password,
@@ -37,7 +36,7 @@ const useLogin = () => {
   }, [dialogOpen, loginError]);
 
   return {
-    handleRegister,
+    handleLogin,
     loginError,
     isLoginPending,
   };

@@ -27,14 +27,14 @@ const Login = () => {
     reValidateMode: "onChange",
   });
 
-  const { handleRegister, loginError, isLoginPending } = useLogin();
+  const { handleLogin, loginError, isLoginPending } = useLogin();
 
   return (
     <>
       <div className="flex flex-col">
         <div className="space-y-[32px] w-[420px] m-auto">
           <div className="flex justify-center heading1">로그인</div>
-          <form onSubmit={handleSubmit(handleRegister)} className="space-y-[12px]">
+          <form onSubmit={handleSubmit(handleLogin)} className="space-y-[12px]">
             <Input
               type="email"
               placeholder="이메일을 입력해주세요"
