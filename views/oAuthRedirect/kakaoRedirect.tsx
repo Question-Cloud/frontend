@@ -13,7 +13,7 @@ const KakaoRedirect = () => {
 
   const { userLogin } = useUserSession();
   const { handleNavigate } = useNavigator();
-  const { dialogOpen, dialogClose } = useDialogContext();
+  const { dialogOpen, dialogClose, isDialogOpen } = useDialogContext();
 
   const { mutate: kakaoCallback, data: kakaoCallbackData, error: kakaoCallbackError } = useOAuthApi();
 
@@ -30,33 +30,35 @@ const KakaoRedirect = () => {
         const refreshToken = kakaoCallbackData.authenticationToken.refreshToken;
         userLogin({ accessToken, refreshToken });
       } else if (kakaoCallbackData.isRegistered === false) {
-        dialogOpen();
+        dialogOpen("processRegister");
       }
     }
-  }, [kakaoCallbackData, dialogOpen, userLogin]);
+  }, [kakaoCallbackData, dialogOpen, userLogin, handleNavigate]);
 
   useEffect(() => {
     if (kakaoCallbackError) {
-      dialogOpen();
+      dialogOpen("kakaoCallbackError");
     }
   }, [dialogOpen, kakaoCallbackError]);
 
   return (
     <>
-      {kakaoCallbackError && (
+      {kakaoCallbackError && isDialogOpen("kakaoCallbackError") && (
         <SimpleAlarmDialog
+          id="kakaoCallbackError"
           message={kakaoCallbackError.message}
           onClose={() => {
-            dialogClose();
+            dialogClose("kakaoCallbackError");
             handleNavigate(`/`);
           }}
         />
       )}
-      {kakaoCallbackData && !kakaoCallbackData.isRegistered && (
+      {kakaoCallbackData && !kakaoCallbackData.isRegistered && isDialogOpen("processRegister") && (
         <SimpleAlarmDialog
+          id="processRegister"
           message={"회원가입을 진행해주세요"}
           onClose={() => {
-            dialogClose();
+            dialogClose("ProcessRegister");
             handleNavigate(`/register/kakao?registerToken=${kakaoCallbackData.registerToken}`);
           }}
         />

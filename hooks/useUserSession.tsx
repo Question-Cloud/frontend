@@ -1,79 +1,81 @@
-/**
- * 로그인, 로그아웃 시 accessToken, refreshToken을 관리합니다.
- * 로그인 후 쿠키에 refreshToken을 저장하고, Authorization 헤더를 추가합니다.
- */
-
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { setBearerAuthorizationAtHttpClient, removeBearerAuthorizationAtHttpClient } from "@/providers/http-client";
-import { deleteCookie, setCookie } from "cookies-next";
-import { useUserSessionContext, useRefreshUserApi } from "@/providers/auth";
-import { getCookie, hasCookie } from "cookies-next";
-
-export const refreshTokenCookieName = "qc__refresh-token";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { useRefreshUserApi, useUserSessionContext } from "@/providers/auth";
+import { useNavigator } from "./useNavigator";
+import { accessTokenName, refreshTokenName } from "@/shared/constant";
 
 export function useUserSession() {
-  console.log("test user session");
-
+  const { handleNavigate } = useNavigator();
   const { setAccessToken } = useUserSessionContext();
-  const { mutate: refresh, data: refreshData, error: refreshError } = useRefreshUserApi();
 
-  // accessToken, refreshToken을 저장하고, Authorization Header에 accessToken을 설정한다.
-  const userLogin = useCallback(
-    ({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) => {
-      setAccessToken(accessToken);
+  const { mutate: refresh, data: refreshData } = useRefreshUserApi();
 
-      setCookie(refreshTokenCookieName, refreshToken, {
-        maxAge: 60 * 60 * 24 * 30,
-        sameSite: "lax",
-      });
+  const userLogin = useCallback(({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) => {
+    localStorage.setItem(accessTokenName, accessToken);
+    setAccessToken(accessToken);
+    setRefreshTokenAtCookie(refreshToken);
+    setBearerAuthorizationAtHttpClient(accessToken);
 
-      setBearerAuthorizationAtHttpClient(accessToken);
-    },
-    [setAccessToken]
-  );
+    handleNavigate("/");
+    refreshPage();
+  }, []);
 
-  // accessToken, refreshToken을 제거하고, Authorization Header를 제거한다.
-  const userLogout = useCallback(() => {
+  const userLogout = useCallback((redirectUrl?: string) => {
+    localStorage.removeItem(accessTokenName);
     setAccessToken("");
-    deleteCookie(refreshTokenCookieName);
+    deleteCookie(refreshTokenName);
     removeBearerAuthorizationAtHttpClient();
-  }, [setAccessToken]);
+    handleNavigate(redirectUrl ? redirectUrl : "/");
 
-  // User의 Session을 갱신한다.
-  // axios interceptor로 옮기자
+    if (!redirectUrl || redirectUrl === "/") {
+      refreshPage();
+    }
+  }, []);
 
-  // const initUserSession = useCallback(() => {
-  //   if (hasCookie(refreshTokenCookieName)) {
-  //     const refreshTokenFromCookie = getCookie(refreshTokenCookieName);
-  //     if (typeof refreshTokenFromCookie === "string" && refreshTokenFromCookie) {
-  //       refresh({ refreshToken: refreshTokenFromCookie });
-  //     }
-  //   }
-  // }, [refresh]);
+  const userRefresh = useCallback(async () => {
+    const refreshToken = getCookie(refreshTokenName) as string | undefined;
 
-  // useEffect(() => {
-  //   initUserSession();
-  // }, [initUserSession]);
+    if (!refreshToken) {
+      userLogout();
+      throw new Error("유효하지 않은 Refresh Token 입니다.");
+    }
 
-  // useEffect(() => {
-  //   if (refreshData) {
-  //     userLogin({
-  //       accessToken: refreshData.authenticationToken.accessToken,
-  //       refreshToken: refreshData.authenticationToken.refreshToken,
-  //     });
-  //   }
-  // }, [refreshData, userLogin]);
+    try {
+      refresh({ refreshToken: refreshToken });
 
-  // useEffect(() => {
-  //   if (refreshError) {
-  //     console.log("토큰 갱신에 실패하여 자동으로 로그아웃합니다.");
-  //     userLogout();
-  //   }
-  // }, [refreshError, userLogout]);
+      if (refreshData) {
+        const newAccessToken = refreshData.authenticationToken.accessToken;
+        const newRefreshToken = refreshData.authenticationToken.refreshToken;
+
+        localStorage.setItem(accessTokenName, newAccessToken);
+        setBearerAuthorizationAtHttpClient(newAccessToken);
+        setRefreshTokenAtCookie(newRefreshToken);
+
+        return newAccessToken;
+      }
+    } catch (refreshError) {
+      userLogout();
+      throw refreshError;
+    }
+  }, [userLogout, refresh, refreshData]);
+
+  const refreshPage = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
+
+  const setRefreshTokenAtCookie = (refreshToken: string) => {
+    setCookie(refreshTokenName, refreshToken, {
+      maxAge: 60 * 60 * 24 * 30,
+      sameSite: "lax",
+    });
+  };
 
   return {
-    refreshTokenCookieName,
     userLogin,
     userLogout,
+    userRefresh,
   };
 }

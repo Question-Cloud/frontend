@@ -14,11 +14,17 @@ import {
   PointIcon,
   CouponIcon,
   LogoutIcon,
+  SimpleAlarmDialog,
 } from "@/shared";
 import { usePathname } from "next/navigation";
+import { useUserSession } from "@/hooks";
+import { useDialogContext, useUserSessionContext } from "@/providers";
 
-export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlreadyCreator: boolean }) => {
+export const Header = () => {
   const pathname = usePathname();
+  const { dialogClose, isDialogOpen } = useDialogContext();
+  const { name, isCreator, isLoggedIn } = useUserSessionContext();
+  const { userLogout } = useUserSession();
 
   if (
     pathname.startsWith("/register") ||
@@ -26,7 +32,7 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
     pathname.startsWith("/login") ||
     pathname.startsWith("/user")
   ) {
-    return null;
+    return <></>;
   }
 
   return (
@@ -44,9 +50,9 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
               기출문제
             </Link>
           </div>
-          {isLogin ? (
+          {isLoggedIn && (
             <div className="flex gap-[20px]">
-              {isAlreadyCreator ? (
+              {isCreator ? (
                 <></>
               ) : (
                 <Link href="#" className="heading2">
@@ -59,7 +65,7 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-[4px] outline-none">
                   <ProfileIcon />
-                  <div className="heading2">이지현</div>
+                  <div className="heading2">{name}</div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>
@@ -84,7 +90,7 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <Link href="#" className="flex items-center gap-[4px]">
+                    <Link href="#" className="flex items-center gap-[4px]" onClick={() => userLogout()}>
                       <LogoutIcon size="16" />
                       로그아웃
                     </Link>
@@ -92,9 +98,10 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-          ) : (
+          )}
+          {!isLoggedIn && (
             <div className="flex gap-[20px]">
-              <Link href="#" className="heading2">
+              <Link href="/login" className="heading2">
                 로그인
               </Link>
               <Link href="/register" className="heading2">
@@ -104,6 +111,16 @@ export const Header = ({ isLogin, isAlreadyCreator }: { isLogin: boolean; isAlre
           )}
         </div>
       </div>
+      {isDialogOpen("userInfoError") && (
+        <SimpleAlarmDialog
+          id="userInfoError"
+          message={"사용자 정보를 가져오는데 실패했어요😨\n다시 로그인 해주세요"}
+          onClose={() => {
+            dialogClose("userInfoError");
+            userLogout("/login");
+          }}
+        />
+      )}
     </div>
   );
 };

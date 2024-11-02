@@ -1,5 +1,8 @@
 import { createApiErrorMessage } from "./httpError";
 import axios, { AxiosResponse } from "axios";
+import { useUserSession } from "@/hooks";
+import { accessTokenName } from "@/shared/constant";
+import { jwtDecode } from "jwt-decode";
 
 const developmentApiUrl = process.env["NEXT_PUBLIC_DEVELOPMENT_API"];
 
@@ -16,7 +19,7 @@ async function httpClient<T>(...args: Parameters<typeof client.request>) {
       const errorMessage = e.response.data.message ? e.response.data.message : createApiErrorMessage(e.response.status);
       throw new Error(errorMessage);
     } else {
-      throw new Error("알 수 없는 오류가 발생했어요");
+      throw new Error("알 수 없는 오류가 발생했어요.\n같은 오류가 지속되면 개발자에게 문의해주세요.");
     }
   }
 }
@@ -29,32 +32,38 @@ const removeBearerAuthorizationAtHttpClient = () => {
   delete client.defaults.headers.common.Authorization;
 };
 
-// client.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
+const checkTokenExpiring = (token: string): boolean => {
+  try {
+    const decoded: { exp: number } = jwtDecode(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp - currentTime <= 60;
+  } catch (error) {
+    return true;
+  }
+};
 
-//     // accessToken 만료로 인해 401이 발생한 경우
-//     if (error.response.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
+client.interceptors.request.use(
+  async (config) => {
+    const accessToken = localStorage.getItem(accessTokenName);
+    console.log(checkTokenExpiring(accessToken!));
 
-//       const refreshToken = getCookie(refreshTokenCookieName);
-//       if (refreshToken) {
-//         try {
-//           const { data } = await axios.post("/auth/refresh", { refreshToken });
+    if (accessToken && checkTokenExpiring(accessToken)) {
+      try {
+        const newAccessToken = await useUserSession().userRefresh();
+        config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+      } catch (error) {
+        console.error("토큰 재발급에 실패했습니다.", error);
+        window.location.href = "/login";
+      }
+    } else if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
 
-//           setBearerAuthorizationAtHttpClient(data.authenticationToken.accessToken);
-//           originalRequest.headers["Authorization"] = `Bearer ${data.authenticationToken.accessToken}`;
-
-//           return httpClient(originalRequest);
-//         } catch (refreshError) {
-//           console.log("refresh token failed", refreshError);
-//         }
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export { client, httpClient, setBearerAuthorizationAtHttpClient, removeBearerAuthorizationAtHttpClient };

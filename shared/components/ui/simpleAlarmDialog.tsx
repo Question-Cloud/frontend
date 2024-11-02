@@ -12,15 +12,16 @@ import { useDialogContext } from "@/providers";
 import React from "react";
 
 interface SimpleAlarmDialogProps {
+  id: string;
   message: string | undefined;
   onClose: () => void;
 }
 
-const SimpleAlarmDialog = React.memo(({ message, onClose }: SimpleAlarmDialogProps) => {
+const SimpleAlarmDialog = React.memo(({ id, message, onClose }: SimpleAlarmDialogProps) => {
   const { isDialogOpen, dialogClose } = useDialogContext();
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={dialogClose}>
+    <Dialog open={isDialogOpen(id)} onOpenChange={() => dialogClose(id)}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>알림</DialogTitle>

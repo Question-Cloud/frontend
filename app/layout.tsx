@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import { DialogProvider, QueryClientProvider, UserSessionProvider } from "@/providers";
+import { Header } from "@/shared";
 
 export const metadata: Metadata = {
   title: "문제저장소",
@@ -16,11 +17,12 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <QueryClientProvider>
-          <UserSessionProvider>
-            <DialogProvider>
+          <DialogProvider>
+            <UserSessionProvider>
+              <Header />
               <div className="w-screen">{children}</div>
-            </DialogProvider>
-          </UserSessionProvider>
+            </UserSessionProvider>
+          </DialogProvider>
         </QueryClientProvider>
       </body>
     </html>
