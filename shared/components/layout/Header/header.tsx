@@ -23,7 +23,7 @@ import { useDialogContext, useUserSessionContext } from "@/providers";
 export const Header = () => {
   const pathname = usePathname();
   const { dialogClose, isDialogOpen } = useDialogContext();
-  const { name, isCreator, isLoggedIn } = useUserSessionContext();
+  const { userInfo, isLoggedIn } = useUserSessionContext();
   const { userLogout } = useUserSession();
 
   if (
@@ -52,7 +52,7 @@ export const Header = () => {
           </div>
           {isLoggedIn && (
             <div className="flex gap-[20px]">
-              {isCreator ? (
+              {userInfo.myInformation.userType === "CreatorUser" ? (
                 <></>
               ) : (
                 <Link href="#" className="heading2">
@@ -65,7 +65,7 @@ export const Header = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-[4px] outline-none">
                   <ProfileIcon />
-                  <div className="heading2">{name}</div>
+                  <div className="heading2">{userInfo.myInformation.name}</div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>

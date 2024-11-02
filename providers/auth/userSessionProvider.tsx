@@ -2,15 +2,14 @@
 
 import { accessTokenName } from "@/shared/constant";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useUserInfoApi } from "./api";
+import { UserInfo, useUserInfoApi } from "./api";
 import { useDialogContext } from "../dialog";
 
 interface UserSessionContextProps {
   accessToken: string | null;
   setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
-  name: string;
-  isCreator: boolean;
   isLoggedIn: boolean;
+  userInfo: UserInfo;
 }
 
 const UserSessionContext = createContext<UserSessionContextProps | undefined>(undefined);
@@ -25,12 +24,19 @@ const useUserSessionContext = () => {
 
 function UserSessionProvider({ children }: { children: React.ReactNode }) {
   const { dialogOpen } = useDialogContext();
-  const { mutate: userInfo, data: userInfoData, error: userInfoError } = useUserInfoApi();
+  const { mutate: getUserInfo, data: userInfoData, error: userInfoError } = useUserInfoApi();
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [isCreator, setIsCreator] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    myInformation: {
+      profileImage: "",
+      name: "",
+      email: "",
+      phone: "",
+      userType: "NormalUser",
+    },
+  });
 
   useEffect(() => {
     const token = localStorage.getItem(accessTokenName);
@@ -43,15 +49,22 @@ function UserSessionProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (accessToken) {
-      userInfo();
+    if (accessToken && isLoggedIn) {
+      getUserInfo();
     }
-  }, [accessToken]);
+  }, [accessToken, isLoggedIn]);
 
   useEffect(() => {
     if (userInfoData) {
-      setName(userInfoData.myInformation.name);
-      setIsCreator(userInfoData.myInformation.userType === "CreatorUser" ? true : false);
+      setUserInfo({
+        myInformation: {
+          profileImage: userInfoData.myInformation.profileImage,
+          name: userInfoData.myInformation.name,
+          email: userInfoData.myInformation.email,
+          phone: userInfoData.myInformation.phone,
+          userType: userInfoData.myInformation.userType,
+        },
+      });
     }
   }, [userInfoData]);
 
@@ -59,10 +72,10 @@ function UserSessionProvider({ children }: { children: React.ReactNode }) {
     if (userInfoError) {
       dialogOpen("userInfoError");
     }
-  }, [userInfoError]);
+  }, [dialogOpen, userInfoError]);
 
   return (
-    <UserSessionContext.Provider value={{ accessToken, setAccessToken, name, isCreator, isLoggedIn }}>
+    <UserSessionContext.Provider value={{ accessToken, setAccessToken, isLoggedIn, userInfo }}>
       {children}
     </UserSessionContext.Provider>
   );
