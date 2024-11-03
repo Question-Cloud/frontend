@@ -6,7 +6,7 @@ import { useNavigator } from "@/hooks";
 import { useSelectOAuth } from "@/views/oAuthRedirect";
 
 const RegisterOption = () => {
-  const { handleNavigate } = useNavigator();
+  const { handlePush } = useNavigator();
   const { handleKakaoLogin } = useSelectOAuth();
 
   return (
@@ -17,7 +17,7 @@ const RegisterOption = () => {
           <Button
             size="large"
             className="bg-naverBg hover:bg-naverBg space-x-[8px]"
-            onClick={() => handleNavigate("/register/naver")}
+            onClick={() => handlePush("/register/naver")}
           >
             <NaverIcon color="white" />
             <div>네이버 간편 가입하기</div>
@@ -29,16 +29,16 @@ const RegisterOption = () => {
           <Button
             size="large"
             className="bg-googleBg hover:bg-googleBg space-x-[8px]"
-            onClick={() => handleNavigate("/register/google")}
+            onClick={() => handlePush("/register/google")}
           >
             <GoogleIcon color="white" />
             <div>구글 간편 가입하기</div>
           </Button>
         </div>
-        <Button variant="grayLine" size="large" onClick={() => handleNavigate("/register/email")}>
+        <Button variant="grayLine" size="large" onClick={() => handlePush("/register/email")}>
           <div>이메일로 가입하기</div>
         </Button>
-        <Button variant="text" className="text-gray_04 mt-[16px]" onClick={() => handleNavigate("/login")}>
+        <Button variant="text" className="text-gray_04 mt-[16px]" onClick={() => handlePush("/login")}>
           <div>이미 회원이신가요?</div>
         </Button>
       </div>

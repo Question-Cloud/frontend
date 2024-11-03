@@ -14,7 +14,7 @@ import { useNavigator } from "@/hooks";
 
 const Login = () => {
   const { provider } = useParams();
-  const { handleNavigate } = useNavigator();
+  const { handlePush } = useNavigator();
   const { dialogClose, isDialogOpen } = useDialogContext();
 
   const {
@@ -64,7 +64,7 @@ const Login = () => {
             <div>비밀번호 찾기</div>
           </Button>
           <Separator orientation="vertical" className="h-[20px]" />
-          <Button variant="text" size="large" onClick={() => handleNavigate("/register")}>
+          <Button variant="text" size="large" onClick={() => handlePush("/register")}>
             <div>회원가입</div>
           </Button>
         </div>

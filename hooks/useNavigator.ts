@@ -4,16 +4,23 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 const useNavigator = () => {
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
 
-  const handleNavigate = useCallback(
+  const handlePush = useCallback(
     (url: string) => {
       push(url);
     },
     [push]
   );
 
-  return { handleNavigate };
+  const handleReplace = useCallback(
+    (url: string) => {
+      replace(url);
+    },
+    [replace]
+  );
+
+  return { handlePush, handleReplace };
 };
 
 export { useNavigator };

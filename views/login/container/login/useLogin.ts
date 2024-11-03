@@ -6,7 +6,7 @@ import { useNavigator, useUserSession } from "@/hooks";
 import { LoginFormValues, LoginApiRequest, useLoginApi } from "../../api";
 
 const useLogin = () => {
-  const { handleNavigate } = useNavigator();
+  const { handlePush } = useNavigator();
   const { userLogin } = useUserSession();
   const { dialogOpen } = useDialogContext();
 
@@ -27,7 +27,7 @@ const useLogin = () => {
       const refreshToken = "";
       userLogin({ accessToken, refreshToken });
     }
-  }, [handleNavigate, loginData, userLogin]);
+  }, [handlePush, loginData, userLogin]);
 
   useEffect(() => {
     if (loginError) {

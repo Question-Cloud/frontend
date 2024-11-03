@@ -6,7 +6,7 @@ import { useNavigator } from "./useNavigator";
 import { accessTokenName, refreshTokenName } from "@/shared/constant";
 
 export function useUserSession() {
-  const { handleNavigate } = useNavigator();
+  const { handlePush } = useNavigator();
   const { setAccessToken } = useUserSessionContext();
 
   const { mutate: refresh, data: refreshData } = useRefreshUserApi();
@@ -17,7 +17,7 @@ export function useUserSession() {
     setRefreshTokenAtCookie(refreshToken);
     setBearerAuthorizationAtHttpClient(accessToken);
 
-    handleNavigate("/");
+    handlePush("/");
     refreshPage();
   }, []);
 
@@ -26,7 +26,7 @@ export function useUserSession() {
     setAccessToken("");
     deleteCookie(refreshTokenName);
     removeBearerAuthorizationAtHttpClient();
-    handleNavigate(redirectUrl ? redirectUrl : "/");
+    handlePush(redirectUrl ? redirectUrl : "/");
 
     if (!redirectUrl || redirectUrl === "/") {
       refreshPage();

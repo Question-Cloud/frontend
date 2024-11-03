@@ -15,9 +15,10 @@ interface SimpleAlarmDialogProps {
   id: string;
   message: string | undefined;
   onClose: () => void;
+  controlMessage?: string;
 }
 
-const SimpleAlarmDialog = React.memo(({ id, message, onClose }: SimpleAlarmDialogProps) => {
+const SimpleAlarmDialog = React.memo(({ id, message, onClose, controlMessage }: SimpleAlarmDialogProps) => {
   const { isDialogOpen, dialogClose } = useDialogContext();
 
   return (
@@ -30,7 +31,7 @@ const SimpleAlarmDialog = React.memo(({ id, message, onClose }: SimpleAlarmDialo
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="navy" onClick={onClose}>
-              확인
+              {controlMessage ? controlMessage : "확인"}
             </Button>
           </DialogClose>
         </DialogFooter>
