@@ -6,14 +6,14 @@ import { useCallback } from "react";
 const useNavigator = () => {
   const { push } = useRouter();
 
-  const handleNavigate = useCallback(
+  const handlePush = useCallback(
     (url: string) => {
       push(url);
     },
     [push]
   );
 
-  return { handleNavigate };
+  return { handlePush };
 };
 
 export { useNavigator };

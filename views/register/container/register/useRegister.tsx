@@ -7,7 +7,7 @@ import { useDialogContext } from "@/providers";
 import { useNavigator } from "@/hooks";
 
 const useRegister = () => {
-  const { handleNavigate } = useNavigator();
+  const { handlePush } = useNavigator();
   const { provider } = useParams();
   const searchParams = useSearchParams();
   const socialRegisterToken = searchParams.get("registerToken");
@@ -33,9 +33,9 @@ const useRegister = () => {
 
   useEffect(() => {
     if (registerData && email) {
-      handleNavigate(`/register/${provider}/verify?resendToken=${registerData.resendToken}&email=${email}`);
+      handlePush(`/register/${provider}/verify?resendToken=${registerData.resendToken}&email=${email}`);
     }
-  }, [registerData, email, provider, handleNavigate]);
+  }, [registerData, email, provider, handlePush]);
 
   useEffect(() => {
     if (registerError) {

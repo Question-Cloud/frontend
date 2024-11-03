@@ -12,7 +12,7 @@ const KakaoRedirect = () => {
   const accountType = "KAKAO";
 
   const { userLogin } = useUserSession();
-  const { handleNavigate } = useNavigator();
+  const { handlePush } = useNavigator();
   const { dialogOpen, dialogClose, isDialogOpen } = useDialogContext();
 
   const { mutate: kakaoCallback, data: kakaoCallbackData, error: kakaoCallbackError } = useOAuthApi();
@@ -33,7 +33,7 @@ const KakaoRedirect = () => {
         dialogOpen("processRegister");
       }
     }
-  }, [kakaoCallbackData, dialogOpen, userLogin, handleNavigate]);
+  }, [kakaoCallbackData, dialogOpen, userLogin, handlePush]);
 
   useEffect(() => {
     if (kakaoCallbackError) {
@@ -49,7 +49,7 @@ const KakaoRedirect = () => {
           message={kakaoCallbackError.message}
           onClose={() => {
             dialogClose("kakaoCallbackError");
-            handleNavigate(`/`);
+            handlePush(`/`);
           }}
         />
       )}
@@ -59,7 +59,7 @@ const KakaoRedirect = () => {
           message={"회원가입을 진행해주세요"}
           onClose={() => {
             dialogClose("ProcessRegister");
-            handleNavigate(`/register/kakao?registerToken=${kakaoCallbackData.registerToken}`);
+            handlePush(`/register/kakao?registerToken=${kakaoCallbackData.registerToken}`);
           }}
         />
       )}
