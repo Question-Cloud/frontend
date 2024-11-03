@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 const useNavigator = () => {
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
 
   const handlePush = useCallback(
     (url: string) => {
@@ -13,7 +13,14 @@ const useNavigator = () => {
     [push]
   );
 
-  return { handlePush };
+  const handleReplace = useCallback(
+    (url: string) => {
+      replace(url);
+    },
+    [replace]
+  );
+
+  return { handlePush, handleReplace };
 };
 
 export { useNavigator };
