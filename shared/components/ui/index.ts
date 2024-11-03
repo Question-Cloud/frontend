@@ -1,1 +1,2 @@
-export { SimpleAlarmDialog } from "./simpleAlarmDialog";
+export { SimpleAlarmDialog } from "./Dialogs";
+export { LoadingSpinner } from "./Spinners";

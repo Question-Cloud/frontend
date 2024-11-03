@@ -1,6 +1,6 @@
 "use client";
 
-import { useOAuthApi, SimpleAlarmDialog } from "@/shared";
+import { useOAuthApi, SimpleAlarmDialog, LoadingSpinner } from "@/shared";
 import { useNavigator, useUserSession } from "@/hooks";
 import { useDialogContext } from "@/providers";
 import { useSearchParams } from "next/navigation";
@@ -43,6 +43,7 @@ const KakaoRedirect = () => {
 
   return (
     <>
+      <LoadingSpinner />
       {kakaoCallbackError && isDialogOpen("kakaoCallbackError") && (
         <SimpleAlarmDialog
           id="kakaoCallbackError"
