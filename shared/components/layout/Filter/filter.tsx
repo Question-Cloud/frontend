@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { FilterProps } from "./types";
+import { useState } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -26,11 +25,11 @@ import {
 import Image from "next/image";
 import { cn } from "@/utils";
 import { useFilter } from "./useFilter";
+import { useCategoryData } from "./useCategoryData";
 
-export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
+export const Filter = () => {
+  const { subjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject, levels } = useCategoryData();
   const {
-    currentSubject,
-    setCurrentSubject,
     selectedMainUnits,
     selectedSubUnits,
     selectedLevels,
@@ -39,12 +38,12 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
     handleSubUnitChange,
     refreshFilter,
     search,
-  } = useFilter({ subjectData, categoryData, levels });
+  } = useFilter();
 
-  const [openStates, setOpenStates] = useState(() => categoryData.list.map(() => false));
+  const [openStates, setOpenStates] = useState(() => unitListBySelectedSubject.map(() => false));
 
   const toggleOpen = (index: number) => {
-    setOpenStates((prev) => prev.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
+    setOpenStates((prev) => prev?.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
   };
 
   return (
@@ -57,9 +56,9 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
         <Combobox
           placeholder="선택하세요"
           className="w-[408px]"
-          options={subjectData}
-          value={currentSubject}
-          setValue={setCurrentSubject}
+          options={subjectOption}
+          value={selectedSubject}
+          setValue={setSelectedSubject}
         />
       </div>
       <div>
@@ -68,34 +67,33 @@ export const Filter = ({ subjectData, categoryData, levels }: FilterProps) => {
           <div className="body1">단원</div>
         </div>
         <div className="flex flex-col gap-[8px]">
-          {categoryData.list.map((category, index) => {
-            const isOpen = openStates[index];
+          {unitListBySelectedSubject.map((unit, index) => {
+            const isOpen = openStates && openStates[index];
 
             return (
               <Collapsible
                 open={isOpen}
                 onOpenChange={() => toggleOpen(index)}
                 className="w-full border border-gray_02 rounded-[8px]"
-                key={category.title}
+                key={unit.title}
               >
                 <CollapsibleTrigger asChild>
                   <Button variant="grayLine" size="large" className="border-none justify-between">
-                    <Checkbox id={category.title} checked={selectedMainUnits.includes(category.title)}>
+                    <Checkbox id={unit.title} checked={selectedMainUnits.includes(unit.title)}>
                       <CheckboxInput
                         onClick={(e) => {
-                          handleMainUnitChange(category);
-
+                          handleMainUnitChange(unit);
                           e.stopPropagation();
                         }}
                       />
-                      <CheckboxLabel>{category.title}</CheckboxLabel>
+                      <CheckboxLabel>{unit.title}</CheckboxLabel>
                     </Checkbox>
                     {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="px-[40px] pb-[12px] mt-[4px]">
                   <div className="flex flex-col gap-[8px]">
-                    {category.sub.map((sub) => (
+                    {unit.sub.map((sub) => (
                       <div key={sub.id}>
                         <Checkbox id={sub.id} checked={selectedSubUnits.includes(sub.id)}>
                           <CheckboxInput
