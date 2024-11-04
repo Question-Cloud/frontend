@@ -34,31 +34,30 @@ const removeBearerAuthorizationAtHttpClient = () => {
 };
 
 const checkTokenExpiring = (token: string): boolean => {
-  try {
-    const decoded: { exp: number } = jwtDecode(token);
-    const currentTime = Math.floor(Date.now() / 1000);
-    return decoded.exp - currentTime <= 60;
-  } catch (error) {
-    return true;
-  }
+  const decoded: { exp: number } = jwtDecode(token);
+  const currentTime = Math.floor(Date.now() / 1000);
+
+  return decoded.exp - currentTime <= 60;
 };
 
 client.interceptors.request.use(
   async (config) => {
     const accessToken = localStorage.getItem(accessTokenName);
 
-    if (accessToken && checkTokenExpiring(accessToken)) {
-      try {
-        const newAccessToken = await useUserSession().userRefresh();
-        config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-      } catch (error) {
-        localStorage.removeItem(accessTokenName);
-        deleteCookie(refreshTokenName);
-        removeBearerAuthorizationAtHttpClient();
-        window.location.href = "/login";
+    if (accessToken) {
+      if (checkTokenExpiring(accessToken)) {
+        try {
+          const newAccessToken = await useUserSession().userRefresh();
+          config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        } catch (error) {
+          localStorage.removeItem(accessTokenName);
+          deleteCookie(refreshTokenName);
+          removeBearerAuthorizationAtHttpClient();
+          window.location.href = "/login";
+        }
+      } else {
+        config.headers["Authorization"] = `Bearer ${accessToken}`;
       }
-    } else if (accessToken) {
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
 
     return config;
