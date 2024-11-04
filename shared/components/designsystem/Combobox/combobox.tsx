@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import { cn } from "@//utils";
 import { ArrowDownIcon, ArrowUpIcon, Button } from "@/shared";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator } from "./command";
@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ComboboxProps } from "./types";
 
 export function Combobox({ placeholder, className, options, value, setValue, label, isRequired }: ComboboxProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <div>
@@ -43,9 +43,8 @@ export function Combobox({ placeholder, className, options, value, setValue, lab
               <CommandGroup>
                 {options &&
                   options.map((option) => (
-                    <>
+                    <div key={option.value}>
                       <CommandItem
-                        key={option.value}
                         value={option.value}
                         onSelect={(currentValue) => {
                           setValue(currentValue === value ? "" : currentValue);
@@ -58,7 +57,7 @@ export function Combobox({ placeholder, className, options, value, setValue, lab
                         </div>
                       </CommandItem>
                       {option.value === options[options.length - 1].value ? "" : <CommandSeparator />}
-                    </>
+                    </div>
                   ))}
               </CommandGroup>
             </CommandList>
