@@ -78,7 +78,7 @@ export const Filter = () => {
                 key={unit.title}
               >
                 <CollapsibleTrigger asChild>
-                  <Button variant="grayLine" size="large" className="border-none justify-between">
+                  <Button as="div" variant="grayLine" size="large" className="border-none justify-between">
                     <Checkbox id={unit.title} checked={selectedMainUnits.includes(unit.title)}>
                       <CheckboxInput
                         onClick={(e) => {
