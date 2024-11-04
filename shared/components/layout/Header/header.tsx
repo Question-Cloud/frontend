@@ -43,7 +43,7 @@ export const Header = () => {
         </Link>
         <div className="w-full flex justify-between">
           <div className="flex gap-[20px]">
-            <Link href="#" className="heading2">
+            <Link href="/question/self" className="heading2">
               자작문제
             </Link>
             <Link href="#" className="heading2">
