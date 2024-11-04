@@ -1,31 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { FilterProps } from "./types";
-import { makeQueryString } from "@/utils";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCategoryData } from "./useCategoryData";
 
-export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) => {
-  const [currentSubject, setCurrentSubject] = useState("");
+export const useFilter = () => {
+  const searchParams = useSearchParams();
+  const { subjectOption, selectedSubject, unitListBySelectedSubject } = useCategoryData();
+
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
   const [selectedSubUnits, setSelectedSubUnits] = useState<number[]>([]);
   const [selectedSubUnitsId, setSelectedSubUnitsId] = useState(0);
   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    const subject = queryParams.get("subject");
-    const mainUnitsParam = queryParams.get("mainUnits");
-    const subUnitsParam = queryParams.get("subUnits");
-    const levelsParam = queryParams.get("levels");
-
-    if (subject) {
-      setCurrentSubject(subject);
-    } else {
-      if (subjectData.length > 0) {
-        setCurrentSubject(subjectData[0].value);
-      } else {
-        setCurrentSubject("");
-      }
-    }
+    const mainUnitsParam = searchParams.get("mainUnits");
+    const subUnitsParam = searchParams.get("subUnits");
+    const levelsParam = searchParams.get("levels");
 
     if (mainUnitsParam) {
       setSelectedMainUnits(mainUnitsParam.split(","));
@@ -38,7 +27,7 @@ export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) =>
     if (levelsParam) {
       setSelectedLevels(levelsParam.split(","));
     }
-  }, [subjectData]);
+  }, [subjectOption]);
 
   // 난이도 선택
   const handleSelectLevels = (level: string) => {
@@ -85,7 +74,9 @@ export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) =>
   // 하위 단원 개별 선택시 이미 전체 선택 되어있던 요소인지 검증
   useEffect(() => {
     if (selectedSubUnitsId != 0) {
-      const category = categoryData.list.find((category) => category.sub.some((sub) => sub.id === selectedSubUnitsId));
+      const category = unitListBySelectedSubject.find((category) =>
+        category.sub.some((sub) => sub.id === selectedSubUnitsId)
+      );
       if (category) {
         const subUnitIds = category.sub.map((sub) => sub.id);
         const allSubUnitsSelected = subUnitIds.every((subId) => selectedSubUnits.includes(subId));
@@ -96,7 +87,7 @@ export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) =>
         }
       }
     }
-  }, [selectedSubUnitsId, selectedSubUnits, categoryData]);
+  }, [selectedSubUnitsId, selectedSubUnits]);
 
   // 초기화
   const refreshFilter = () => {
@@ -108,18 +99,19 @@ export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) =>
 
   // 조회하기
   const search = () => {
-    const queryString = makeQueryString(currentSubject, selectedMainUnits, selectedSubUnits, selectedLevels);
+    const mainUnitsParam = selectedMainUnits.join(",");
+    const subUnitsParam = selectedSubUnits.join(",");
+    const levelsParam = selectedLevels.join(",");
+
+    const queryString = `?subject=${encodeURIComponent(selectedSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
     window.history.pushState({}, "", queryString);
 
-    console.log(currentSubject);
     console.log(selectedMainUnits);
     console.log(selectedSubUnits);
     console.log(selectedLevels);
   };
 
   return {
-    currentSubject,
-    setCurrentSubject,
     selectedMainUnits,
     selectedSubUnits,
     selectedLevels,
