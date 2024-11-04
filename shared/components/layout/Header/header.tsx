@@ -15,6 +15,7 @@ import {
   CouponIcon,
   LogoutIcon,
   SimpleAlarmDialog,
+  Button,
 } from "@/shared";
 import { usePathname } from "next/navigation";
 import { useUserSession } from "@/hooks";
@@ -90,10 +91,10 @@ export const Header = () => {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <Link href="#" className="flex items-center gap-[4px]" onClick={() => userLogout()}>
-                      <LogoutIcon size="16" />
+                    <Button size="medium" className="flex items-center gap-[4px]" onClick={() => userLogout()}>
+                      <LogoutIcon size="16" color="white" />
                       로그아웃
-                    </Link>
+                    </Button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
