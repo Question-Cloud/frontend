@@ -1,21 +1,26 @@
-interface ApiErrorMessage {
-  [key: number]: string;
-  serverError: string;
-  networkError: string;
-}
-
-const API_ERROR_MESSAGE: ApiErrorMessage = {
-  400: "잘못된 요청이에요",
-  401: "인증을 실패했어요",
-  403: "요청 권한이 없어요",
-  404: "요청하신 내용을 찾을 수 없어요",
-  serverError: "서버 오류가 발생했어요",
-  networkError: "네트워크 오류가 발생했어요",
-};
-
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
-const NETWORK_ERROR_REGEX = /^1\d{2}$/;
 
-const ROUTE_ERROR_MESSAGE = "찾으시는 페이지가 없어요";
+const ERRORS = {
+  400: {
+    message: "잘못된 요청입니다.",
+  },
+  401: {
+    message: "잘못된 인증 정보입니다. 다시 로그인 해주세요.",
+  },
+  403: {
+    message: "요청 권한이 없어요.",
+  },
+  404: {
+    message: "요청하신 내용을 찾을 수 없어요.",
+  },
+  500: {
+    message: "서버에서 오류가 발생했어요.",
+  },
+  0: {
+    message: "알 수 없는 오류가 발생했어요.\n같은 문제가 지속되는 경우 개발자에게 문의해주세요.",
+  },
+} as const;
 
-export { API_ERROR_MESSAGE, SERVER_ERROR_REGEX, NETWORK_ERROR_REGEX, ROUTE_ERROR_MESSAGE };
+export type ErrorUnion = (typeof ERRORS)[keyof typeof ERRORS];
+
+export { ERRORS, SERVER_ERROR_REGEX };

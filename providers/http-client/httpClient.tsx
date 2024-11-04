@@ -1,4 +1,4 @@
-import { createApiErrorMessage } from "./httpError";
+import { getErrorMessage } from "./httpError";
 import axios, { AxiosResponse } from "axios";
 import { useUserSession } from "@/hooks";
 import { accessTokenName, refreshTokenName } from "@/shared/constant";
@@ -17,10 +17,10 @@ async function httpClient<T>(...args: Parameters<typeof client.request>) {
     return response.data;
   } catch (e) {
     if (axios.isAxiosError(e) && e.response) {
-      const errorMessage = e.response.data.message ? e.response.data.message : createApiErrorMessage(e.response.status);
+      const errorMessage = e.response.data.message ? e.response.data.message : getErrorMessage(e.response.status);
       throw new Error(errorMessage);
     } else {
-      throw new Error("알 수 없는 오류가 발생했어요.\n같은 오류가 지속되면 개발자에게 문의해주세요.");
+      throw new Error("알 수 없는 오류가 발생했어요.\n같은 문제가 지속되는 경우 개발자에게 문의해주세요.");
     }
   }
 }
