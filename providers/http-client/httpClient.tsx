@@ -1,8 +1,9 @@
 import { createApiErrorMessage } from "./httpError";
 import axios, { AxiosResponse } from "axios";
 import { useUserSession } from "@/hooks";
-import { accessTokenName } from "@/shared/constant";
+import { accessTokenName, refreshTokenName } from "@/shared/constant";
 import { jwtDecode } from "jwt-decode";
+import { deleteCookie } from "cookies-next";
 
 const developmentApiUrl = process.env["NEXT_PUBLIC_DEVELOPMENT_API"];
 
@@ -51,7 +52,9 @@ client.interceptors.request.use(
         const newAccessToken = await useUserSession().userRefresh();
         config.headers["Authorization"] = `Bearer ${newAccessToken}`;
       } catch (error) {
-        console.error("토큰 재발급에 실패했습니다.", error);
+        localStorage.removeItem(accessTokenName);
+        deleteCookie(refreshTokenName);
+        removeBearerAuthorizationAtHttpClient();
         window.location.href = "/login";
       }
     } else if (accessToken) {
