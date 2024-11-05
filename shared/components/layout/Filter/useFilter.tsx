@@ -1,6 +1,10 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useCategoryData } from "./useCategoryData";
+import { Level } from "@/shared/api";
+import { levelTypeList } from "@/shared/constant";
 
 export const useFilter = () => {
   const searchParams = useSearchParams();
@@ -9,7 +13,7 @@ export const useFilter = () => {
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
   const [selectedSubUnits, setSelectedSubUnits] = useState<number[]>([]);
   const [selectedSubUnitsId, setSelectedSubUnitsId] = useState(0);
-  const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+  const [selectedLevels, setSelectedLevels] = useState<Level[]>([]);
 
   useEffect(() => {
     const mainUnitsParam = searchParams.get("mainUnits");
@@ -25,12 +29,12 @@ export const useFilter = () => {
     }
 
     if (levelsParam) {
-      setSelectedLevels(levelsParam.split(","));
+      setSelectedLevels(levelsParam.split(",").filter((level): level is Level => levelTypeList.includes(level)));
     }
   }, [subjectOption]);
 
   // 난이도 선택
-  const handleSelectLevels = (level: string) => {
+  const handleSelectLevels = (level: Level) => {
     if (selectedLevels.includes(level)) {
       setSelectedLevels((prev) => {
         return prev.filter((elem) => elem !== level);
@@ -105,10 +109,6 @@ export const useFilter = () => {
 
     const queryString = `?subject=${encodeURIComponent(selectedSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
     window.history.pushState({}, "", queryString);
-
-    console.log(selectedMainUnits);
-    console.log(selectedSubUnits);
-    console.log(selectedLevels);
   };
 
   return {

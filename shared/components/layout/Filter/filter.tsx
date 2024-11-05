@@ -26,6 +26,8 @@ import Image from "next/image";
 import { cn } from "@/utils";
 import { useFilter } from "./useFilter";
 import { useCategoryData } from "./useCategoryData";
+import { levelTypeList } from "@/shared/constant";
+import { Level } from "@/shared/api";
 
 export const Filter = () => {
   const { subjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject, levels } = useCategoryData();
@@ -139,15 +141,27 @@ export const Filter = () => {
         </div>
         <div className="flex flex-wrap gap-[8px]">
           {levels.map((level) => (
-            <Button
-              key={level}
-              variant="grayLine"
-              size="large"
-              className={cn("w-[calc(33.9%-8px)]", selectedLevels.includes(level) ? "bg-gray_01" : "bg-white")}
-              onClick={() => handleSelectLevels(level)}
-            >
-              <Image src={`/levelIcons/level${level.replace("LEVEL", "")}.svg`} alt={level} width="24" height="24" />
-            </Button>
+            <>
+              {levelTypeList.includes(level as Level) && (
+                <Button
+                  key={level}
+                  variant="grayLine"
+                  size="large"
+                  className={cn(
+                    "w-[calc(33.9%-8px)]",
+                    selectedLevels.includes(level as Level) ? "bg-gray_01" : "bg-white"
+                  )}
+                  onClick={() => handleSelectLevels(level as Level)}
+                >
+                  <Image
+                    src={`/levelIcons/level${level.replace("LEVEL", "")}.svg`}
+                    alt={level}
+                    width="24"
+                    height="24"
+                  />
+                </Button>
+              )}
+            </>
           ))}
         </div>
       </div>
