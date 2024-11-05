@@ -1,7 +1,8 @@
+import { cn } from "@/utils";
 import React from "react";
 
-const AlignCenter = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex justify-center h-screen">{children}</div>;
+const AlignCenter = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  return <div className={cn("flex justify-center h-screen", className)}>{children}</div>;
 };
 
 export { AlignCenter };
