@@ -31,30 +31,28 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex flex-col">
-        <div className="space-y-[32px] w-[420px] m-auto">
-          <div className="flex justify-center heading1">로그인</div>
-          <form onSubmit={handleSubmit(handleLogin)} className="space-y-[12px]">
-            <Input
-              type="email"
-              placeholder="이메일을 입력해주세요"
-              error={!!errors.email}
-              errorMessage={errors.email && errors.email.message}
-              {...register("email")}
-              autoComplete="new-password"
-            />
-            <Input
-              type="password"
-              placeholder="비밀번호를 입력해주세요"
-              error={!!errors.password}
-              errorMessage={errors.password && errors.password.message}
-              {...register("password")}
-            />
-            <Button variant="navy" size="large" type="submit" disabled={!isValid || isLoginPending}>
-              {isLoginPending ? "로그인 중" : "로그인"}
-            </Button>
-          </form>
-        </div>
+      <div className="space-y-[32px] w-[420px] m-auto">
+        <div className="flex justify-center heading1">로그인</div>
+        <form onSubmit={handleSubmit(handleLogin)} className="space-y-[12px]">
+          <Input
+            type="email"
+            placeholder="이메일을 입력해주세요"
+            error={!!errors.email}
+            errorMessage={errors.email && errors.email.message}
+            {...register("email")}
+            autoComplete="new-password"
+          />
+          <Input
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            error={!!errors.password}
+            errorMessage={errors.password && errors.password.message}
+            {...register("password")}
+          />
+          <Button variant="navy" size="large" type="submit" disabled={!isValid || isLoginPending}>
+            {isLoginPending ? "로그인 중" : "로그인"}
+          </Button>
+        </form>
         <div className="flex w-[250px] justify-between items-center m-auto mt-[12px]">
           <Button variant="text" size="large">
             <div>이메일 찾기</div>
