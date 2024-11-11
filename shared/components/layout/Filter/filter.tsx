@@ -141,10 +141,9 @@ export const Filter = () => {
         </div>
         <div className="flex flex-wrap gap-[8px]">
           {levels.map((level) => (
-            <>
+            <div key={level}>
               {levelTypeList.includes(level as Level) && (
                 <Button
-                  key={level}
                   variant="grayLine"
                   size="large"
                   className={cn(
@@ -156,7 +155,7 @@ export const Filter = () => {
                   <Image src={`/levelIcons/${level}.svg`} alt={level} width="24" height="24" />
                 </Button>
               )}
-            </>
+            </div>
           ))}
         </div>
       </div>

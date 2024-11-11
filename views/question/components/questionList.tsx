@@ -5,7 +5,7 @@ import { AlignCenter, QuestionNotExist } from "@/shared";
 
 const QuestionList = ({ questionListData }: { questionListData: Question[] }) => {
   return questionListData.length > 0 ? (
-    questionListData.map((question) => <QuestionItem question={question} />)
+    questionListData.map((question) => <QuestionItem key={question.id} question={question} />)
   ) : (
     <AlignCenter className="w-full">
       <div className="flex flex-col items-center gap-[12px]">
