@@ -5,14 +5,14 @@ import { useSearchParams } from "next/navigation";
 import { useCategoryData } from "./useCategoryData";
 import { Level } from "@/shared/api";
 import { levelTypeList } from "@/shared/constant";
+import { Units } from "./api";
 
 export const useFilter = () => {
   const searchParams = useSearchParams();
-  const { selectedMainSubject, unitListBySelectedMainSubject } = useCategoryData();
+  const { selectedMainSubject } = useCategoryData();
 
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
-  const [selectedSubUnits, setSelectedSubUnits] = useState<number[]>([]);
-  const [selectedSubUnitsId, setSelectedSubUnitsId] = useState(0);
+  const [selectedSubUnitsId, setSelectedSubUnitsId] = useState<number[]>([]);
   const [selectedLevels, setSelectedLevels] = useState<Level[]>([]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const useFilter = () => {
     }
 
     if (subUnitsParam) {
-      setSelectedSubUnits(subUnitsParam.split(",").map(Number));
+      setSelectedSubUnitsId(subUnitsParam.split(",").map(Number));
     }
 
     if (levelsParam) {
@@ -33,7 +33,6 @@ export const useFilter = () => {
     }
   }, [searchParams]);
 
-  // 난이도 선택
   const handleSelectLevels = (level: Level) => {
     if (selectedLevels.includes(level)) {
       setSelectedLevels((prev) => {
@@ -46,64 +45,47 @@ export const useFilter = () => {
     }
   };
 
-  // 대단원 (수1, 수2 등)에 체크하는 경우 -> 하위 단원 전체 선택, 전체 해제
-  const handleMainUnitChange = (category: { title: string; sub: Array<{ id: number; title: string }> }) => {
-    const { sub, title } = category;
-    const subUnitIds = sub.map((s) => s.id);
-
-    if (selectedMainUnits.includes(title)) {
-      setSelectedMainUnits((prev) => prev.filter((item) => item !== title));
-      setSelectedSubUnits((prev) => prev.filter((id) => !subUnitIds.includes(id)));
+  const handleSelectMainUnit = (mainUnit: Units) => {
+    if (selectedMainUnits.includes(mainUnit.title)) {
+      setSelectedMainUnits((prev) => prev.filter((item) => item !== mainUnit.title));
+      setSelectedSubUnitsId((prev) => prev.filter((sub) => !mainUnit.sub.some((unit) => unit.id === sub)));
     } else {
-      setSelectedMainUnits((prev) => [...prev, title]);
-
-      setSelectedSubUnits((prev) => {
-        const uniqueSelectedSubUnits = new Set(prev);
-        subUnitIds.forEach((id) => uniqueSelectedSubUnits.add(id));
-        return Array.from(uniqueSelectedSubUnits);
-      });
+      setSelectedMainUnits((prev) => [...prev, mainUnit.title]);
+      setSelectedSubUnitsId((prev) => [...prev, ...mainUnit.sub.map((subUnit) => subUnit.id)]);
     }
   };
 
-  // 하위 단원 개별 선택
-  const handleSubUnitChange = (id: number) => {
-    setSelectedSubUnitsId(id);
-    if (selectedSubUnits.includes(id)) {
-      setSelectedSubUnits((prev) => prev.filter((item) => item !== id));
-    } else {
-      setSelectedSubUnits((prev) => [...prev, id]);
-    }
+  const handleSelectSubUnit = (subId: number, mainUnit: Units) => {
+    const newSelectedSubUnits = selectedSubUnitsId.includes(subId)
+      ? selectedSubUnitsId.filter((item) => item !== subId)
+      : [...selectedSubUnitsId, subId];
+
+    setSelectedSubUnitsId(newSelectedSubUnits);
+
+    const allSubSelected = mainUnit.sub.every((sub) => newSelectedSubUnits.includes(sub.id));
+    setSelectedMainUnits((prev) =>
+      allSubSelected ? [...prev, mainUnit.title] : prev.filter((item) => item !== mainUnit.title)
+    );
   };
 
-  // 하위 단원 개별 선택시 이미 전체 선택 되어있던 요소인지 검증
+  // useEffect(() => {
+  //   console.log("selectedSubUnits:", selectedSubUnits);
+  // }, [selectedSubUnits]);
+
   useEffect(() => {
-    if (selectedSubUnitsId != 0) {
-      const alreadySelectedSubUnit = unitListBySelectedMainSubject.find((category) =>
-        category.sub.some((sub) => sub.id === selectedSubUnitsId)
-      );
-
-      if (alreadySelectedSubUnit) {
-        const subUnitIds = alreadySelectedSubUnit.sub.map((sub) => sub.id);
-        const allSubUnitsSelected = subUnitIds.every((subId) => selectedSubUnits.includes(subId));
-        if (allSubUnitsSelected) {
-          setSelectedMainUnits((prev) => [...prev, alreadySelectedSubUnit.title]);
-        } else {
-          setSelectedMainUnits((prev) => prev.filter((title) => title !== alreadySelectedSubUnit.title));
-        }
-      }
-    }
-  }, [selectedSubUnitsId, selectedSubUnits, unitListBySelectedMainSubject]);
+    //console.log(selectedMainSubject);
+    setSelectedMainUnits([]);
+  }, [selectedMainSubject]);
 
   const refreshFilter = () => {
     setSelectedMainUnits([]);
-    setSelectedSubUnits([]);
-    setSelectedSubUnitsId(0);
+    setSelectedSubUnitsId([]);
     setSelectedLevels([]);
   };
 
   const search = () => {
     const mainUnitsParam = selectedMainUnits.join(",");
-    const subUnitsParam = selectedSubUnits.join(",");
+    const subUnitsParam = selectedSubUnitsId.join(",");
     const levelsParam = selectedLevels.join(",");
 
     const queryString = `?subject=${encodeURIComponent(selectedMainSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
@@ -112,13 +94,12 @@ export const useFilter = () => {
 
   return {
     selectedMainUnits,
-    selectedSubUnits,
-    setSelectedSubUnits,
+    selectedSubUnitsId,
     setSelectedSubUnitsId,
     selectedLevels,
     handleSelectLevels,
-    handleMainUnitChange,
-    handleSubUnitChange,
+    handleSelectMainUnit,
+    handleSelectSubUnit,
     refreshFilter,
     search,
   };
