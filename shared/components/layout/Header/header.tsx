@@ -37,7 +37,7 @@ export const Header = () => {
   }
 
   return (
-    <div className="sticky top-0 z-3 w-full bg-white drop-shadow-md">
+    <div className="sticky top-0 z-50 w-full bg-white drop-shadow-md">
       <div className="w-full max-w-[1300px] flex items-center h-[80px] m-auto">
         <Link href="/">
           <Image src="/logo.svg" alt="logo" width="40" height="40" className="mr-[40px]" />
