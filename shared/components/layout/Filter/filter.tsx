@@ -30,7 +30,8 @@ import { levelTypeList } from "@/shared/constant";
 import { Level } from "@/shared/api";
 
 export const Filter = () => {
-  const { subjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject, levels } = useCategoryData();
+  const { subjectOption, selectedMainSubject, setSelectedMainSubject, unitListBySelectedMainSubject, levels } =
+    useCategoryData();
   const {
     selectedMainUnits,
     selectedSubUnits,
@@ -42,7 +43,7 @@ export const Filter = () => {
     search,
   } = useFilter();
 
-  const [openStates, setOpenStates] = useState(() => unitListBySelectedSubject.map(() => false));
+  const [openStates, setOpenStates] = useState(() => unitListBySelectedMainSubject.map(() => false));
 
   const toggleOpen = (index: number) => {
     setOpenStates((prev) => prev?.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
@@ -59,8 +60,8 @@ export const Filter = () => {
           placeholder="선택하세요"
           className="w-[408px]"
           options={subjectOption}
-          value={selectedSubject}
-          setValue={setSelectedSubject}
+          value={selectedMainSubject}
+          setValue={setSelectedMainSubject}
         />
       </div>
       <div>
@@ -69,50 +70,66 @@ export const Filter = () => {
           <div className="body1">단원</div>
         </div>
         <div className="flex flex-col gap-[8px]">
-          {unitListBySelectedSubject.map((unit, index) => {
-            const isOpen = openStates && openStates[index];
+          {unitListBySelectedMainSubject.length <= 0 && (
+            <Collapsible className="w-full border border-gray_02 rounded-[8px]">
+              <CollapsibleTrigger asChild>
+                <Button
+                  as="div"
+                  variant="grayLine"
+                  size="large"
+                  className="text-gray_04 border-none justify-between"
+                  disabled={true}
+                >
+                  과목을 먼저 선택해 주세요
+                </Button>
+              </CollapsibleTrigger>
+            </Collapsible>
+          )}
+          {unitListBySelectedMainSubject.length > 0 &&
+            unitListBySelectedMainSubject.map((unit, index) => {
+              const isOpen = openStates && openStates[index];
 
-            return (
-              <Collapsible
-                open={isOpen}
-                onOpenChange={() => toggleOpen(index)}
-                className="w-full border border-gray_02 rounded-[8px]"
-                key={unit.title}
-              >
-                <CollapsibleTrigger asChild>
-                  <Button as="div" variant="grayLine" size="large" className="border-none justify-between">
-                    <Checkbox id={unit.title} checked={selectedMainUnits.includes(unit.title)}>
-                      <CheckboxInput
-                        onClick={(e) => {
-                          handleMainUnitChange(unit);
-                          e.stopPropagation();
-                        }}
-                      />
-                      <CheckboxLabel>{unit.title}</CheckboxLabel>
-                    </Checkbox>
-                    {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
-                  </Button>
-                </CollapsibleTrigger>
-                <CollapsibleContent className="px-[40px] pb-[12px] mt-[4px]">
-                  <div className="flex flex-col gap-[8px]">
-                    {unit.sub.map((sub) => (
-                      <div key={sub.id}>
-                        <Checkbox id={sub.id} checked={selectedSubUnits.includes(sub.id)}>
-                          <CheckboxInput
-                            onClick={(e) => {
-                              handleSubUnitChange(sub.id);
-                              e.stopPropagation();
-                            }}
-                          />
-                          <CheckboxLabel>{sub.title}</CheckboxLabel>
-                        </Checkbox>
-                      </div>
-                    ))}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            );
-          })}
+              return (
+                <Collapsible
+                  open={isOpen}
+                  onOpenChange={() => toggleOpen(index)}
+                  className="w-full border border-gray_02 rounded-[8px]"
+                  key={unit.title}
+                >
+                  <CollapsibleTrigger asChild>
+                    <Button as="div" variant="grayLine" size="large" className="border-none justify-between">
+                      <Checkbox id={unit.title} checked={selectedMainUnits.includes(unit.title)}>
+                        <CheckboxInput
+                          onClick={(e) => {
+                            handleMainUnitChange(unit);
+                            e.stopPropagation();
+                          }}
+                        />
+                        <CheckboxLabel>{unit.title}</CheckboxLabel>
+                      </Checkbox>
+                      {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="px-[40px] pb-[12px] mt-[4px]">
+                    <div className="flex flex-col gap-[8px]">
+                      {unit.sub.map((sub) => (
+                        <div key={sub.id}>
+                          <Checkbox id={sub.id} checked={selectedSubUnits.includes(sub.id)}>
+                            <CheckboxInput
+                              onClick={(e) => {
+                                handleSubUnitChange(sub.id);
+                                e.stopPropagation();
+                              }}
+                            />
+                            <CheckboxLabel>{sub.title}</CheckboxLabel>
+                          </Checkbox>
+                        </div>
+                      ))}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              );
+            })}
         </div>
       </div>
       <div>
