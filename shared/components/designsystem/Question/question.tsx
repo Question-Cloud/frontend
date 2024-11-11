@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Picture } from "../Picture";
 import { cn } from "@/utils";
+import { Badge } from "../Badge";
 
 const Question = ({ children, className }: { children: React.ReactNode; className?: string }) => {
-  return <div className={cn("w-full border border-gray_02 rounded-[8px]", className)}>{children}</div>;
+  return <div className={cn("relative w-full h-full border border-gray_02 rounded-[8px]", className)}>{children}</div>;
 };
 Question.displayName = "Question";
 
@@ -23,8 +24,8 @@ QuestionTitle.displayName = "QuestionTitle";
 
 // 지은이, 카테고리
 const QuestionInfo = ({ writer, category }: { writer: string; category: string }) => (
-  <div className="flex flex-col gap-[4px] caption text-gray_05">
-    <div>{writer}</div>
+  <div className="flex flex-col gap-[2px] body3 text-gray_05">
+    <div>크리에이터: {writer}</div>
     <div>{category}</div>
   </div>
 );
@@ -38,7 +39,11 @@ QuestionOptions.displayName = "QuestionOptions";
 
 const QuestionFooter = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className={"flex justify-between items-center bg-gray_01 h-[48px] rounded-bl-[8px] rounded-br-[8px] caption"}>
+    <div
+      className={
+        "absolute bottom-0 w-full flex justify-between items-center bg-gray_01 h-[48px] rounded-bl-[8px] rounded-br-[8px] caption"
+      }
+    >
       {children}
     </div>
   );

@@ -13,7 +13,7 @@ import { formatNumberWithCommas } from "@/utils";
 
 const QuestionItem = ({ question }: { question: QuestionData }) => {
   return (
-    <Question className="w-[calc(49.2%)]">
+    <Question className="w-[calc(49.2%)] h-[220px]">
       <QuestionContent>
         <QuestionTitle difficultyLevel={question.questionLevel} title={question.title} />
         <QuestionInfo
