@@ -14,12 +14,13 @@ const useCategoryData = () => {
   const subjectParams = searchParams.get("subject");
 
   const [subjectOption, setSubjectOption] = useState<Option[]>([]);
-  const [selectedSubject, setSelectedSubject] = useState("");
-  const [unitListBySelectedSubject, setUnitListBySelectedSubject] = useState<Units[]>([]);
+  const [selectedMainSubject, setSelectedMainSubject] = useState("");
+  const [unitListBySelectedMainSubject, setUnitListBySelectedMainSubject] = useState<Units[]>([]);
   const levels = ["LEVEL1", "LEVEL2", "LEVEL3", "LEVEL4", "LEVEL5", "LEVEL6"];
 
   function getSubUnitsBySelectedSubject(subject: string, data: CategoryList) {
     const selectedSubjectData = data.categories.find((category) => category.subject === subject);
+
     return selectedSubjectData ? selectedSubjectData.list : [];
   }
 
@@ -32,35 +33,35 @@ const useCategoryData = () => {
         subjectOption.push({ value: category.subject as string, label: subjectKeys[subject] });
       });
 
-      setSubjectOption(subjectOption);
+      setSubjectOption([{ value: "All", label: "전체" }, ...subjectOption]);
     }
   }, [categoryData]);
 
   useEffect(() => {
     if (subjectParams) {
-      setSelectedSubject(subjectParams);
+      setSelectedMainSubject(subjectParams);
     } else {
       if (subjectOption.length > 0) {
-        setSelectedSubject(subjectOption[0].value);
+        setSelectedMainSubject(subjectOption[0].value);
       } else {
-        setSelectedSubject("");
+        setSelectedMainSubject("");
       }
     }
-  }, [subjectOption]);
+  }, [subjectOption, subjectParams]);
 
   useEffect(() => {
-    if (selectedSubject && categoryData) {
-      const selectedSubjectData = getSubUnitsBySelectedSubject(selectedSubject, categoryData);
+    if (selectedMainSubject && categoryData) {
+      const selectedSubjectData = getSubUnitsBySelectedSubject(selectedMainSubject, categoryData);
 
-      setUnitListBySelectedSubject(selectedSubjectData);
+      setUnitListBySelectedMainSubject(selectedSubjectData);
     }
-  }, [selectedSubject, categoryData]);
+  }, [selectedMainSubject, categoryData]);
 
   return {
     subjectOption,
-    selectedSubject,
-    setSelectedSubject,
-    unitListBySelectedSubject,
+    selectedMainSubject,
+    setSelectedMainSubject,
+    unitListBySelectedMainSubject,
     levels,
   };
 };

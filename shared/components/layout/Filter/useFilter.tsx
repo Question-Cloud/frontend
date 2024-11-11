@@ -8,7 +8,7 @@ import { levelTypeList } from "@/shared/constant";
 
 export const useFilter = () => {
   const searchParams = useSearchParams();
-  const { subjectOption, selectedSubject, unitListBySelectedSubject } = useCategoryData();
+  const { selectedMainSubject, unitListBySelectedMainSubject } = useCategoryData();
 
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
   const [selectedSubUnits, setSelectedSubUnits] = useState<number[]>([]);
@@ -31,7 +31,7 @@ export const useFilter = () => {
     if (levelsParam) {
       setSelectedLevels(levelsParam.split(",").filter((level): level is Level => levelTypeList.includes(level)));
     }
-  }, [subjectOption]);
+  }, [searchParams]);
 
   // 난이도 선택
   const handleSelectLevels = (level: Level) => {
@@ -78,22 +78,22 @@ export const useFilter = () => {
   // 하위 단원 개별 선택시 이미 전체 선택 되어있던 요소인지 검증
   useEffect(() => {
     if (selectedSubUnitsId != 0) {
-      const category = unitListBySelectedSubject.find((category) =>
+      const alreadySelectedSubUnit = unitListBySelectedMainSubject.find((category) =>
         category.sub.some((sub) => sub.id === selectedSubUnitsId)
       );
-      if (category) {
-        const subUnitIds = category.sub.map((sub) => sub.id);
+
+      if (alreadySelectedSubUnit) {
+        const subUnitIds = alreadySelectedSubUnit.sub.map((sub) => sub.id);
         const allSubUnitsSelected = subUnitIds.every((subId) => selectedSubUnits.includes(subId));
         if (allSubUnitsSelected) {
-          setSelectedMainUnits((prev) => [...prev, category.title]);
+          setSelectedMainUnits((prev) => [...prev, alreadySelectedSubUnit.title]);
         } else {
-          setSelectedMainUnits((prev) => prev.filter((title) => title !== category.title));
+          setSelectedMainUnits((prev) => prev.filter((title) => title !== alreadySelectedSubUnit.title));
         }
       }
     }
-  }, [selectedSubUnitsId, selectedSubUnits]);
+  }, [selectedSubUnitsId, selectedSubUnits, unitListBySelectedMainSubject]);
 
-  // 초기화
   const refreshFilter = () => {
     setSelectedMainUnits([]);
     setSelectedSubUnits([]);
@@ -101,19 +101,20 @@ export const useFilter = () => {
     setSelectedLevels([]);
   };
 
-  // 조회하기
   const search = () => {
     const mainUnitsParam = selectedMainUnits.join(",");
     const subUnitsParam = selectedSubUnits.join(",");
     const levelsParam = selectedLevels.join(",");
 
-    const queryString = `?subject=${encodeURIComponent(selectedSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
+    const queryString = `?subject=${encodeURIComponent(selectedMainSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
     window.history.pushState({}, "", queryString);
   };
 
   return {
     selectedMainUnits,
     selectedSubUnits,
+    setSelectedSubUnits,
+    setSelectedSubUnitsId,
     selectedLevels,
     handleSelectLevels,
     handleMainUnitChange,
