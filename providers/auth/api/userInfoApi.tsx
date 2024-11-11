@@ -7,7 +7,7 @@ function useUserInfoApi() {
     mutationFn: () =>
       httpClient<UserInfo>({
         method: "GET",
-        url: "/user/me",
+        url: "/user/profile/me",
       }),
   });
 }
