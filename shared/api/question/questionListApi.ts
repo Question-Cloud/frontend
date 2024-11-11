@@ -8,7 +8,7 @@ function useQuestionListApi(params: QuestionRequest) {
     queryFn: () =>
       httpClient<QuestionList>({
         method: "GET",
-        url: `/question`,
+        url: `/hub/question`,
         params: params,
       }),
   });
