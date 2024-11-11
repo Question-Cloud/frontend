@@ -16,13 +16,13 @@ import {
   CollapsibleTrigger,
   Combobox,
   InfoIcon,
+  Picture,
   RefreshIcon,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared";
-import Image from "next/image";
 import { cn } from "@/utils";
 import { useFilter } from "./useFilter";
 import { useCategoryData } from "./useCategoryData";
@@ -141,18 +141,15 @@ export const Filter = () => {
         </div>
         <div className="flex flex-wrap gap-[8px]">
           {levels.map((level) => (
-            <div key={level}>
+            <div key={level} className="w-[calc(49%)]">
               {levelTypeList.includes(level as Level) && (
                 <Button
                   variant="grayLine"
                   size="large"
-                  className={cn(
-                    "w-[calc(33.9%-8px)]",
-                    selectedLevels.includes(level as Level) ? "bg-gray_01" : "bg-white"
-                  )}
+                  className={cn(selectedLevels.includes(level as Level) ? "bg-gray_01" : "bg-white")}
                   onClick={() => handleSelectLevels(level as Level)}
                 >
-                  <Image src={`/levelIcons/${level}.svg`} alt={level} width="24" height="24" />
+                  <Picture imagePath={`/levelIcons/${level}.svg`} alt={level} width={24} height={24} />
                 </Button>
               )}
             </div>
