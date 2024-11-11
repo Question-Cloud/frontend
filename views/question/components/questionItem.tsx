@@ -13,7 +13,7 @@ import { formatNumberWithCommas } from "@/utils";
 
 const QuestionItem = ({ question }: { question: QuestionData }) => {
   return (
-    <Question className="w-[300px]">
+    <Question className="w-[calc(49.2%)]">
       <QuestionContent>
         <QuestionTitle difficultyLevel={question.questionLevel} title={question.title} />
         <QuestionInfo
@@ -25,7 +25,7 @@ const QuestionItem = ({ question }: { question: QuestionData }) => {
         </QuestionOptions>
       </QuestionContent>
       <QuestionFooter>
-        <Button variant="text" className="w-full h-full">
+        <Button variant="text" className="w-full h-full hover:bg-gray_03/30">
           상세보기
         </Button>
       </QuestionFooter>

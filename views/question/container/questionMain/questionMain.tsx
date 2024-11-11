@@ -16,7 +16,9 @@ const QuestionMain = () => {
           <Filter />
         </div>
         <Suspense fallback={<LoadingSpinner />}>
-          {questionListData && <QuestionList questionListData={questionListData?.result} />}
+          <section className="w-full flex flex-wrap justify-between gap-[12px]">
+            {questionListData && <QuestionList questionListData={questionListData?.result} />}
+          </section>
         </Suspense>
       </div>
     </ErrorBoundaryWrapper>
