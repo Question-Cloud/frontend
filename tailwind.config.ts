@@ -70,6 +70,11 @@ const config: Config = {
           lineHeight: "24px",
           fontWeight: "medium",
         },
+        ".body3": {
+          fontSize: "14px",
+          lineHeight: "22px",
+          fontWeight: "medium",
+        },
         ".caption": {
           fontSize: "12px",
           lineHeight: "14px",
