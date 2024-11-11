@@ -4,9 +4,9 @@ import { useParams } from "next/navigation";
 
 const useQuestionMain = () => {
   const { type } = useParams();
-  const { selectedSubUnits, selectedLevels } = useFilter();
+  const { selectedSubUnitsId, selectedLevels } = useFilter();
   const { data: questionListData, error: questionListError } = useQuestionListApi({
-    categories: selectedSubUnits,
+    categories: selectedSubUnitsId,
     levels: selectedLevels,
     questionType: type === "self-made" ? "SelfMade" : "Past",
     //sort: "Popularity" | "Rate" | "Latest" | "LEVEL",

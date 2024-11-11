@@ -34,11 +34,11 @@ export const Filter = () => {
     useCategoryData();
   const {
     selectedMainUnits,
-    selectedSubUnits,
+    selectedSubUnitsId,
     selectedLevels,
     handleSelectLevels,
-    handleMainUnitChange,
-    handleSubUnitChange,
+    handleSelectMainUnit,
+    handleSelectSubUnit,
     refreshFilter,
     search,
   } = useFilter();
@@ -86,7 +86,7 @@ export const Filter = () => {
             </Collapsible>
           )}
           {unitListBySelectedMainSubject.length > 0 &&
-            unitListBySelectedMainSubject.map((unit, index) => {
+            unitListBySelectedMainSubject.map((mainUnit, index) => {
               const isOpen = openStates && openStates[index];
 
               return (
@@ -94,34 +94,34 @@ export const Filter = () => {
                   open={isOpen}
                   onOpenChange={() => toggleOpen(index)}
                   className="w-full border border-gray_02 rounded-[8px]"
-                  key={unit.title}
+                  key={mainUnit.title}
                 >
                   <CollapsibleTrigger asChild>
                     <Button as="div" variant="grayLine" size="large" className="border-none justify-between">
-                      <Checkbox id={unit.title} checked={selectedMainUnits.includes(unit.title)}>
+                      <Checkbox id={mainUnit.title} checked={selectedMainUnits.includes(mainUnit.title)}>
                         <CheckboxInput
                           onClick={(e) => {
-                            handleMainUnitChange(unit);
+                            handleSelectMainUnit(mainUnit);
                             e.stopPropagation();
                           }}
                         />
-                        <CheckboxLabel>{unit.title}</CheckboxLabel>
+                        <CheckboxLabel>{mainUnit.title}</CheckboxLabel>
                       </Checkbox>
                       {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="px-[40px] pb-[12px] mt-[4px]">
                     <div className="flex flex-col gap-[8px]">
-                      {unit.sub.map((sub) => (
-                        <div key={sub.id}>
-                          <Checkbox id={sub.id} checked={selectedSubUnits.includes(sub.id)}>
+                      {mainUnit.sub.map((subUnit) => (
+                        <div key={subUnit.id}>
+                          <Checkbox id={subUnit.id} checked={selectedSubUnitsId.includes(subUnit.id)}>
                             <CheckboxInput
                               onClick={(e) => {
-                                handleSubUnitChange(sub.id);
+                                handleSelectSubUnit(subUnit.id, mainUnit);
                                 e.stopPropagation();
                               }}
                             />
-                            <CheckboxLabel>{sub.title}</CheckboxLabel>
+                            <CheckboxLabel>{subUnit.title}</CheckboxLabel>
                           </Checkbox>
                         </div>
                       ))}
