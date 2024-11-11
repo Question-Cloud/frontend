@@ -15,12 +15,7 @@ QuestionContent.displayName = "QuestionContent";
 // 난이도, 제목
 const QuestionTitle = ({ difficultyLevel, title }: { difficultyLevel: string; title: string }) => (
   <div className="flex items-center gap-[4px]">
-    <Picture
-      imagePath={`levelIcons/${difficultyLevel.toLowerCase()}.svg`}
-      alt={difficultyLevel}
-      width={24}
-      height={24}
-    />
+    <Picture imagePath={`/levelIcons/${difficultyLevel}.svg`} alt={difficultyLevel} width={24} height={24} />
     <span className="body1">{title}</span>
   </div>
 );

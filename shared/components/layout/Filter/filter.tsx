@@ -153,12 +153,7 @@ export const Filter = () => {
                   )}
                   onClick={() => handleSelectLevels(level as Level)}
                 >
-                  <Image
-                    src={`/levelIcons/level${level.replace("LEVEL", "")}.svg`}
-                    alt={level}
-                    width="24"
-                    height="24"
-                  />
+                  <Image src={`/levelIcons/${level}.svg`} alt={level} width="24" height="24" />
                 </Button>
               )}
             </>
