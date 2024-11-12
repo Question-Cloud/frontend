@@ -67,15 +67,15 @@ const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof Pag
 PaginationNext.displayName = "PaginationNext";
 
 interface PaginationProps {
-  totalPosts: number;
-  postPerPages: number;
+  totalContent: number;
+  contentPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
 }
 
-const Pagination = ({ totalPosts, postPerPages, currentPage, setCurrentPage }: PaginationProps) => {
+const Pagination = ({ totalContent, contentPerPage, currentPage, setCurrentPage }: PaginationProps) => {
   const [pageNumbers, setPageNumbers] = React.useState<number[]>([]);
-  const totalPages = Math.ceil(totalPosts / postPerPages);
+  const totalPages = Math.ceil(totalContent / contentPerPage);
 
   React.useEffect(() => {
     const getPageList = () => {
@@ -97,7 +97,7 @@ const Pagination = ({ totalPosts, postPerPages, currentPage, setCurrentPage }: P
   };
 
   const clickPageNextBtn = (e: React.MouseEvent) => {
-    if (currentPage === Math.ceil(totalPosts / postPerPages)) {
+    if (currentPage === Math.ceil(totalContent / contentPerPage)) {
       e.preventDefault();
     } else {
       setCurrentPage(currentPage + 1);
