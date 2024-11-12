@@ -1,0 +1,1 @@
+export { ErrorBoundaryWrapper } from "./errorBoundaryWrapper";

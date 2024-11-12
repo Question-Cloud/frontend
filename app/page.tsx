@@ -42,7 +42,7 @@ const TypingText = () => {
 
 export default function MainPage() {
   return (
-    <div className="w-screen h-[calc(100vh-80px)] bg-sky ">
+    <div className="w-screen h-[calc(100vh-260px)] bg-sky ">
       <TypingText />
     </div>
   );

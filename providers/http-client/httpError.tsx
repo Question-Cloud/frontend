@@ -1,14 +1,15 @@
-import { API_ERROR_MESSAGE, SERVER_ERROR_REGEX, NETWORK_ERROR_REGEX } from "@/constants";
+import { ERRORS, SERVER_ERROR_REGEX } from "@/constants";
 
-const createApiErrorMessage = (statusCode: number) => {
+const getErrorMessage = (statusCode: number) => {
   const isServerError = SERVER_ERROR_REGEX.test(statusCode.toString());
-  const isNetworkError = NETWORK_ERROR_REGEX.test(statusCode.toString());
 
-  if (isServerError) return API_ERROR_MESSAGE.serverError;
+  if (isServerError) return ERRORS[500].message;
 
-  if (isNetworkError) return API_ERROR_MESSAGE.networkError;
+  if (statusCode in ERRORS) {
+    return ERRORS[statusCode as keyof typeof ERRORS].message;
+  }
 
-  if (statusCode in API_ERROR_MESSAGE) return API_ERROR_MESSAGE[statusCode];
+  return ERRORS[0].message;
 };
 
-export { createApiErrorMessage };
+export { getErrorMessage };

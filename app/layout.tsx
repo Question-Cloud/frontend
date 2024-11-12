@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import { DialogProvider, QueryClientProvider, UserSessionProvider } from "@/providers";
-import { Header } from "@/shared";
+import { AlignCenter, Footer, Header, SidePadding } from "@/shared";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata: Metadata = {
   title: "문제저장소",
@@ -17,10 +18,16 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <QueryClientProvider>
+          <ReactQueryDevtools />
           <DialogProvider>
             <UserSessionProvider>
-              <Header />
-              <div className="w-screen">{children}</div>
+              <div className="w-screen">
+                <Header />
+                <SidePadding>
+                  <AlignCenter>{children}</AlignCenter>
+                </SidePadding>
+                <Footer />
+              </div>
             </UserSessionProvider>
           </DialogProvider>
         </QueryClientProvider>

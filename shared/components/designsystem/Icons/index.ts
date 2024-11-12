@@ -27,3 +27,4 @@ export { ArrowLeftIcon } from "./arrowLeftIcon";
 export { SearchIcon } from "./searchIcon";
 export { NoteIcon } from "./noteIcon";
 export { CheckIcon } from "./checkIcon";
+export { QuestionNotExist } from "./questionNotExist";

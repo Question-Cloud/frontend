@@ -1,6 +1,7 @@
 "use client";
 
-import { useOAuthApi, SimpleAlarmDialog, LoadingSpinner } from "@/shared";
+import { SimpleAlarmDialog, LoadingSpinner } from "@/shared";
+import { useOAuthApi } from "@/shared/api";
 import { useNavigator, useUserSession } from "@/hooks";
 import { useDialogContext } from "@/providers";
 import { useSearchParams } from "next/navigation";

@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React, { useEffect, useState } from "react";
 import { Filter } from "./filter";
-import { FilterProps } from "./types";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -26,158 +25,172 @@ import {
 } from "@/shared";
 import Image from "next/image";
 import { cn } from "@/utils";
-
-const subjectData: Option[] = [
-  {
-    value: "수학",
-    label: "수학",
-  },
-  {
-    value: "생명과학",
-    label: "생명과학",
-  },
-  {
-    value: "지구과학",
-    label: "지구과학",
-  },
-  {
-    value: "화학",
-    label: "화학",
-  },
-  {
-    value: "물리",
-    label: "물리",
-  },
-];
+import { CategoryList, Units } from "./api";
+import { subjectKeys } from "@/constants";
 
 const categoryData = {
-  subject: "Mathematics",
-  list: [
+  categories: [
     {
-      title: "수1",
       subject: "Mathematics",
-      sub: [
+      list: [
         {
-          id: 2,
-          title: "지수와 로그",
+          title: "수1",
+          subject: "Mathematics",
+          sub: [
+            {
+              id: 2,
+              title: "지수와 로그",
+            },
+            {
+              id: 3,
+              title: "지수함수와 로그함수",
+            },
+            {
+              id: 4,
+              title: "삼각함수",
+            },
+            {
+              id: 5,
+              title: "사인법칙과 코사인법칙",
+            },
+            {
+              id: 6,
+              title: "등차수열과 등비수열",
+            },
+            {
+              id: 7,
+              title: "수열의 합과 수학적 귀납법",
+            },
+          ],
         },
         {
-          id: 3,
-          title: "지수함수와 로그함수",
+          title: "수2",
+          subject: "Mathematics",
+          sub: [
+            {
+              id: 9,
+              title: "함수의 극한",
+            },
+            {
+              id: 10,
+              title: "함수의 연속",
+            },
+            {
+              id: 11,
+              title: "미분계수와 도함수",
+            },
+            {
+              id: 12,
+              title: "도함수의 활용",
+            },
+            {
+              id: 13,
+              title: "부정적분과 정적분",
+            },
+            {
+              id: 14,
+              title: "정적분의 활용",
+            },
+          ],
         },
         {
-          id: 4,
-          title: "삼각함수",
+          title: "미적분",
+          subject: "Mathematics",
+          sub: [
+            {
+              id: 16,
+              title: "수열의 극한",
+            },
+            {
+              id: 17,
+              title: "급수",
+            },
+            {
+              id: 18,
+              title: "여러 가지 함수의 미분",
+            },
+            {
+              id: 19,
+              title: "여러 가지 미분법",
+            },
+            {
+              id: 20,
+              title: "도함수의 활용",
+            },
+            {
+              id: 21,
+              title: "여러 가지 적분법",
+            },
+            {
+              id: 22,
+              title: "정적분의 활용",
+            },
+          ],
         },
         {
-          id: 5,
-          title: "사인법칙과 코사인법칙",
-        },
-        {
-          id: 6,
-          title: "등차수열과 등비수열",
-        },
-        {
-          id: 7,
-          title: "수열의 합과 수학적 귀납법",
+          title: "확률과 통계",
+          subject: "Mathematics",
+          sub: [
+            {
+              id: 24,
+              title: "여러 가지 순열",
+            },
+            {
+              id: 25,
+              title: "중복조합과 이항정리",
+            },
+            {
+              id: 26,
+              title: "확률",
+            },
+            {
+              id: 27,
+              title: "조건부확률",
+            },
+            {
+              id: 28,
+              title: "이산확률변수의 확률분포",
+            },
+            {
+              id: 29,
+              title: "연속확률변수의 확률분포",
+            },
+            {
+              id: 30,
+              title: "통계적 추정",
+            },
+          ],
         },
       ],
     },
     {
-      title: "수2",
-      subject: "Mathematics",
-      sub: [
+      subject: "Chemistry",
+      list: [
         {
-          id: 9,
-          title: "함수의 극한",
-        },
-        {
-          id: 10,
-          title: "함수의 연속",
-        },
-        {
-          id: 11,
-          title: "미분계수와 도함수",
-        },
-        {
-          id: 12,
-          title: "도함수의 활용",
-        },
-        {
-          id: 13,
-          title: "부정적분과 정적분",
-        },
-        {
-          id: 14,
-          title: "정적분의 활용",
-        },
-      ],
-    },
-    {
-      title: "미적분",
-      subject: "Mathematics",
-      sub: [
-        {
-          id: 16,
-          title: "수열의 극한",
-        },
-        {
-          id: 17,
-          title: "급수",
-        },
-        {
-          id: 18,
-          title: "여러 가지 함수의 미분",
-        },
-        {
-          id: 19,
-          title: "여러 가지 미분법",
-        },
-        {
-          id: 20,
-          title: "도함수의 활용",
-        },
-        {
-          id: 21,
-          title: "여러 가지 적분법",
-        },
-        {
-          id: 22,
-          title: "정적분의 활용",
-        },
-      ],
-    },
-    {
-      title: "확률과 통계",
-      subject: "Mathematics",
-      sub: [
-        {
-          id: 24,
-          title: "여러 가지 순열",
-        },
-        {
-          id: 25,
-          title: "중복조합과 이항정리",
-        },
-        {
-          id: 26,
-          title: "확률",
-        },
-        {
-          id: 27,
-          title: "조건부확률",
-        },
-        {
-          id: 28,
-          title: "이산확률변수의 확률분포",
-        },
-        {
-          id: 29,
-          title: "연속확률변수의 확률분포",
-        },
-        {
-          id: 30,
-          title: "통계적 추정",
+          title: "화학의 첫걸음",
+          subject: "Chemistry",
+          sub: [
+            {
+              id: 32,
+              title: "우리 생활 속의 화학",
+            },
+            {
+              id: 33,
+              title: "화학식량과 몰",
+            },
+            {
+              id: 34,
+              title: "화학 반응식(기본형)",
+            },
+            {
+              id: 35,
+              title: "화학 반응식(심화형)",
+            },
+            {
+              id: 36,
+              title: "용액의 농도",
+            },
+          ],
         },
       ],
     },
@@ -198,43 +211,51 @@ type Story = StoryObj<typeof Filter>;
 
 export const Default: Story = {
   render: (argsType) => {
+    const useCategoryDataMock = () => {
+      const [mainSubjectOption, setMainSubjectOption] = useState<Option[]>([]);
+      const [selectedSubject, setSelectedSubject] = useState("");
+      const [unitListBySelectedSubject, setUnitListBySelectedSubject] = useState<Units[]>([]);
+      const levels = ["LEVEL1", "LEVEL2", "LEVEL3", "LEVEL4", "LEVEL5", "LEVEL6"];
+
+      function getSubUnitsBySelectedSubject(subject: string, data: CategoryList) {
+        const selectedSubjectData = data.categories.find((category) => category.subject === subject);
+        return selectedSubjectData ? selectedSubjectData.list : [];
+      }
+
+      useEffect(() => {
+        if (categoryData) {
+          const mainSubjectOption: Option[] = [];
+
+          categoryData.categories.map((category) => {
+            const subject = category.subject as keyof typeof subjectKeys;
+            mainSubjectOption.push({ value: category.subject as string, label: subjectKeys[subject] });
+          });
+
+          setMainSubjectOption(mainSubjectOption);
+        }
+      }, [categoryData]);
+
+      useEffect(() => {
+        setSelectedSubject("Mathematics");
+      }, [mainSubjectOption]);
+
+      useEffect(() => {
+        if (selectedSubject && categoryData) {
+          const selectedSubjectData = getSubUnitsBySelectedSubject(selectedSubject, categoryData);
+
+          setUnitListBySelectedSubject(selectedSubjectData);
+        }
+      }, [selectedSubject, categoryData]);
+
+      return { mainSubjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject, levels };
+    };
+
     const useFilterMock = () => {
       const [currentSubject, setCurrentSubject] = useState("");
       const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
       const [selectedSubUnits, setSelectedSubUnits] = useState<number[]>([]);
       const [selectedSubUnitsId, setSelectedSubUnitsId] = useState(0);
       const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
-
-      useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-
-        const subject = queryParams.get("subject");
-        const mainUnitsParam = queryParams.get("mainUnits");
-        const subUnitsParam = queryParams.get("subUnits");
-        const levelsParam = queryParams.get("levels");
-
-        if (subject) {
-          setCurrentSubject(subject);
-        } else {
-          if (subjectData.length > 0) {
-            setCurrentSubject(subjectData[0].value);
-          } else {
-            setCurrentSubject("");
-          }
-        }
-
-        if (mainUnitsParam) {
-          setSelectedMainUnits(mainUnitsParam.split(","));
-        }
-
-        if (subUnitsParam) {
-          setSelectedSubUnits(subUnitsParam.split(",").map(Number));
-        }
-
-        if (levelsParam) {
-          setSelectedLevels(levelsParam.split(","));
-        }
-      }, []);
 
       const handleSelectLevels = (level: string) => {
         if (selectedLevels.includes(level)) {
@@ -277,7 +298,7 @@ export const Default: Story = {
 
       useEffect(() => {
         if (selectedSubUnitsId != 0) {
-          const category = categoryData.list.find((category) =>
+          const category = unitListBySelectedSubject.find((category) =>
             category.sub.some((sub) => sub.id === selectedSubUnitsId)
           );
           if (category) {
@@ -292,7 +313,7 @@ export const Default: Story = {
         }
       }, [selectedSubUnitsId, selectedSubUnits]);
 
-      const refreshFilter = () => {
+      const resetFilter = () => {
         setSelectedMainUnits([]);
         setSelectedSubUnits([]);
         setSelectedSubUnitsId(0);
@@ -302,33 +323,31 @@ export const Default: Story = {
       const search = () => {};
 
       return {
-        currentSubject,
-        setCurrentSubject,
         selectedMainUnits,
         selectedSubUnits,
         selectedLevels,
         handleSelectLevels,
         handleMainUnitChange,
         handleSubUnitChange,
-        refreshFilter,
+        resetFilter,
         search,
       };
     };
 
+    const { mainSubjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject } = useCategoryDataMock();
+
     const {
-      currentSubject,
-      setCurrentSubject,
       selectedMainUnits,
       selectedSubUnits,
       selectedLevels,
       handleSelectLevels,
       handleMainUnitChange,
       handleSubUnitChange,
-      refreshFilter,
+      resetFilter,
       search,
     } = useFilterMock();
 
-    const [openStates, setOpenStates] = useState(() => categoryData.list.map(() => false));
+    const [openStates, setOpenStates] = useState(() => unitListBySelectedSubject.map(() => false));
 
     const toggleOpen = (index: number) => {
       setOpenStates((prev) => prev.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
@@ -344,9 +363,9 @@ export const Default: Story = {
           <Combobox
             placeholder="선택하세요"
             className="w-[408px]"
-            options={argsType.subjectData}
-            value={currentSubject}
-            setValue={setCurrentSubject}
+            options={mainSubjectOption}
+            value={selectedSubject}
+            setValue={setSelectedSubject}
           />
         </div>
         <div>
@@ -355,7 +374,7 @@ export const Default: Story = {
             <div className="body1 ">단원</div>
           </div>
           <div className="flex flex-col gap-[8px]">
-            {argsType.categoryData.list.map((category, index) => {
+            {unitListBySelectedSubject.map((category, index) => {
               const isOpen = openStates[index];
 
               return (
@@ -399,52 +418,6 @@ export const Default: Story = {
                 </Collapsible>
               );
             })}
-
-            {/* {argsType.categoryData.list.map((category) => {
-              const [isOpen, setIsOpen] = useState(false);
-
-              return (
-                <Collapsible
-                  open={isOpen}
-                  onOpenChange={setIsOpen}
-                  className="w-full border border-gray_02 rounded-[8px]"
-                  key={category.title}
-                >
-                  <CollapsibleTrigger asChild>
-                    <Button variant="grayLine" size="large" className="border-none justify-between">
-                      <Checkbox id={category.title} checked={selectedMainUnits.includes(category.title)}>
-                        <CheckboxInput
-                          onClick={(e) => {
-                            handleMainUnitChange(category);
-                            setIsOpen(true);
-                            e.stopPropagation();
-                          }}
-                        />
-                        <CheckboxLabel>{category.title}</CheckboxLabel>
-                      </Checkbox>
-                      {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
-                    </Button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="px-[40px] pb-[12px] mt-[4px]">
-                    <div className="flex flex-col gap-[8px]">
-                      {category.sub.map((sub) => (
-                        <div key={sub.id}>
-                          <Checkbox id={sub.id} checked={selectedSubUnits.includes(sub.id)}>
-                            <CheckboxInput
-                              onClick={(e) => {
-                                handleSubUnitChange(sub.id);
-                                e.stopPropagation();
-                              }}
-                            />
-                            <CheckboxLabel>{sub.title}</CheckboxLabel>
-                          </Checkbox>
-                        </div>
-                      ))}
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
-              );
-            })} */}
           </div>
         </div>
         <div>
@@ -486,7 +459,7 @@ export const Default: Story = {
           </div>
         </div>
         <div className="flex justify-between">
-          <Button variant="grayLine" size="large" className="flex gap-[4px] w-[130px]" onClick={refreshFilter}>
+          <Button variant="grayLine" size="large" className="flex gap-[4px] w-[130px]" onClick={resetFilter}>
             <RefreshIcon />
             <div>초기화</div>
           </Button>
@@ -497,23 +470,23 @@ export const Default: Story = {
       </Box>
     );
   },
-  args: {
-    subjectData: subjectData,
-    categoryData: categoryData,
-    levels: levels,
-  },
-  argTypes: {
-    subjectData: {
-      control: { type: "object" },
-      description: "수학, 생명과학, 화학 등의 과목 객체 배열입니다.",
-    },
-    categoryData: {
-      control: { type: "object" },
-      description: "수1, 미적분 등의 대단원과 하위 단원을 포함하는 객체 배열입니다.",
-    },
-    levels: {
-      control: { type: "object" },
-      description: "LEVEL 1~6까지의 난이도입니다. (수정불가)",
-    },
-  },
+  // args: {
+  //   subjectData: subjectData,
+  //   categoryData: categoryData,
+  //   levels: levels,
+  // },
+  // argTypes: {
+  //   subjectData: {
+  //     control: { type: "object" },
+  //     description: "수학, 생명과학, 화학 등의 과목 객체 배열입니다.",
+  //   },
+  //   categoryData: {
+  //     control: { type: "object" },
+  //     description: "수1, 미적분 등의 대단원과 하위 단원을 포함하는 객체 배열입니다.",
+  //   },
+  //   levels: {
+  //     control: { type: "object" },
+  //     description: "LEVEL 1~6까지의 난이도입니다. (수정불가)",
+  //   },
+  // },
 };

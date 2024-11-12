@@ -20,7 +20,11 @@ const useNavigator = () => {
     [replace]
   );
 
-  return { handlePush, handleReplace };
+  const handleQueryString = (queryString: string) => {
+    window.history.pushState({}, "", queryString);
+  };
+
+  return { handlePush, handleReplace, handleQueryString };
 };
 
 export { useNavigator };

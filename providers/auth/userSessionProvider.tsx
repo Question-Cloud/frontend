@@ -6,8 +6,8 @@ import { UserInfo, useUserInfoApi } from "./api";
 import { useDialogContext } from "../dialog";
 
 interface UserSessionContextProps {
-  accessToken: string | null;
-  setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
+  accessToken: string;
+  setAccessToken: React.Dispatch<React.SetStateAction<string>>;
   isLoggedIn: boolean;
   userInfo: UserInfo;
 }
@@ -26,7 +26,7 @@ function UserSessionProvider({ children }: { children: React.ReactNode }) {
   const { dialogOpen } = useDialogContext();
   const { mutate: getUserInfo, data: userInfoData, error: userInfoError } = useUserInfoApi();
 
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState<UserInfo>({
     myInformation: {
@@ -44,7 +44,7 @@ function UserSessionProvider({ children }: { children: React.ReactNode }) {
       setAccessToken(token);
       setIsLoggedIn(true);
     } else {
-      setAccessToken(null);
+      setAccessToken("");
     }
   }, []);
 

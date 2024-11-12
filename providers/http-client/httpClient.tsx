@@ -1,8 +1,9 @@
-import { createApiErrorMessage } from "./httpError";
+import { getErrorMessage } from "./httpError";
 import axios, { AxiosResponse } from "axios";
 import { useUserSession } from "@/hooks";
-import { accessTokenName } from "@/shared/constant";
+import { accessTokenName, refreshTokenName } from "@/shared/constant";
 import { jwtDecode } from "jwt-decode";
+import { deleteCookie } from "cookies-next";
 
 const developmentApiUrl = process.env["NEXT_PUBLIC_DEVELOPMENT_API"];
 
@@ -16,10 +17,10 @@ async function httpClient<T>(...args: Parameters<typeof client.request>) {
     return response.data;
   } catch (e) {
     if (axios.isAxiosError(e) && e.response) {
-      const errorMessage = e.response.data.message ? e.response.data.message : createApiErrorMessage(e.response.status);
+      const errorMessage = e.response.data.message ? e.response.data.message : getErrorMessage(e.response.status);
       throw new Error(errorMessage);
     } else {
-      throw new Error("알 수 없는 오류가 발생했어요.\n같은 오류가 지속되면 개발자에게 문의해주세요.");
+      throw new Error("알 수 없는 오류가 발생했어요.\n같은 문제가 지속되는 경우 개발자에게 문의해주세요.");
     }
   }
 }
@@ -33,29 +34,30 @@ const removeBearerAuthorizationAtHttpClient = () => {
 };
 
 const checkTokenExpiring = (token: string): boolean => {
-  try {
-    const decoded: { exp: number } = jwtDecode(token);
-    const currentTime = Math.floor(Date.now() / 1000);
-    return decoded.exp - currentTime <= 60;
-  } catch (error) {
-    return true;
-  }
+  const decoded: { exp: number } = jwtDecode(token);
+  const currentTime = Math.floor(Date.now() / 1000);
+
+  return decoded.exp - currentTime <= 60;
 };
 
 client.interceptors.request.use(
   async (config) => {
     const accessToken = localStorage.getItem(accessTokenName);
 
-    if (accessToken && checkTokenExpiring(accessToken)) {
-      try {
-        const newAccessToken = await useUserSession().userRefresh();
-        config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-      } catch (error) {
-        console.error("토큰 재발급에 실패했습니다.", error);
-        window.location.href = "/login";
+    if (accessToken) {
+      if (checkTokenExpiring(accessToken)) {
+        try {
+          const newAccessToken = await useUserSession().userRefresh();
+          config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        } catch (error) {
+          localStorage.removeItem(accessTokenName);
+          deleteCookie(refreshTokenName);
+          removeBearerAuthorizationAtHttpClient();
+          window.location.href = "/login";
+        }
+      } else {
+        config.headers["Authorization"] = `Bearer ${accessToken}`;
       }
-    } else if (accessToken) {
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
 
     return config;

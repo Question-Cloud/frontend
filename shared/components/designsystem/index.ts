@@ -74,6 +74,7 @@ export {
   SearchIcon,
   NoteIcon,
   CheckIcon,
+  QuestionNotExist,
 } from "./Icons";
 
 /** types */

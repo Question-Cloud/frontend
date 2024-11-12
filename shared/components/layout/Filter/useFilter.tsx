@@ -1,47 +1,78 @@
-import React, { useEffect, useState } from "react";
-import { FilterProps } from "./types";
-import { makeQueryString } from "@/utils";
+"use client";
 
-export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) => {
-  const [currentSubject, setCurrentSubject] = useState("");
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useFilterContext } from "@/providers";
+import { useNavigator } from "@/hooks";
+import { createQueryString } from "@/utils";
+import { reverseSortOptionKeys } from "@/constants";
+import { useCategoryData } from "./useCategoryData";
+import { Level } from "@/shared/api";
+import { levelTypeList } from "@/shared/constant";
+import { Units } from "./api";
+
+export const useFilter = () => {
+  const searchParams = useSearchParams();
+
+  const { handleQueryString } = useNavigator();
+  const { selectedMainSubject, setSelectedMainSubject, unitListBySelectedMainSubject } = useCategoryData();
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
-  const [selectedSubUnits, setSelectedSubUnits] = useState<number[]>([]);
-  const [selectedSubUnitsId, setSelectedSubUnitsId] = useState(0);
-  const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+  const { selectedSubUnitsId, setSelectedSubUnitsId, selectedLevels, setSelectedLevels, setIsSearchClick } =
+    useFilterContext();
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    const subject = queryParams.get("subject");
-    const mainUnitsParam = queryParams.get("mainUnits");
-    const subUnitsParam = queryParams.get("subUnits");
-    const levelsParam = queryParams.get("levels");
-
-    if (subject) {
-      setCurrentSubject(subject);
-    } else {
-      if (subjectData.length > 0) {
-        setCurrentSubject(subjectData[0].value);
-      } else {
-        setCurrentSubject("");
-      }
-    }
+    const mainUnitsParam = searchParams.get("mainUnits") ?? undefined;
+    const subUnitsParam = searchParams.get("subUnits") ?? undefined;
+    const levelsParam = searchParams.get("levels") ?? undefined;
 
     if (mainUnitsParam) {
-      setSelectedMainUnits(mainUnitsParam.split(","));
+      const decodedMainUnits = decodeURIComponent(mainUnitsParam);
+      setSelectedMainUnits(decodedMainUnits.split(","));
     }
 
     if (subUnitsParam) {
-      setSelectedSubUnits(subUnitsParam.split(",").map(Number));
+      const decodedSubUnits = decodeURIComponent(subUnitsParam);
+      setSelectedSubUnitsId(decodedSubUnits.split(",").map(Number));
     }
 
     if (levelsParam) {
-      setSelectedLevels(levelsParam.split(","));
+      setSelectedLevels(
+        decodeURIComponent(levelsParam)
+          .split(",")
+          .filter((level): level is Level => levelTypeList.includes(level))
+      );
     }
-  }, [subjectData]);
 
-  // 난이도 선택
-  const handleSelectLevels = (level: string) => {
+    setIsSearchClick(true);
+  }, [searchParams]);
+
+  const handleSelectMainUnit = (mainUnit: Units) => {
+    if (selectedMainUnits.includes(mainUnit.title)) {
+      setSelectedMainUnits((prev) => prev.filter((item) => item !== mainUnit.title));
+      setSelectedSubUnitsId((prev) => prev.filter((sub) => !mainUnit.sub.some((unit) => unit.id === sub)));
+    } else {
+      setSelectedMainUnits((prev) => [...prev, mainUnit.title]);
+      setSelectedSubUnitsId((prev) => {
+        const newSubUnits = [...prev, ...mainUnit.sub.map((subUnit) => subUnit.id)];
+        return Array.from(new Set(newSubUnits));
+      });
+    }
+  };
+
+  const handleSelectSubUnit = (subId: number, mainUnit: Units) => {
+    const newSelectedSubUnits = selectedSubUnitsId.includes(subId)
+      ? selectedSubUnitsId.filter((item) => item !== subId)
+      : Array.from(new Set([...selectedSubUnitsId, subId]));
+
+    setSelectedSubUnitsId(newSelectedSubUnits);
+
+    const allSubSelected = mainUnit.sub.every((sub) => newSelectedSubUnits.includes(sub.id));
+    setSelectedMainUnits((prev) =>
+      allSubSelected ? Array.from(new Set([...prev, mainUnit.title])) : prev.filter((item) => item !== mainUnit.title)
+    );
+  };
+
+  const handleSelectLevels = (level: Level) => {
     if (selectedLevels.includes(level)) {
       setSelectedLevels((prev) => {
         return prev.filter((elem) => elem !== level);
@@ -53,80 +84,49 @@ export const useFilter = ({ subjectData, categoryData, levels }: FilterProps) =>
     }
   };
 
-  // 대단원 (수1, 수2 등)에 체크하는 경우 -> 하위 단원 전체 선택, 전체 해제
-  const handleMainUnitChange = (category: { title: string; sub: Array<{ id: number; title: string }> }) => {
-    const { sub, title } = category;
-    const subUnitIds = sub.map((s) => s.id);
-
-    if (selectedMainUnits.includes(title)) {
-      setSelectedMainUnits((prev) => prev.filter((item) => item !== title));
-      setSelectedSubUnits((prev) => prev.filter((id) => !subUnitIds.includes(id)));
-    } else {
-      setSelectedMainUnits((prev) => [...prev, title]);
-
-      setSelectedSubUnits((prev) => {
-        const uniqueSelectedSubUnits = new Set(prev);
-        subUnitIds.forEach((id) => uniqueSelectedSubUnits.add(id));
-        return Array.from(uniqueSelectedSubUnits);
-      });
-    }
-  };
-
-  // 하위 단원 개별 선택
-  const handleSubUnitChange = (id: number) => {
-    setSelectedSubUnitsId(id);
-    if (selectedSubUnits.includes(id)) {
-      setSelectedSubUnits((prev) => prev.filter((item) => item !== id));
-    } else {
-      setSelectedSubUnits((prev) => [...prev, id]);
-    }
-  };
-
-  // 하위 단원 개별 선택시 이미 전체 선택 되어있던 요소인지 검증
-  useEffect(() => {
-    if (selectedSubUnitsId != 0) {
-      const category = categoryData.list.find((category) => category.sub.some((sub) => sub.id === selectedSubUnitsId));
-      if (category) {
-        const subUnitIds = category.sub.map((sub) => sub.id);
-        const allSubUnitsSelected = subUnitIds.every((subId) => selectedSubUnits.includes(subId));
-        if (allSubUnitsSelected) {
-          setSelectedMainUnits((prev) => [...prev, category.title]);
-        } else {
-          setSelectedMainUnits((prev) => prev.filter((title) => title !== category.title));
-        }
-      }
-    }
-  }, [selectedSubUnitsId, selectedSubUnits, categoryData]);
-
-  // 초기화
-  const refreshFilter = () => {
+  const initSelectedItems = () => {
     setSelectedMainUnits([]);
-    setSelectedSubUnits([]);
-    setSelectedSubUnitsId(0);
+    setSelectedSubUnitsId([]);
     setSelectedLevels([]);
   };
 
-  // 조회하기
-  const search = () => {
-    const queryString = makeQueryString(currentSubject, selectedMainUnits, selectedSubUnits, selectedLevels);
-    window.history.pushState({}, "", queryString);
+  const resetFilter = () => {
+    setSelectedMainSubject("All");
+    initSelectedItems();
+  };
 
-    console.log(currentSubject);
-    console.log(selectedMainUnits);
-    console.log(selectedSubUnits);
-    console.log(selectedLevels);
+  const search = () => {
+    setIsSearchClick(true);
+
+    const mainUnitsParam = selectedMainUnits.join(",");
+    const subUnitsParam = selectedSubUnitsId.join(",");
+    const levelsParam = selectedLevels.join(",");
+
+    const queryString = createQueryString({
+      mainSubject: selectedMainSubject === "All" ? undefined : selectedMainSubject,
+      mainUnits: mainUnitsParam === "" ? undefined : mainUnitsParam,
+      subUnits: subUnitsParam === "" ? undefined : subUnitsParam,
+      levels: levelsParam === "" ? undefined : levelsParam,
+      sort: reverseSortOptionKeys["인기순"],
+      page: 1,
+    });
+
+    handleQueryString(queryString);
   };
 
   return {
-    currentSubject,
-    setCurrentSubject,
+    selectedMainSubject,
+    setSelectedMainSubject,
+    unitListBySelectedMainSubject,
     selectedMainUnits,
-    selectedSubUnits,
+    selectedSubUnitsId,
+    setSelectedSubUnitsId,
     selectedLevels,
+    handleSelectMainUnit,
+    handleSelectSubUnit,
     handleSelectLevels,
-    handleMainUnitChange,
-    handleSubUnitChange,
-    refreshFilter,
+    resetFilter,
+    initSelectedItems,
     search,
   };
 };

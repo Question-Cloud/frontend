@@ -15,6 +15,7 @@ import {
   CouponIcon,
   LogoutIcon,
   SimpleAlarmDialog,
+  Button,
 } from "@/shared";
 import { usePathname } from "next/navigation";
 import { useUserSession } from "@/hooks";
@@ -36,17 +37,17 @@ export const Header = () => {
   }
 
   return (
-    <div className="sticky top-0 z-3 w-full bg-white drop-shadow-md">
+    <div className="sticky top-0 z-50 w-full bg-white drop-shadow-md">
       <div className="w-full max-w-[1300px] flex items-center h-[80px] m-auto">
         <Link href="/">
           <Image src="/logo.svg" alt="logo" width="40" height="40" className="mr-[40px]" />
         </Link>
         <div className="w-full flex justify-between">
           <div className="flex gap-[20px]">
-            <Link href="#" className="heading2">
+            <Link href="/question/self-made" className="heading2">
               자작문제
             </Link>
-            <Link href="#" className="heading2">
+            <Link href="/question/past" className="heading2">
               기출문제
             </Link>
           </div>
@@ -90,10 +91,10 @@ export const Header = () => {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <Link href="#" className="flex items-center gap-[4px]" onClick={() => userLogout()}>
-                      <LogoutIcon size="16" />
+                    <Button size="medium" className="flex items-center gap-[4px]" onClick={() => userLogout()}>
+                      <LogoutIcon size="16" color="white" />
                       로그아웃
-                    </Link>
+                    </Button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
