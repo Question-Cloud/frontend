@@ -30,7 +30,7 @@ import { levelTypeList } from "@/shared/constant";
 import { Level } from "@/shared/api";
 
 export const Filter = ({ refetch }: { refetch?: () => void }) => {
-  const { subjectOption, levels } = useCategoryData();
+  const { mainSubjectOption, levels } = useCategoryData();
   const {
     selectedMainSubject,
     setSelectedMainSubject,
@@ -73,7 +73,7 @@ export const Filter = ({ refetch }: { refetch?: () => void }) => {
         <Combobox
           placeholder="선택하세요"
           className="w-[408px]"
-          options={subjectOption}
+          options={mainSubjectOption}
           value={selectedMainSubject}
           setValue={setSelectedMainSubject}
           initSelectedItems={initSelectedItems}

@@ -11,9 +11,7 @@ const useCategoryData = () => {
 
   const { data: categoryData } = useCategoryApi();
 
-  const subjectParams = searchParams.get("subject");
-
-  const [subjectOption, setSubjectOption] = useState<Option[]>([]);
+  const [mainSubjectOption, setMainSubjectOption] = useState<Option[]>([]);
   const [selectedMainSubject, setSelectedMainSubject] = useState("");
   const [unitListBySelectedMainSubject, setUnitListBySelectedMainSubject] = useState<Units[]>([]);
   const levels = ["LEVEL1", "LEVEL2", "LEVEL3", "LEVEL4", "LEVEL5", "LEVEL6"];
@@ -26,28 +24,30 @@ const useCategoryData = () => {
 
   useEffect(() => {
     if (categoryData) {
-      const subjectOption: Option[] = [];
+      const mainSubjectOption: Option[] = [];
 
       categoryData.categories.map((category) => {
         const subject = category.subject as keyof typeof subjectKeys;
-        subjectOption.push({ value: category.subject as string, label: subjectKeys[subject] });
+        mainSubjectOption.push({ value: category.subject as string, label: subjectKeys[subject] });
       });
 
-      setSubjectOption([{ value: "All", label: "전체" }, ...subjectOption]);
+      setMainSubjectOption([{ value: "All", label: "전체" }, ...mainSubjectOption]);
     }
   }, [categoryData]);
 
   useEffect(() => {
-    if (subjectParams) {
-      setSelectedMainSubject(subjectParams);
+    const mainSubjectParams = searchParams.get("mainSubject");
+
+    if (mainSubjectParams) {
+      setSelectedMainSubject(mainSubjectParams);
     } else {
-      if (subjectOption.length > 0) {
-        setSelectedMainSubject(subjectOption[0].value);
+      if (mainSubjectOption.length > 0) {
+        setSelectedMainSubject(mainSubjectOption[0].value);
       } else {
         setSelectedMainSubject("");
       }
     }
-  }, [subjectOption, subjectParams]);
+  }, [searchParams, mainSubjectOption]);
 
   useEffect(() => {
     if (selectedMainSubject && categoryData) {
@@ -58,7 +58,7 @@ const useCategoryData = () => {
   }, [selectedMainSubject, categoryData]);
 
   return {
-    subjectOption,
+    mainSubjectOption,
     selectedMainSubject,
     setSelectedMainSubject,
     unitListBySelectedMainSubject,

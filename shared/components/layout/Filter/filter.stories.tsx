@@ -212,7 +212,7 @@ type Story = StoryObj<typeof Filter>;
 export const Default: Story = {
   render: (argsType) => {
     const useCategoryDataMock = () => {
-      const [subjectOption, setSubjectOption] = useState<Option[]>([]);
+      const [mainSubjectOption, setMainSubjectOption] = useState<Option[]>([]);
       const [selectedSubject, setSelectedSubject] = useState("");
       const [unitListBySelectedSubject, setUnitListBySelectedSubject] = useState<Units[]>([]);
       const levels = ["LEVEL1", "LEVEL2", "LEVEL3", "LEVEL4", "LEVEL5", "LEVEL6"];
@@ -224,20 +224,20 @@ export const Default: Story = {
 
       useEffect(() => {
         if (categoryData) {
-          const subjectOption: Option[] = [];
+          const mainSubjectOption: Option[] = [];
 
           categoryData.categories.map((category) => {
             const subject = category.subject as keyof typeof subjectKeys;
-            subjectOption.push({ value: category.subject as string, label: subjectKeys[subject] });
+            mainSubjectOption.push({ value: category.subject as string, label: subjectKeys[subject] });
           });
 
-          setSubjectOption(subjectOption);
+          setMainSubjectOption(mainSubjectOption);
         }
       }, [categoryData]);
 
       useEffect(() => {
         setSelectedSubject("Mathematics");
-      }, [subjectOption]);
+      }, [mainSubjectOption]);
 
       useEffect(() => {
         if (selectedSubject && categoryData) {
@@ -247,7 +247,7 @@ export const Default: Story = {
         }
       }, [selectedSubject, categoryData]);
 
-      return { subjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject, levels };
+      return { mainSubjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject, levels };
     };
 
     const useFilterMock = () => {
@@ -334,7 +334,7 @@ export const Default: Story = {
       };
     };
 
-    const { subjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject } = useCategoryDataMock();
+    const { mainSubjectOption, selectedSubject, setSelectedSubject, unitListBySelectedSubject } = useCategoryDataMock();
 
     const {
       selectedMainUnits,
@@ -363,7 +363,7 @@ export const Default: Story = {
           <Combobox
             placeholder="선택하세요"
             className="w-[408px]"
-            options={subjectOption}
+            options={mainSubjectOption}
             value={selectedSubject}
             setValue={setSelectedSubject}
           />
