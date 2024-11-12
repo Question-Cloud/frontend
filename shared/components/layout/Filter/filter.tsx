@@ -41,7 +41,7 @@ export const Filter = ({ refetch }: { refetch?: () => void }) => {
     handleSelectMainUnit,
     handleSelectSubUnit,
     handleSelectLevels,
-    refreshFilter,
+    resetFilter,
     initSelectedItems,
     search,
   } = useFilter(refetch);
@@ -189,7 +189,7 @@ export const Filter = ({ refetch }: { refetch?: () => void }) => {
         </div>
       </div>
       <div className="flex justify-between">
-        <Button variant="grayLine" size="large" className="flex gap-[4px] w-[130px]" onClick={refreshFilter}>
+        <Button variant="grayLine" size="large" className="flex gap-[4px] w-[130px]" onClick={resetFilter}>
           <RefreshIcon />
           <div>초기화</div>
         </Button>

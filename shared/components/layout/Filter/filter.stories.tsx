@@ -313,7 +313,7 @@ export const Default: Story = {
         }
       }, [selectedSubUnitsId, selectedSubUnits]);
 
-      const refreshFilter = () => {
+      const resetFilter = () => {
         setSelectedMainUnits([]);
         setSelectedSubUnits([]);
         setSelectedSubUnitsId(0);
@@ -329,7 +329,7 @@ export const Default: Story = {
         handleSelectLevels,
         handleMainUnitChange,
         handleSubUnitChange,
-        refreshFilter,
+        resetFilter,
         search,
       };
     };
@@ -343,7 +343,7 @@ export const Default: Story = {
       handleSelectLevels,
       handleMainUnitChange,
       handleSubUnitChange,
-      refreshFilter,
+      resetFilter,
       search,
     } = useFilterMock();
 
@@ -459,7 +459,7 @@ export const Default: Story = {
           </div>
         </div>
         <div className="flex justify-between">
-          <Button variant="grayLine" size="large" className="flex gap-[4px] w-[130px]" onClick={refreshFilter}>
+          <Button variant="grayLine" size="large" className="flex gap-[4px] w-[130px]" onClick={resetFilter}>
             <RefreshIcon />
             <div>초기화</div>
           </Button>
