@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -29,21 +29,35 @@ import { useCategoryData } from "./useCategoryData";
 import { levelTypeList } from "@/shared/constant";
 import { Level } from "@/shared/api";
 
-export const Filter = () => {
-  const { subjectOption, selectedMainSubject, setSelectedMainSubject, unitListBySelectedMainSubject, levels } =
-    useCategoryData();
+export const Filter = ({ refetch }: { refetch?: () => void }) => {
+  const { subjectOption, levels } = useCategoryData();
   const {
+    selectedMainSubject,
+    setSelectedMainSubject,
+    unitListBySelectedMainSubject,
     selectedMainUnits,
     selectedSubUnitsId,
     selectedLevels,
-    handleSelectLevels,
     handleSelectMainUnit,
     handleSelectSubUnit,
+    handleSelectLevels,
     refreshFilter,
+    initSelectedItems,
     search,
-  } = useFilter();
+  } = useFilter(refetch);
 
   const [openStates, setOpenStates] = useState(() => unitListBySelectedMainSubject.map(() => false));
+
+  // 새로고침 했을때도 선택된 항목이 있는 Collapsible은 Open 상태이도록
+  useEffect(() => {
+    setOpenStates(
+      unitListBySelectedMainSubject.map(
+        (mainUnit) =>
+          selectedMainUnits.includes(mainUnit.title) ||
+          mainUnit.sub.some((subUnit) => selectedSubUnitsId.includes(subUnit.id))
+      )
+    );
+  }, [unitListBySelectedMainSubject, selectedMainUnits, selectedSubUnitsId]);
 
   const toggleOpen = (index: number) => {
     setOpenStates((prev) => prev?.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
@@ -62,6 +76,7 @@ export const Filter = () => {
           options={subjectOption}
           value={selectedMainSubject}
           setValue={setSelectedMainSubject}
+          initSelectedItems={initSelectedItems}
         />
       </div>
       <div>
