@@ -29,7 +29,7 @@ import { useCategoryData } from "./useCategoryData";
 import { levelTypeList } from "@/shared/constant";
 import { Level } from "@/shared/api";
 
-export const Filter = ({ refetch }: { refetch?: () => void }) => {
+export const Filter = () => {
   const { mainSubjectOption, levels } = useCategoryData();
   const {
     selectedMainSubject,
@@ -44,7 +44,7 @@ export const Filter = ({ refetch }: { refetch?: () => void }) => {
     resetFilter,
     initSelectedItems,
     search,
-  } = useFilter(refetch);
+  } = useFilter();
 
   const [openStates, setOpenStates] = useState(() => unitListBySelectedMainSubject.map(() => false));
 

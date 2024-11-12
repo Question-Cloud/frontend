@@ -6,14 +6,14 @@ import { useCategoryData } from "./useCategoryData";
 import { Level } from "@/shared/api";
 import { levelTypeList } from "@/shared/constant";
 import { Units } from "./api";
+import { useFilterContext } from "@/providers";
 
-export const useFilter = (refetch?: () => void) => {
+export const useFilter = () => {
   const searchParams = useSearchParams();
   const { selectedMainSubject, setSelectedMainSubject, unitListBySelectedMainSubject } = useCategoryData();
-
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
-  const [selectedSubUnitsId, setSelectedSubUnitsId] = useState<number[]>([]);
-  const [selectedLevels, setSelectedLevels] = useState<Level[]>([]);
+  const { selectedSubUnitsId, setSelectedSubUnitsId, selectedLevels, setSelectedLevels, setIsSearchClick } =
+    useFilterContext();
 
   useEffect(() => {
     const mainUnitsParam = searchParams.get("mainUnits");
@@ -37,6 +37,8 @@ export const useFilter = (refetch?: () => void) => {
           .filter((level): level is Level => levelTypeList.includes(level))
       );
     }
+
+    setIsSearchClick(true);
   }, [searchParams]);
 
   const handleSelectMainUnit = (mainUnit: Units) => {
@@ -88,28 +90,23 @@ export const useFilter = (refetch?: () => void) => {
   };
 
   const resetFilter = () => {
-    console.log("초기화");
-    setSelectedMainSubject("");
+    setSelectedMainSubject("All");
     initSelectedItems();
-
-    const baseUrl = window.location.origin + window.location.pathname;
-    historyPushState(baseUrl);
   };
 
   const search = () => {
-    if (refetch) {
-      const mainUnitsParam = selectedMainUnits.join(",");
-      const subUnitsParam = selectedSubUnitsId.join(",");
-      const levelsParam = selectedLevels.join(",");
+    setIsSearchClick(true);
 
-      if (mainUnitsParam === "" && subUnitsParam === "" && levelsParam === "") {
-        return;
-      }
+    const mainUnitsParam = selectedMainUnits.join(",");
+    const subUnitsParam = selectedSubUnitsId.join(",");
+    const levelsParam = selectedLevels.join(",");
 
+    if (mainUnitsParam === "" && subUnitsParam === "" && levelsParam === "") {
+      const baseUrl = window.location.origin + window.location.pathname;
+      historyPushState(baseUrl);
+    } else {
       const queryString = `?mainSubject=${encodeURIComponent(selectedMainSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
-
       historyPushState(queryString);
-      refetch();
     }
   };
 

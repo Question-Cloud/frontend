@@ -1,16 +1,18 @@
 import { httpClient } from "@/providers";
 import { useQuery } from "@tanstack/react-query";
 import { QuestionList, QuestionRequest } from "./types";
+import { filterEmptyParams } from "@/utils";
 
-function useQuestionListApi(params: QuestionRequest) {
-  console.log(params);
+function useQuestionListApi(params: QuestionRequest, isSearchClick: boolean) {
+  const filteredParams = filterEmptyParams(params);
+
   return useQuery({
-    queryKey: ["questionList", JSON.stringify(params)],
+    queryKey: ["questionList", isSearchClick],
     queryFn: () =>
       httpClient<QuestionList>({
         method: "GET",
         url: `/hub/question`,
-        params: params,
+        params: filteredParams,
       }),
   });
 }
