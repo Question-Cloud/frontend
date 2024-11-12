@@ -12,7 +12,7 @@ const useCategoryData = () => {
   const { data: categoryData } = useCategoryApi();
 
   const [mainSubjectOption, setMainSubjectOption] = useState<Option[]>([]);
-  const [selectedMainSubject, setSelectedMainSubject] = useState("");
+  const [selectedMainSubject, setSelectedMainSubject] = useState("All");
   const [unitListBySelectedMainSubject, setUnitListBySelectedMainSubject] = useState<Units[]>([]);
   const levels = ["LEVEL1", "LEVEL2", "LEVEL3", "LEVEL4", "LEVEL5", "LEVEL6"];
 
