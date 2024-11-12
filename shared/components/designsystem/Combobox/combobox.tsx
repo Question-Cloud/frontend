@@ -7,7 +7,16 @@ import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandS
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ComboboxProps } from "./types";
 
-export function Combobox({ placeholder, className, options, value, setValue, label, isRequired }: ComboboxProps) {
+export function Combobox({
+  placeholder,
+  className,
+  options,
+  value,
+  setValue,
+  label,
+  isRequired,
+  initSelectedItems,
+}: ComboboxProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -47,7 +56,8 @@ export function Combobox({ placeholder, className, options, value, setValue, lab
                       <CommandItem
                         value={option.value}
                         onSelect={(currentValue) => {
-                          setValue(currentValue === value ? "" : currentValue);
+                          setValue(currentValue);
+                          initSelectedItems && initSelectedItems();
                           setOpen(false);
                         }}
                         className={cn(value === option.value ? "bg-gray_01/70 " : "bg-white")}

@@ -11,4 +11,5 @@ export interface ComboboxProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   label?: string;
   isRequired?: boolean;
+  initSelectedItems?: () => void;
 }
