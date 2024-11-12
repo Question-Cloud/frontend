@@ -16,10 +16,7 @@
 
 ### 사용 기술
 
-- React 18
-- Typescript
-- Tanstack-Query v5
-- Shadcn UI
-- Tailwind
-- Storybook
-- Jest
+- 코어: React, Next.js, Typescript
+- 상태 관리: Context, Tanstack-Query v5
+- 테스트: Storybook, Jest
+- CI/CD: Github Actions
