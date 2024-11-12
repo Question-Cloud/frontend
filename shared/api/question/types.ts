@@ -19,8 +19,8 @@ interface QuestionList {
 }
 
 interface QuestionRequest {
-  categories: number[];
-  levels: Level[];
+  categories: number[] | string;
+  levels: Level[] | string;
   questionType: "Past" | "SelfMade";
   sort: "Popularity" | "Rate" | "Latest" | "LEVEL";
   page: number;
