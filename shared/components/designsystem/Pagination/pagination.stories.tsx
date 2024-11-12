@@ -23,16 +23,16 @@ export const Default: Story = {
     return <Pagination {...argTypes} currentPage={currentPage} setCurrentPage={setCurrentPage} />;
   },
   args: {
-    totalPosts: 87,
-    postPerPages: 10,
+    totalContent: 87,
+    contentPerPage: 10,
     currentPage: 1,
   },
   argTypes: {
-    totalPosts: {
+    totalContent: {
       control: { type: "number" },
       description: "전체 데이터의 개수입니다.",
     },
-    postPerPages: {
+    contentPerPage: {
       control: { type: "number" },
       description: "페이지당 노출할 데이터의 개수입니다.",
     },
