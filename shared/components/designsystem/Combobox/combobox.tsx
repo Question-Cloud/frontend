@@ -6,6 +6,8 @@ import { ArrowDownIcon, ArrowUpIcon, Button } from "@/shared";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator } from "./command";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ComboboxProps } from "./types";
+import { SortOption } from "@/shared/api";
+import { sortOptionKeys } from "@/constants";
 
 export function Combobox({
   placeholder,
@@ -45,7 +47,7 @@ export function Combobox({
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className={cn("p-0 min-w-[200px]", className)}>
+        <PopoverContent className={cn("p-0 min-w-[140px]", className)}>
           <Command>
             <CommandList>
               <CommandEmpty>옵션이 존재하지 않습니다.</CommandEmpty>
@@ -56,15 +58,13 @@ export function Combobox({
                       <CommandItem
                         value={option.value}
                         onSelect={(currentValue) => {
-                          setValue(currentValue);
+                          setValue(currentValue as SortOption);
                           initSelectedItems && initSelectedItems();
                           setOpen(false);
                         }}
-                        className={cn(value === option.value ? "bg-gray_01/70 " : "bg-white")}
+                        className={cn(value === option.value ? "bg-sky/70 " : "bg-white")}
                       >
-                        <div className={cn(value === option.value ? "text-navy body1 " : "text-black body2")}>
-                          {option.label}
-                        </div>
+                        <div className="text-black body1">{option.label}</div>
                       </CommandItem>
                       {option.value === options[options.length - 1].value ? "" : <CommandSeparator />}
                     </div>

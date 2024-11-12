@@ -7,7 +7,7 @@ function useQuestionListApi(params: QuestionRequest, isSearchClick: boolean) {
   const filteredParams = filterEmptyParams(params);
 
   return useQuery({
-    queryKey: ["questionList", isSearchClick, params.page],
+    queryKey: ["questionList", isSearchClick, params.page, params.sort],
     queryFn: () =>
       httpClient<QuestionList>({
         method: "GET",

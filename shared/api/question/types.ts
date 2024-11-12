@@ -1,4 +1,5 @@
 type Level = "LEVEL1" | "LEVEL2" | "LEVEL3" | "LEVEL4" | "LEVEL5" | "LEVEL6";
+type SortOption = "Popularity" | "Rate" | "Latest" | "LEVEL";
 
 interface Question {
   id: number;
@@ -22,7 +23,7 @@ interface QuestionRequest {
   categories: number[] | string;
   levels: Level[] | string;
   questionType: "Past" | "SelfMade";
-  sort: "Popularity" | "Rate" | "Latest" | "LEVEL";
+  sort: SortOption | string;
   page: number;
   size: number;
 }
@@ -31,4 +32,4 @@ interface EachCreatorQuestionRequest extends QuestionRequest {
   creatorId: number;
 }
 
-export type { Level, QuestionRequest, EachCreatorQuestionRequest, Question, QuestionList };
+export type { Level, SortOption, QuestionRequest, EachCreatorQuestionRequest, Question, QuestionList };
