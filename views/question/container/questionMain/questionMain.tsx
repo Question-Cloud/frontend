@@ -2,18 +2,22 @@
 
 import { ErrorBoundaryWrapper } from "@/providers";
 import { Filter, LoadingSpinner } from "@/shared";
-import React, { Suspense } from "react";
+import React, { Suspense, useCallback } from "react";
 import { QuestionList } from "../../components";
-import { useQuestionMain } from "./useQuestionMain";
+import { useQuestionList } from "../../components";
 
 const QuestionMain = () => {
-  const { questionListData } = useQuestionMain();
+  const { questionListData, questionListRefetch } = useQuestionList();
+
+  const refetch = useCallback(() => {
+    questionListRefetch();
+  }, []);
 
   return (
     <ErrorBoundaryWrapper>
       <div className="flex gap-[24px] w-full">
         <div>
-          <Filter />
+          <Filter refetch={refetch} />
         </div>
         <Suspense fallback={<LoadingSpinner />}>
           <section className="w-full flex flex-wrap justify-between gap-[12px]">

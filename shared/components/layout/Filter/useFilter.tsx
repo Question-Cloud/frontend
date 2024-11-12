@@ -7,9 +7,9 @@ import { Level } from "@/shared/api";
 import { levelTypeList } from "@/shared/constant";
 import { Units } from "./api";
 
-export const useFilter = () => {
+export const useFilter = (refetch?: () => void) => {
   const searchParams = useSearchParams();
-  const { selectedMainSubject } = useCategoryData();
+  const { selectedMainSubject, setSelectedMainSubject, unitListBySelectedMainSubject } = useCategoryData();
 
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
   const [selectedSubUnitsId, setSelectedSubUnitsId] = useState<number[]>([]);
@@ -21,17 +21,49 @@ export const useFilter = () => {
     const levelsParam = searchParams.get("levels");
 
     if (mainUnitsParam) {
-      setSelectedMainUnits(mainUnitsParam.split(","));
+      const decodedMainUnits = decodeURIComponent(mainUnitsParam);
+      setSelectedMainUnits(decodedMainUnits.split(","));
     }
 
     if (subUnitsParam) {
-      setSelectedSubUnitsId(subUnitsParam.split(",").map(Number));
+      const decodedSubUnits = decodeURIComponent(subUnitsParam);
+      setSelectedSubUnitsId(decodedSubUnits.split(",").map(Number));
     }
 
     if (levelsParam) {
-      setSelectedLevels(levelsParam.split(",").filter((level): level is Level => levelTypeList.includes(level)));
+      setSelectedLevels(
+        decodeURIComponent(levelsParam)
+          .split(",")
+          .filter((level): level is Level => levelTypeList.includes(level))
+      );
     }
   }, [searchParams]);
+
+  const handleSelectMainUnit = (mainUnit: Units) => {
+    if (selectedMainUnits.includes(mainUnit.title)) {
+      setSelectedMainUnits((prev) => prev.filter((item) => item !== mainUnit.title));
+      setSelectedSubUnitsId((prev) => prev.filter((sub) => !mainUnit.sub.some((unit) => unit.id === sub)));
+    } else {
+      setSelectedMainUnits((prev) => [...prev, mainUnit.title]);
+      setSelectedSubUnitsId((prev) => {
+        const newSubUnits = [...prev, ...mainUnit.sub.map((subUnit) => subUnit.id)];
+        return Array.from(new Set(newSubUnits));
+      });
+    }
+  };
+
+  const handleSelectSubUnit = (subId: number, mainUnit: Units) => {
+    const newSelectedSubUnits = selectedSubUnitsId.includes(subId)
+      ? selectedSubUnitsId.filter((item) => item !== subId)
+      : Array.from(new Set([...selectedSubUnitsId, subId]));
+
+    setSelectedSubUnitsId(newSelectedSubUnits);
+
+    const allSubSelected = mainUnit.sub.every((sub) => newSelectedSubUnits.includes(sub.id));
+    setSelectedMainUnits((prev) =>
+      allSubSelected ? Array.from(new Set([...prev, mainUnit.title])) : prev.filter((item) => item !== mainUnit.title)
+    );
+  };
 
   const handleSelectLevels = (level: Level) => {
     if (selectedLevels.includes(level)) {
@@ -45,62 +77,55 @@ export const useFilter = () => {
     }
   };
 
-  const handleSelectMainUnit = (mainUnit: Units) => {
-    if (selectedMainUnits.includes(mainUnit.title)) {
-      setSelectedMainUnits((prev) => prev.filter((item) => item !== mainUnit.title));
-      setSelectedSubUnitsId((prev) => prev.filter((sub) => !mainUnit.sub.some((unit) => unit.id === sub)));
-    } else {
-      setSelectedMainUnits((prev) => [...prev, mainUnit.title]);
-      setSelectedSubUnitsId((prev) => [...prev, ...mainUnit.sub.map((subUnit) => subUnit.id)]);
-    }
+  const historyPushState = (url: string) => {
+    window.history.pushState({}, "", url);
   };
 
-  const handleSelectSubUnit = (subId: number, mainUnit: Units) => {
-    const newSelectedSubUnits = selectedSubUnitsId.includes(subId)
-      ? selectedSubUnitsId.filter((item) => item !== subId)
-      : [...selectedSubUnitsId, subId];
-
-    setSelectedSubUnitsId(newSelectedSubUnits);
-
-    const allSubSelected = mainUnit.sub.every((sub) => newSelectedSubUnits.includes(sub.id));
-    setSelectedMainUnits((prev) =>
-      allSubSelected ? [...prev, mainUnit.title] : prev.filter((item) => item !== mainUnit.title)
-    );
-  };
-
-  // useEffect(() => {
-  //   console.log("selectedSubUnits:", selectedSubUnits);
-  // }, [selectedSubUnits]);
-
-  useEffect(() => {
-    //console.log(selectedMainSubject);
-    setSelectedMainUnits([]);
-  }, [selectedMainSubject]);
-
-  const refreshFilter = () => {
+  const initSelectedItems = () => {
     setSelectedMainUnits([]);
     setSelectedSubUnitsId([]);
     setSelectedLevels([]);
   };
 
-  const search = () => {
-    const mainUnitsParam = selectedMainUnits.join(",");
-    const subUnitsParam = selectedSubUnitsId.join(",");
-    const levelsParam = selectedLevels.join(",");
+  const resetFilter = () => {
+    console.log("초기화");
+    setSelectedMainSubject("");
+    initSelectedItems();
 
-    const queryString = `?subject=${encodeURIComponent(selectedMainSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
-    window.history.pushState({}, "", queryString);
+    const baseUrl = window.location.origin + window.location.pathname;
+    historyPushState(baseUrl);
+  };
+
+  const search = () => {
+    if (refetch) {
+      const mainUnitsParam = selectedMainUnits.join(",");
+      const subUnitsParam = selectedSubUnitsId.join(",");
+      const levelsParam = selectedLevels.join(",");
+
+      if (mainUnitsParam === "" && subUnitsParam === "" && levelsParam === "") {
+        return;
+      }
+
+      const queryString = `?mainSubject=${encodeURIComponent(selectedMainSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
+
+      historyPushState(queryString);
+      refetch();
+    }
   };
 
   return {
+    selectedMainSubject,
+    setSelectedMainSubject,
+    unitListBySelectedMainSubject,
     selectedMainUnits,
     selectedSubUnitsId,
     setSelectedSubUnitsId,
     selectedLevels,
-    handleSelectLevels,
     handleSelectMainUnit,
     handleSelectSubUnit,
-    refreshFilter,
+    handleSelectLevels,
+    resetFilter,
+    initSelectedItems,
     search,
   };
 };
