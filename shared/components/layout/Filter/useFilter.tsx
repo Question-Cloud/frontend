@@ -7,9 +7,11 @@ import { Level } from "@/shared/api";
 import { levelTypeList } from "@/shared/constant";
 import { Units } from "./api";
 import { useFilterContext } from "@/providers";
+import { useNavigator } from "@/hooks";
 
 export const useFilter = () => {
   const searchParams = useSearchParams();
+  const { handleQueryString } = useNavigator();
   const { selectedMainSubject, setSelectedMainSubject, unitListBySelectedMainSubject } = useCategoryData();
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
   const { selectedSubUnitsId, setSelectedSubUnitsId, selectedLevels, setSelectedLevels, setIsSearchClick } =
@@ -79,10 +81,6 @@ export const useFilter = () => {
     }
   };
 
-  const historyPushState = (url: string) => {
-    window.history.pushState({}, "", url);
-  };
-
   const initSelectedItems = () => {
     setSelectedMainUnits([]);
     setSelectedSubUnitsId([]);
@@ -103,10 +101,10 @@ export const useFilter = () => {
 
     if (mainUnitsParam === "" && subUnitsParam === "" && levelsParam === "") {
       const baseUrl = window.location.origin + window.location.pathname;
-      historyPushState(baseUrl);
+      handleQueryString(baseUrl);
     } else {
       const queryString = `?mainSubject=${encodeURIComponent(selectedMainSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
-      historyPushState(queryString);
+      handleQueryString(queryString);
     }
   };
 
