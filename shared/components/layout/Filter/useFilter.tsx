@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useFilterContext } from "@/providers";
+import { useNavigator } from "@/hooks";
+import { createQueryString } from "@/utils";
+import { reverseSortOptionKeys } from "@/constants";
 import { useCategoryData } from "./useCategoryData";
 import { Level } from "@/shared/api";
 import { levelTypeList } from "@/shared/constant";
 import { Units } from "./api";
-import { useFilterContext } from "@/providers";
-import { useNavigator } from "@/hooks";
 
 export const useFilter = () => {
   const searchParams = useSearchParams();
+
   const { handleQueryString } = useNavigator();
   const { selectedMainSubject, setSelectedMainSubject, unitListBySelectedMainSubject } = useCategoryData();
   const [selectedMainUnits, setSelectedMainUnits] = useState<string[]>([]);
@@ -18,9 +21,9 @@ export const useFilter = () => {
     useFilterContext();
 
   useEffect(() => {
-    const mainUnitsParam = searchParams.get("mainUnits");
-    const subUnitsParam = searchParams.get("subUnits");
-    const levelsParam = searchParams.get("levels");
+    const mainUnitsParam = searchParams.get("mainUnits") ?? undefined;
+    const subUnitsParam = searchParams.get("subUnits") ?? undefined;
+    const levelsParam = searchParams.get("levels") ?? undefined;
 
     if (mainUnitsParam) {
       const decodedMainUnits = decodeURIComponent(mainUnitsParam);
@@ -99,13 +102,16 @@ export const useFilter = () => {
     const subUnitsParam = selectedSubUnitsId.join(",");
     const levelsParam = selectedLevels.join(",");
 
-    if (mainUnitsParam === "" && subUnitsParam === "" && levelsParam === "") {
-      const baseUrl = window.location.origin + window.location.pathname;
-      handleQueryString(baseUrl);
-    } else {
-      const queryString = `?mainSubject=${encodeURIComponent(selectedMainSubject)}&mainUnits=${encodeURIComponent(mainUnitsParam)}&subUnits=${encodeURIComponent(subUnitsParam)}&levels=${encodeURIComponent(levelsParam)}`;
-      handleQueryString(queryString);
-    }
+    const queryString = createQueryString({
+      mainSubject: selectedMainSubject === "All" ? undefined : selectedMainSubject,
+      mainUnits: mainUnitsParam === "" ? undefined : mainUnitsParam,
+      subUnits: subUnitsParam === "" ? undefined : subUnitsParam,
+      levels: levelsParam === "" ? undefined : levelsParam,
+      sort: reverseSortOptionKeys["인기순"],
+      page: 1,
+    });
+
+    handleQueryString(queryString);
   };
 
   return {
