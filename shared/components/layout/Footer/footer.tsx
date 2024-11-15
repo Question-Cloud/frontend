@@ -10,7 +10,7 @@ const Footer = () => {
     return <></>;
   }
 
-  return <div className="w-full h-[180px] bg-navy mt-[60px]" />;
+  return <div className="w-full h-[180px] bg-navy" />;
 };
 
 export { Footer };
