@@ -1,0 +1,1 @@
+export { QuestionDetail } from "./questionDetail";

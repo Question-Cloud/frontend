@@ -17,8 +17,8 @@ const QuestionItem = ({ question }: { question: QuestionData }) => {
   const { type } = useParams();
   const { handlePush } = useNavigator();
 
-  const handleNavigateDetailPage = (id: number) => {
-    handlePush(`/question/${type}/${id}`);
+  const handleNavigateDetailPage = (questionId: number) => {
+    handlePush(`/question/${type}/${questionId}`);
   };
 
   return (
