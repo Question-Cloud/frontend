@@ -7,7 +7,7 @@ import { useNavigator } from "@/hooks";
 import { createQueryString } from "@/utils";
 import { reverseSortOptionKeys } from "@/constants";
 import { useCategoryData } from "./useCategoryData";
-import { Level } from "@/shared/api";
+import { Level } from "@/shared";
 import { levelTypeList } from "@/shared/constant";
 import { Units } from "./api";
 

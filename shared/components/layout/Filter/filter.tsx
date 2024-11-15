@@ -27,7 +27,7 @@ import { cn } from "@/utils";
 import { useFilter } from "./useFilter";
 import { useCategoryData } from "./useCategoryData";
 import { levelTypeList } from "@/shared/constant";
-import { Level } from "@/shared/api";
+import { Level } from "@/shared";
 
 export const Filter = () => {
   const { mainSubjectOption, levels } = useCategoryData();

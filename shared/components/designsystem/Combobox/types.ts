@@ -1,4 +1,4 @@
-import { SortOption } from "@/shared/api";
+import { SortOption } from "@/shared";
 
 export interface Option {
   value: string;

@@ -8,10 +8,19 @@ import {
   QuestionFooter,
   Button,
 } from "@/shared";
-import { Question as QuestionData } from "@/shared/api";
+import { Question as QuestionData } from "../api/question";
 import { formatNumberWithCommas } from "@/utils";
+import { useNavigator } from "@/hooks";
+import { useParams } from "next/navigation";
 
 const QuestionItem = ({ question }: { question: QuestionData }) => {
+  const { type } = useParams();
+  const { handlePush } = useNavigator();
+
+  const handleNavigateDetailPage = (id: number) => {
+    handlePush(`/question/${type}/${id}`);
+  };
+
   return (
     <Question className="w-full h-[220px]">
       <QuestionContent>
@@ -25,7 +34,11 @@ const QuestionItem = ({ question }: { question: QuestionData }) => {
         </QuestionOptions>
       </QuestionContent>
       <QuestionFooter>
-        <Button variant="text" className="w-full h-full hover:bg-gray_03/30">
+        <Button
+          variant="text"
+          className="w-full h-full hover:bg-gray_03/30"
+          onClick={() => handleNavigateDetailPage(question.id)}
+        >
           상세보기
         </Button>
       </QuestionFooter>

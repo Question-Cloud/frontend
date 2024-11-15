@@ -6,8 +6,7 @@ import { ArrowDownIcon, ArrowUpIcon, Button } from "@/shared";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator } from "./command";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ComboboxProps } from "./types";
-import { SortOption } from "@/shared/api";
-import { sortOptionKeys } from "@/constants";
+import { SortOption } from "@/shared";
 
 export function Combobox({
   placeholder,

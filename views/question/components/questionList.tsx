@@ -1,4 +1,4 @@
-import { Question } from "@/shared/api";
+import { Question } from "../api/question";
 import React from "react";
 import { QuestionItem } from "./questionItem";
 

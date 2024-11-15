@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useNavigator } from "@/hooks";
 import { useFilterContext } from "@/providers";
-import { Option } from "@/shared";
+import { Option, SortOption } from "@/shared";
 import { reverseSortOptionKeys, sortOptionKeys } from "@/constants";
 import { createQueryString } from "@/utils";
-import { SortOption, useQuestionListApi } from "@/shared/api";
+import { useQuestionListApi } from "../../api/question";
 
 const useQuestionList = () => {
   const { type } = useParams();

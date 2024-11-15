@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { Level } from "@/shared/api";
+import { Level } from "@/shared";
 
 interface FilterContextProps {
   selectedSubUnitsId: number[];
