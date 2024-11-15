@@ -7,12 +7,7 @@ import React from "react";
 const AlignCenter = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   const pathname = usePathname();
 
-  if (
-    pathname.startsWith("/register") ||
-    pathname.startsWith("/email-verification") ||
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/user")
-  ) {
+  if (pathname.startsWith("/register") || pathname.startsWith("/email-verification") || pathname.startsWith("/login")) {
     return <div className={cn("flex justify-center h-screen", className)}>{children}</div>;
   }
 

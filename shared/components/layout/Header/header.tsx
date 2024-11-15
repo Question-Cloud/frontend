@@ -27,12 +27,7 @@ export const Header = () => {
   const { userInfo, isLoggedIn } = useUserSessionContext();
   const { userLogout } = useUserSession();
 
-  if (
-    pathname.startsWith("/register") ||
-    pathname.startsWith("/email-verification") ||
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/user")
-  ) {
+  if (pathname.startsWith("/register") || pathname.startsWith("/email-verification") || pathname.startsWith("/login")) {
     return <></>;
   }
 
