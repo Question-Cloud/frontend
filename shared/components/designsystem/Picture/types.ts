@@ -3,4 +3,5 @@ export interface PictureProps {
   alt: string;
   width?: number;
   height?: number;
+  className?: string;
 }

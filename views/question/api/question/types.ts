@@ -11,6 +11,8 @@ interface Question {
   price: number;
   rate: number;
   isOwned: boolean;
+  description: string;
+  createdAt: string;
 }
 
 interface QuestionList {
@@ -27,8 +29,12 @@ interface QuestionRequest {
   size: number;
 }
 
+interface QuestionDetail {
+  question: Question;
+}
+
 interface EachCreatorQuestionRequest extends QuestionRequest {
   creatorId: number;
 }
 
-export type { Level, SortOption, QuestionRequest, EachCreatorQuestionRequest, Question, QuestionList };
+export type { Level, SortOption, QuestionRequest, EachCreatorQuestionRequest, Question, QuestionList, QuestionDetail };
