@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useNavigator } from "@/hooks";
 import { useFilterContext } from "@/providers";
 import { Option, SortOption } from "@/shared";
-import { reverseSortOptionKeys, sortOptionKeys } from "@/constants";
+import { CONTENT_PER_PAGE, reverseSortOptionKeys, sortOptionKeys } from "@/constants";
 import { createQueryString } from "@/utils";
 import { useQuestionListApi } from "../../api/question";
 
@@ -56,7 +56,7 @@ const useQuestionList = () => {
       questionType: type === "self-made" ? "SelfMade" : "Past",
       sort: selectedSortOption,
       page: Number(pageParams),
-      size: 12,
+      size: CONTENT_PER_PAGE,
     },
     isSearchClick
   );
