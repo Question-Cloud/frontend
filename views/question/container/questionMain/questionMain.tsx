@@ -56,7 +56,7 @@ const QuestionMain = () => {
                   <div className="w-full grid grid-cols-2 justify-between gap-[12px]">
                     <QuestionList questionListData={questionListData.result} />
                   </div>
-                  <div className="my-[60px]">
+                  <div className="mt-[60px]">
                     <Pagination
                       totalContent={totalQuestionCount}
                       contentPerPage={CONTENT_PER_PAGE}

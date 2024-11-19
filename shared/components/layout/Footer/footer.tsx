@@ -10,7 +10,11 @@ const Footer = () => {
     return <></>;
   }
 
-  return <div className="w-full h-[180px] bg-navy" />;
+  if (pathname === "/") {
+    return <div className="w-full h-[180px] bg-navy" />;
+  }
+
+  return <div className="w-full h-[180px] bg-navy mt-[60px]" />;
 };
 
 export { Footer };
