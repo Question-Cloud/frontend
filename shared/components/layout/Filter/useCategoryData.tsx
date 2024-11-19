@@ -14,7 +14,6 @@ const useCategoryData = () => {
   const [mainSubjectOption, setMainSubjectOption] = useState<Option[]>([]);
   const [selectedMainSubject, setSelectedMainSubject] = useState("All");
   const [unitListBySelectedMainSubject, setUnitListBySelectedMainSubject] = useState<Units[]>([]);
-  const levels = ["LEVEL1", "LEVEL2", "LEVEL3", "LEVEL4", "LEVEL5", "LEVEL6"];
 
   function getSubUnitsBySelectedSubject(subject: string, data: CategoryList) {
     const selectedSubjectData = data.categories.find((category) => category.subject === subject);
@@ -62,7 +61,6 @@ const useCategoryData = () => {
     selectedMainSubject,
     setSelectedMainSubject,
     unitListBySelectedMainSubject,
-    levels,
   };
 };
 

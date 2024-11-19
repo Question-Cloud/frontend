@@ -1,7 +1,7 @@
 import { getErrorMessage } from "./httpError";
 import axios, { AxiosResponse } from "axios";
 import { useUserSession } from "@/hooks";
-import { accessTokenName, refreshTokenName } from "@/shared/constant";
+import { accessTokenName, refreshTokenName } from "@/constants";
 import { jwtDecode } from "jwt-decode";
 import { deleteCookie } from "cookies-next";
 

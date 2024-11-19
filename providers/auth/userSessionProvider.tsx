@@ -1,6 +1,6 @@
 "use client";
 
-import { accessTokenName } from "@/shared/constant";
+import { accessTokenName } from "@/constants";
 import { createContext, useContext, useEffect, useState } from "react";
 import { UserInfo, useUserInfoApi } from "./api";
 import { useDialogContext } from "../dialog";

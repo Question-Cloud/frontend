@@ -8,7 +8,7 @@ import { createQueryString } from "@/utils";
 import { reverseSortOptionKeys } from "@/constants";
 import { useCategoryData } from "./useCategoryData";
 import { Level } from "@/shared";
-import { levelTypeList } from "@/shared/constant";
+import { levelTypeList } from "@/constants";
 import { Units } from "./api";
 
 export const useFilter = () => {

@@ -26,11 +26,11 @@ import {
 import { cn } from "@/utils";
 import { useFilter } from "./useFilter";
 import { useCategoryData } from "./useCategoryData";
-import { levelTypeList } from "@/shared/constant";
+import { levelTypeList } from "@/constants";
 import { Level } from "@/shared";
 
 export const Filter = () => {
-  const { mainSubjectOption, levels } = useCategoryData();
+  const { mainSubjectOption } = useCategoryData();
   const {
     selectedMainSubject,
     setSelectedMainSubject,
@@ -173,18 +173,16 @@ export const Filter = () => {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-[8px]">
-            {levels.map((level) => (
+            {levelTypeList.map((level) => (
               <div key={level} className="w-full">
-                {levelTypeList.includes(level as Level) && (
-                  <Button
-                    variant="grayLine"
-                    size="large"
-                    className={cn(selectedLevels.includes(level as Level) ? "bg-gray_01" : "bg-white")}
-                    onClick={() => handleSelectLevels(level as Level)}
-                  >
-                    <Picture imagePath={`/levelIcons/${level}.svg`} alt={level} width={24} height={24} />
-                  </Button>
-                )}
+                <Button
+                  variant="grayLine"
+                  size="large"
+                  className={cn(selectedLevels.includes(level as Level) ? "bg-gray_01" : "bg-white")}
+                  onClick={() => handleSelectLevels(level as Level)}
+                >
+                  <Picture imagePath={`/levelIcons/${level}.svg`} alt={level} width={24} height={24} />
+                </Button>
               </div>
             ))}
           </div>

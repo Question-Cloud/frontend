@@ -3,7 +3,7 @@ import { setBearerAuthorizationAtHttpClient, removeBearerAuthorizationAtHttpClie
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { useRefreshUserApi, useUserSessionContext } from "@/providers/auth";
 import { useNavigator } from "./useNavigator";
-import { accessTokenName, refreshTokenName } from "@/shared/constant";
+import { accessTokenName, refreshTokenName } from "@/constants";
 
 export function useUserSession() {
   const { handlePush, handleReplace } = useNavigator();
