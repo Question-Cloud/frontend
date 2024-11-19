@@ -4,3 +4,4 @@ export { accessTokenName, refreshTokenName } from "./tokenName";
 export { levelTypeList, levelTypeKeys } from "./question";
 
 export const CONTENT_PER_PAGE = 12;
+export const REVIEW_PER_PAGE = 10;
