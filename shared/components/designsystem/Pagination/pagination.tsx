@@ -71,9 +71,10 @@ interface PaginationProps {
   contentPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
+  className?: string;
 }
 
-const Pagination = ({ totalContent, contentPerPage, currentPage, setCurrentPage }: PaginationProps) => {
+const Pagination = ({ totalContent, contentPerPage, currentPage, setCurrentPage, className }: PaginationProps) => {
   const [pageNumbers, setPageNumbers] = React.useState<number[]>([]);
   const totalPages = Math.ceil(totalContent / contentPerPage);
 
@@ -109,7 +110,7 @@ const Pagination = ({ totalContent, contentPerPage, currentPage, setCurrentPage 
   };
 
   return (
-    <PaginationContainer>
+    <PaginationContainer className={className}>
       <PaginationContent>
         <PaginationItem onClick={(e) => clickPagePrevBtn(e)}>
           <PaginationPrevious />
