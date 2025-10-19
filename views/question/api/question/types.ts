@@ -35,7 +35,7 @@ interface QuestionListResponse {
 }
 
 /** QuestionDetail */
-interface QuestionDetail {
+interface QuestionDetailResponse {
   productDetail: {
     questionContent: QuestionContent;
     creator: string;
@@ -44,7 +44,7 @@ interface QuestionDetail {
 }
 
 /** QuestionReview */
-interface Review {
+interface ReviewItem {
   id: number;
   reviewerName: string;
   reviewerStatistics: {
@@ -63,7 +63,7 @@ interface QuestionReviewRequest extends Paging {
 
 interface QuestionReviewResponse {
   total: number;
-  result: Review[];
+  result: ReviewItem[];
 }
 
 interface EachCreatorQuestionRequest extends QuestionRequest {
@@ -78,7 +78,7 @@ export type {
   EachCreatorQuestionRequest,
   QuestionItem,
   QuestionListResponse,
-  QuestionDetail,
-  Review,
+  QuestionDetailResponse,
+  ReviewItem,
   QuestionReviewResponse,
 };

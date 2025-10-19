@@ -8,6 +8,6 @@ export type {
   EachCreatorQuestionRequest,
   QuestionItem,
   QuestionListResponse,
-  Review,
+  ReviewItem,
   QuestionReviewResponse,
 } from "./types";
