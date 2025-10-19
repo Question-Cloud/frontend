@@ -32,19 +32,9 @@ const useQuestionList = () => {
   }, []);
 
   useEffect(() => {
-    const queryString = createQueryString({
-      mainSubject: mainSubjectParams,
-      mainUnits: mainUnitsParam,
-      subUnits: subUnitsParam,
-      levels: levelsParam,
-      sort: reverseSortOptionKeys["인기순"],
-      page: pageParams,
-    });
-
-    handleQueryString(queryString);
     setCurrentPage(Number(pageParams));
     setSelectedSortOption(sortParams);
-  }, [pageParams]);
+  }, [pageParams, sortParams]);
 
   const categoriesString = selectedSubUnitsId.join(",");
   const levelsString = selectedLevels.join(",");

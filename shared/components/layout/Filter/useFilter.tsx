@@ -19,6 +19,7 @@ export const useFilter = () => {
   const { selectedSubUnitsId, setSelectedSubUnitsId, selectedLevels, setSelectedLevels, setIsSearchClick } =
     useFilterContext();
 
+  // 초기 로딩 시에만 URL 파라미터를 읽어 상태를 초기화
   useEffect(() => {
     const mainUnitsParam = searchParams.get("mainUnits") ?? undefined;
     const subUnitsParam = searchParams.get("subUnits") ?? undefined;
@@ -43,9 +44,7 @@ export const useFilter = () => {
           .filter((level): level is Level => levelsArray.includes(level as Level))
       );
     }
-
-    setIsSearchClick(true);
-  }, [searchParams]);
+  }, []);
 
   const handleSelectMainUnit = (mainUnit: Units) => {
     if (selectedMainUnits.includes(mainUnit.title)) {
@@ -97,6 +96,7 @@ export const useFilter = () => {
   };
 
   const search = () => {
+    // 검색 버튼 클릭 시에만 API 호출을 강제하고 쿼리 스트링 업데이트
     setIsSearchClick(true);
 
     const mainUnitsParam = selectedMainUnits.join(",");

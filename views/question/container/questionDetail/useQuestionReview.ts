@@ -16,11 +16,6 @@ const useQuestionReview = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const queryString = createQueryString({
-      page: pageParams,
-    });
-
-    handleQueryString(queryString);
     setCurrentPage(Number(pageParams));
   }, [pageParams]);
 
