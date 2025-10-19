@@ -1,8 +1,8 @@
-import { Review } from "../api/question";
+import { ReviewItem } from "../api/question";
 import { QuestionReviewItem } from "./questionReviewItem";
 import { Separator } from "@/shared";
 
-const QuestionReviewList = ({ questionReviewData }: { questionReviewData: Review[] }) => {
+const QuestionReviewList = ({ questionReviewData }: { questionReviewData: ReviewItem[] }) => {
   return (
     questionReviewData &&
     questionReviewData.map((review) => (
