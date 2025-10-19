@@ -38,7 +38,7 @@ interface QuestionListResponse {
 interface QuestionDetail {
   productDetail: {
     questionContent: QuestionContent;
-    creator: "Creator1";
+    creator: string;
     isOwned: true;
   };
 }

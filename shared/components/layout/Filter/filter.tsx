@@ -26,7 +26,7 @@ import {
 import { cn } from "@/utils";
 import { useFilter } from "./useFilter";
 import { useCategoryData } from "./useCategoryData";
-import { levelTypeList } from "@/constants";
+import { levelTypeKeys } from "@/constants";
 import { Level } from "@/shared";
 
 export const Filter = () => {
@@ -47,6 +47,7 @@ export const Filter = () => {
   } = useFilter();
 
   const [openStates, setOpenStates] = useState(() => unitListBySelectedMainSubject.map(() => false));
+  const levelsArray = Object.keys(levelTypeKeys) as Level[];
 
   // 새로고침 했을때도 선택된 항목이 있는 Collapsible은 Open 상태이도록
   useEffect(() => {
@@ -173,7 +174,7 @@ export const Filter = () => {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-[8px]">
-            {levelTypeList.map((level) => (
+            {levelsArray.map((level) => (
               <div key={level} className="w-full">
                 <Button
                   variant="grayLine"

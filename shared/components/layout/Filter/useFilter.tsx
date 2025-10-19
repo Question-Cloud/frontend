@@ -5,10 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { useFilterContext } from "@/providers";
 import { useNavigator } from "@/hooks";
 import { createQueryString } from "@/utils";
-import { reverseSortOptionKeys } from "@/constants";
+import { levelTypeKeys, reverseSortOptionKeys } from "@/constants";
 import { useCategoryData } from "./useCategoryData";
 import { Level } from "@/shared";
-import { levelTypeList } from "@/constants";
 import { Units } from "./api";
 
 export const useFilter = () => {
@@ -36,10 +35,12 @@ export const useFilter = () => {
     }
 
     if (levelsParam) {
+      const levelsArray = Object.keys(levelTypeKeys) as Level[];
+
       setSelectedLevels(
         decodeURIComponent(levelsParam)
           .split(",")
-          .filter((level): level is Level => levelTypeList.includes(level))
+          .filter((level): level is Level => levelsArray.includes(level as Level))
       );
     }
 
