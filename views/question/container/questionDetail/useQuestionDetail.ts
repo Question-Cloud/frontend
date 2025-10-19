@@ -10,7 +10,7 @@ const useQuestionDetail = () => {
     isLoading: questionDetailIsLoading,
   } = useQuestionDetailApi(Number(questionId));
 
-  return { questionDetailData: questionDetailData?.question, questionDetailIsLoading };
+  return { questionDetailData: questionDetailData?.productDetail, questionDetailIsLoading };
 };
 
 export { useQuestionDetail };

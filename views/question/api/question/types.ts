@@ -1,19 +1,25 @@
 import { Level, Paging, SortOption } from "@/shared";
 
 /** QuestionList */
-interface Question {
+interface QuestionContent {
   id: number;
+  creatorId: number;
   title: string;
+  subject: string;
   parentCategory: string;
   childCategory: string;
   thumbnail: string;
-  creatorName: string;
   questionLevel: Level;
   price: number;
+  promotionName: string;
+  promotionPrice: number;
   rate: number;
+}
+
+interface QuestionItem {
+  questionContent: QuestionContent;
+  creator: string;
   isOwned: boolean;
-  description: string;
-  createdAt: string;
 }
 
 interface QuestionRequest extends Paging {
@@ -23,26 +29,31 @@ interface QuestionRequest extends Paging {
   sort: SortOption | string;
 }
 
-interface QuestionList {
+interface QuestionListResponse {
   total: number;
-  result: Question[];
+  result: QuestionItem[];
 }
 
 /** QuestionDetail */
 interface QuestionDetail {
-  question: Question;
+  productDetail: {
+    questionContent: QuestionContent;
+    creator: "Creator1";
+    isOwned: true;
+  };
 }
 
 /** QuestionReview */
 interface Review {
   id: number;
-  name: string;
-  isCreator: boolean;
-  isWriter: boolean;
-  reviewCount: number;
-  rateAverage: number;
+  reviewerName: string;
+  reviewerStatistics: {
+    reviewCount: number;
+    rateAverage: number;
+  };
   rate: number;
   comment: string;
+  isWriter: boolean;
   createdAt: string;
 }
 
@@ -50,7 +61,7 @@ interface QuestionReviewRequest extends Paging {
   questionId: number;
 }
 
-interface QuestionReviews {
+interface QuestionReviewResponse {
   total: number;
   result: Review[];
 }
@@ -65,9 +76,9 @@ export type {
   QuestionRequest,
   QuestionReviewRequest,
   EachCreatorQuestionRequest,
-  Question,
-  QuestionList,
+  QuestionItem,
+  QuestionListResponse,
   QuestionDetail,
   Review,
-  QuestionReviews,
+  QuestionReviewResponse,
 };

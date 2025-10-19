@@ -8,7 +8,7 @@ function useQuestionDetailApi(questionId: number) {
     queryFn: () =>
       httpClient<QuestionDetail>({
         method: "GET",
-        url: `/hub/question/${questionId}`,
+        url: `/store/product/${questionId}`,
       }),
   });
 }

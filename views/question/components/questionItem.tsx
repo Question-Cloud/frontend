@@ -8,12 +8,12 @@ import {
   QuestionFooter,
   Button,
 } from "@/shared";
-import { Question as QuestionData } from "../api/question";
+import { QuestionItem as QuestionItemType } from "../api/question";
 import { formatNumberWithCommas } from "@/utils";
 import { useNavigator } from "@/hooks";
 import { useParams } from "next/navigation";
 
-const QuestionItem = ({ question }: { question: QuestionData }) => {
+const QuestionItem = ({ question }: { question: QuestionItemType }) => {
   const { type } = useParams();
   const { handlePush } = useNavigator();
 
@@ -24,20 +24,23 @@ const QuestionItem = ({ question }: { question: QuestionData }) => {
   return (
     <Question className="w-full h-[220px]">
       <QuestionContent>
-        <QuestionTitle difficultyLevel={question.questionLevel} title={question.title} />
+        <QuestionTitle
+          difficultyLevel={question.questionContent.questionLevel}
+          title={question.questionContent.title}
+        />
         <QuestionInfo
-          writer={question.creatorName}
-          category={`${question.parentCategory} > ${question.childCategory}`}
+          writer={question.creator}
+          category={`${question.questionContent.parentCategory} > ${question.questionContent.childCategory}`}
         />
         <QuestionOptions>
-          <div className="body1">{formatNumberWithCommas(question.price)}원</div>
+          <div className="body1">{formatNumberWithCommas(question.questionContent.price)}원</div>
         </QuestionOptions>
       </QuestionContent>
       <QuestionFooter>
         <Button
           variant="text"
           className="w-full h-full hover:bg-gray_03/30"
-          onClick={() => handleNavigateDetailPage(question.id)}
+          onClick={() => handleNavigateDetailPage(question.questionContent.id)}
         >
           상세보기
         </Button>

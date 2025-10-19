@@ -8,7 +8,7 @@ function useCategoryApi() {
     queryFn: () =>
       httpClient<CategoryList>({
         method: "GET",
-        url: `hub/question/category`,
+        url: `/store/product/categories`,
       }),
   });
 }

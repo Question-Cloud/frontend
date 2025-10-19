@@ -6,8 +6,8 @@ export type {
   QuestionRequest,
   QuestionReviewRequest,
   EachCreatorQuestionRequest,
-  Question,
-  QuestionList,
+  QuestionItem,
+  QuestionListResponse,
   Review,
-  QuestionReviews,
+  QuestionReviewResponse,
 } from "./types";

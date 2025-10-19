@@ -1,6 +1,6 @@
 import { httpClient } from "@/providers";
 import { useQuery } from "@tanstack/react-query";
-import { QuestionReviewRequest, QuestionReviews } from "./types";
+import { QuestionReviewRequest, QuestionReviewResponse } from "./types";
 import { filterEmptyParams } from "@/utils";
 
 function useQuestionReviewApi(params: QuestionReviewRequest) {
@@ -9,9 +9,9 @@ function useQuestionReviewApi(params: QuestionReviewRequest) {
   return useQuery({
     queryKey: ["questionReview", params.page],
     queryFn: () =>
-      httpClient<QuestionReviews>({
+      httpClient<QuestionReviewResponse>({
         method: "GET",
-        url: `/hub/question/review`,
+        url: `/store/review`,
         params: filteredParams,
       }),
   });
